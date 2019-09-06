@@ -1,7 +1,7 @@
 package com.example.rickandmorty.data.characters
 
 data class CharactersResults (
-    val id: Int,
+    val id: String,
     val name: String,
     val status: String,
     val species: String,
