@@ -4,19 +4,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.rickandmorty.data.network.ApiService
+import com.example.rickandmorty.repository.CharactersRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
+const val FIRST_PAGE = 1
+
 class MainActivity : AppCompatActivity() {
 
     private val disposables = CompositeDisposable()
-    private val apiService = object : ApiService {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val disposable = apiService.charactersApi().getCharacters(1)
+        val disposable = CharactersRepository().fetchCharacters(FIRST_PAGE)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
