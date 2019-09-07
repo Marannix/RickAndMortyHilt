@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.CharactersAdapter
+import com.example.rickandmorty.data.characters.CharactersPageInfo
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.repository.CharactersRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,7 +31,10 @@ class CharactersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setCharacterAdapter()
+    }
 
+    private fun setCharacterAdapter() {
         charactersRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         charactersRecyclerView.adapter = charactersAdapter
 
@@ -38,7 +42,11 @@ class CharactersFragment : Fragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { onRetrieveCharactersSuccess(it.charactersResults) },
+                {
+                    onRetrieveCharactersSuccess(it.charactersResults)
+                    setNextButton(it.characterPageInfo)
+                    setPreviousButton(it.characterPageInfo)
+                },
                 { onRetrieveCharactersError() }
             )
 
@@ -51,6 +59,41 @@ class CharactersFragment : Fragment() {
 
     private fun onRetrieveCharactersError() {
         Toast.makeText(requireContext(), "Something went wrong while retrieving characters", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setNextButton(characterPageInfo: CharactersPageInfo) {
+        if (characterPageInfo.next.isNotEmpty()) {
+            nextButton.visibility = View.VISIBLE
+            nextButton.setOnClickListener {
+                loadNextCharacters(characterPageInfo.next)
+            }
+        } else {
+            nextButton.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun setPreviousButton(characterPageInfo: CharactersPageInfo) {
+        if (characterPageInfo.previous?.isEmpty()) {
+
+        } else {
+
+        }
+    }
+
+    private fun loadNextCharacters(next: String) {
+        val disposable = CharactersRepository().fetchNextCharacters(next)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    onRetrieveCharactersSuccess(it.charactersResults)
+                    setNextButton(it.characterPageInfo)
+                    setPreviousButton(it.characterPageInfo)
+                },
+                { onRetrieveCharactersError() }
+            )
+
+        disposables.add(disposable)
     }
 
     override fun onStop() {

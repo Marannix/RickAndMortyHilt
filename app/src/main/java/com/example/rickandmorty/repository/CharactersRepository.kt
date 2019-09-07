@@ -11,4 +11,8 @@ class CharactersRepository {
     fun fetchCharacters(page: Int) : Single<CharactersResponse> {
         return apiService.charactersApi().getCharacters(page)
     }
+
+    fun fetchNextCharacters(nextCharactersUrl: String) : Single<CharactersResponse> {
+        return apiService.nextCharactersApi(nextCharactersUrl).getNextCharacters()
+    }
 }

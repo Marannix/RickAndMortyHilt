@@ -10,4 +10,6 @@ interface CharactersApi {
     @GET("character/")
     fun getCharacters(@Query("page") page: Int): Single<CharactersResponse>
 
+    @GET(" ")
+    fun getNextCharacters(): Single<CharactersResponse>
 }

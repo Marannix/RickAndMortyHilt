@@ -17,12 +17,24 @@ interface ApiService {
             .build()
     }
 
+    fun provideRetrofit(Url: String) : Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(Url)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
     fun provideCharactersApi(retrofit: Retrofit): CharactersApi {
         return retrofit.create(CharactersApi::class.java)
     }
 
     fun charactersApi(): CharactersApi {
         return provideCharactersApi(provideRetrofit())
+    }
+
+    fun nextCharactersApi(nextCharactersUrl: String): CharactersApi {
+        return provideCharactersApi(provideRetrofit(nextCharactersUrl))
     }
 
 }
