@@ -36,6 +36,9 @@ class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(charactersResults: CharactersResults) {
             itemView.characterName.text = charactersResults.name
+            itemView.characterStatus.text = charactersResults.status
+            itemView.characterSpecies.text = charactersResults.species
+
             itemView.characterName.setOnClickListener {
                 val nextFragment = CharactersFragmentDirections.charactersToCharacterDetail()
                 Navigation.findNavController(it).navigate(nextFragment)
