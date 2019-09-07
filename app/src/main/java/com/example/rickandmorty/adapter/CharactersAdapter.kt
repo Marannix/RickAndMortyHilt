@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.fragment.CharactersFragmentDirections
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.characters_item.view.*
 
 class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
@@ -38,6 +39,8 @@ class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
             itemView.characterName.text = charactersResults.name
             itemView.characterStatus.text = charactersResults.status
             itemView.characterSpecies.text = charactersResults.species
+
+            Picasso.get().load(charactersResults.image).into(itemView.characterImage)
 
             itemView.characterName.setOnClickListener {
                 val nextFragment = CharactersFragmentDirections.charactersToCharacterDetail()
