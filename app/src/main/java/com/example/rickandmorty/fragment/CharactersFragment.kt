@@ -30,7 +30,7 @@ class CharactersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         charactersRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         charactersRecyclerView.adapter = charactersAdapter
 

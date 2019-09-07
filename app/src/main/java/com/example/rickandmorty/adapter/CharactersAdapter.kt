@@ -3,9 +3,11 @@ package com.example.rickandmorty.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.characters.CharactersResults
+import com.example.rickandmorty.fragment.CharactersFragmentDirections
 import kotlinx.android.synthetic.main.characters_item.view.*
 
 class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
@@ -34,6 +36,10 @@ class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(charactersResults: CharactersResults) {
             itemView.characterName.text = charactersResults.name
+            itemView.characterName.setOnClickListener {
+                val nextFragment = CharactersFragmentDirections.charactersToCharacterDetail()
+                Navigation.findNavController(it).navigate(nextFragment)
+            }
         }
     }
 }
