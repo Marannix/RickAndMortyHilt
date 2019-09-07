@@ -36,6 +36,7 @@ class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(charactersResults: CharactersResults) {
+            itemView.characterId.text = "#${charactersResults.id}"
             itemView.characterName.text = charactersResults.name
             itemView.characterStatus.text = charactersResults.status
             itemView.characterSpecies.text = charactersResults.species

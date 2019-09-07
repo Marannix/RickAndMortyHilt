@@ -9,7 +9,7 @@
     <androidx.cardview.widget.CardView
             android:id="@+id/characterInfoCardView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,12 +29,22 @@
             app:layout_constraintTop_toTopOf="@id/characterInfoCardView">
 
         <TextView
+                android:id="@+id/characterId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:maxLines="2"/>
+
+        <TextView
                 android:id="@+id/characterName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/characterId"
                 android:maxLines="2"/>
 
         <TextView
