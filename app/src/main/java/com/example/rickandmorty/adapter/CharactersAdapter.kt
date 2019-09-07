@@ -40,6 +40,7 @@ class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
             itemView.characterName.text = charactersResults.name
             itemView.characterStatus.text = charactersResults.status
             itemView.characterSpecies.text = charactersResults.species
+            itemView.characterLocation.text = charactersResults.location.name
 
             Picasso.get().load(charactersResults.image).into(itemView.characterImage)
 
