@@ -12,4 +12,7 @@ interface CharactersApi {
 
     @GET(" ")
     fun getNextCharacters(): Single<CharactersResponse>
+
+    @GET(" ")
+    fun getPreviousCharacters(): Single<CharactersResponse>
 }

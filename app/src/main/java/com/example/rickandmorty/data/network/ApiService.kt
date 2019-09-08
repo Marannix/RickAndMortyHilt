@@ -33,8 +33,8 @@ interface ApiService {
         return provideCharactersApi(provideRetrofit())
     }
 
-    fun nextCharactersApi(nextCharactersUrl: String): CharactersApi {
-        return provideCharactersApi(provideRetrofit(nextCharactersUrl))
+    fun loadMoreCharactersApi(charactersUrl: String): CharactersApi {
+        return provideCharactersApi(provideRetrofit(charactersUrl))
     }
 
 }

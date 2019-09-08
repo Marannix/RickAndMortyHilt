@@ -62,26 +62,49 @@ class CharactersFragment : Fragment() {
     }
 
     private fun setNextButton(characterPageInfo: CharactersPageInfo) {
-        if (characterPageInfo.next.isNotEmpty()) {
-            nextButton.visibility = View.VISIBLE
-            nextButton.setOnClickListener {
-                loadNextCharacters(characterPageInfo.next)
-            }
-        } else {
+        if (characterPageInfo.next.isEmpty()) {
             nextButton.visibility = View.INVISIBLE
+            return
         }
+
+        nextButton.visibility = View.VISIBLE
+        nextButton.setOnClickListener {
+            loadNextCharacters(characterPageInfo.next)
+        }
+
     }
 
     private fun setPreviousButton(characterPageInfo: CharactersPageInfo) {
-        if (characterPageInfo.previous?.isEmpty()) {
-
-        } else {
-
+        if (characterPageInfo.prev.isEmpty()) {
+            previousButton.visibility = View.INVISIBLE
+            return
         }
+
+        previousButton.visibility = View.VISIBLE
+        previousButton.setOnClickListener {
+            loadPreviousCharacters(characterPageInfo.prev)
+        }
+
     }
 
     private fun loadNextCharacters(next: String) {
         val disposable = CharactersRepository().fetchNextCharacters(next)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    onRetrieveCharactersSuccess(it.charactersResults)
+                    setNextButton(it.characterPageInfo)
+                    setPreviousButton(it.characterPageInfo)
+                },
+                { onRetrieveCharactersError() }
+            )
+
+        disposables.add(disposable)
+    }
+
+    private fun loadPreviousCharacters(previous: String) {
+        val disposable = CharactersRepository().fetchPreviousCharacters(previous)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

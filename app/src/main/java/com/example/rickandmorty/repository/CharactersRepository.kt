@@ -13,6 +13,10 @@ class CharactersRepository {
     }
 
     fun fetchNextCharacters(nextCharactersUrl: String) : Single<CharactersResponse> {
-        return apiService.nextCharactersApi(nextCharactersUrl).getNextCharacters()
+        return apiService.loadMoreCharactersApi(nextCharactersUrl).getNextCharacters()
+    }
+
+    fun fetchPreviousCharacters(nextCharactersUrl: String) : Single<CharactersResponse> {
+        return apiService.loadMoreCharactersApi(nextCharactersUrl).getPreviousCharacters()
     }
 }
