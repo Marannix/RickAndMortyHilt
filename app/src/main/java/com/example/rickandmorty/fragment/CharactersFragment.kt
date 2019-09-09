@@ -1,6 +1,7 @@
 package com.example.rickandmorty.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_characters.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 const val FIRST_PAGE = 1
 
@@ -24,13 +27,20 @@ class CharactersFragment : Fragment() {
 
     private val disposables = CompositeDisposable()
     private val charactersAdapter = CharactersAdapter()
+    private lateinit var characters : List<CharactersResults>
+    private lateinit var charactersPageInfo : CharactersPageInfo
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_characters, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList("key_characters", ArrayList<CharactersResults>(characters))
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         setCharacterAdapter()
     }
 
@@ -43,11 +53,14 @@ class CharactersFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
+                    characters = it.charactersResults
+                    charactersPageInfo = it.characterPageInfo
+
                     onRetrieveCharactersSuccess(it.charactersResults)
                     setNextButton(it.characterPageInfo)
                     setPreviousButton(it.characterPageInfo)
                 },
-                { onRetrieveCharactersError() }
+                { onRetrieveCharactersError(it.message) }
             )
 
         disposables.add(disposable)
@@ -57,8 +70,9 @@ class CharactersFragment : Fragment() {
         charactersAdapter.setData(charactersResults)
     }
 
-    private fun onRetrieveCharactersError() {
-        Toast.makeText(requireContext(), "Something went wrong while retrieving characters", Toast.LENGTH_SHORT).show()
+    private fun onRetrieveCharactersError(message: String?) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        Log.e("retrieveCharactersError", message)
     }
 
     private fun setNextButton(characterPageInfo: CharactersPageInfo) {
@@ -97,7 +111,7 @@ class CharactersFragment : Fragment() {
                     setNextButton(it.characterPageInfo)
                     setPreviousButton(it.characterPageInfo)
                 },
-                { onRetrieveCharactersError() }
+                { onRetrieveCharactersError(it.message) }
             )
 
         disposables.add(disposable)
@@ -113,7 +127,7 @@ class CharactersFragment : Fragment() {
                     setNextButton(it.characterPageInfo)
                     setPreviousButton(it.characterPageInfo)
                 },
-                { onRetrieveCharactersError() }
+                { onRetrieveCharactersError(it.message) }
             )
 
         disposables.add(disposable)
