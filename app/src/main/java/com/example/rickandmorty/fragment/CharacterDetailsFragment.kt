@@ -9,6 +9,7 @@ import android.view.ViewGroup
 
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.characters.CharactersResults
+import com.example.rickandmorty.data.network.EpisodeResponse
 import com.example.rickandmorty.repository.EpisodeRepository
 import com.example.rickandmorty.view.EpisodeListItem
 import com.squareup.picasso.Picasso
@@ -73,7 +74,7 @@ class CharacterDetailsFragment : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        onRetrieveEpisodesSuccess(it.episode)
+                        onRetrieveEpisodesSuccess(it)
                     },
                     {
                         onRetrieveEpisodesError(it.message)
@@ -83,7 +84,7 @@ class CharacterDetailsFragment : Fragment() {
         }
     }
 
-    private fun onRetrieveEpisodesSuccess(episode: String) {
+    private fun onRetrieveEpisodesSuccess(episode: EpisodeResponse) {
         episodeListItem = EpisodeListItem(requireContext(), episode)
         episodeLayout.addView(episodeListItem.getView())
     }

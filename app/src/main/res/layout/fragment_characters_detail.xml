@@ -34,7 +34,7 @@
                 android:id="@+id/episodeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="14dp"
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/characterSummary"
                 app:layout_constraintStart_toStartOf="parent"
