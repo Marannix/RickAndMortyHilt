@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DetailHeader">
+        <item name="android:textSize">@dimen/detail_header_text_size</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+    </style>
+
+    <style name="DetailText">
+        <item name="android:textSize">@dimen/detail_text_text_size</item>
+    </style>
 </resources>

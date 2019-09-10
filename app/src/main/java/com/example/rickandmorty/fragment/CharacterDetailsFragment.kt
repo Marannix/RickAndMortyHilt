@@ -7,13 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.EpisodeAdapter
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.network.EpisodeResponse
-import com.example.rickandmorty.view.EpisodeListItem
 import com.example.rickandmorty.viewmodel.EpisodesViewModel
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers

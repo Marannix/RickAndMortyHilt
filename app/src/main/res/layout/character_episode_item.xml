@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
             android:id="@+id/characterInfoCardView"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="@dimen/detail_character_info_card_view_height"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
             android:layout_height="0dp"
             android:layout_margin="8dp"
             android:elevation="4dp"
-            app:layout_constraintStart_toEndOf="@id/characterImage"
+            app:layout_constraintStart_toEndOf="@id/videoCameraAsset"
             app:layout_constraintEnd_toEndOf="@id/characterInfoCardView"
             app:layout_constraintBottom_toBottomOf="@id/characterInfoCardView"
             app:layout_constraintTop_toTopOf="@id/characterInfoCardView">
@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
+                android:textSize="@dimen/episode_name_text_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -44,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
+                android:textSize="@dimen/episode_number_text_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/episodeName"
@@ -54,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:textSize="12sp"
+                android:textSize="@dimen/episode_airtime_text_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/episodeNumber"
@@ -64,10 +66,10 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-            android:id="@+id/characterImage"
+            android:id="@+id/videoCameraAsset"
             android:src="@drawable/ic_video_camera"
-            android:layout_width="54dp"
-            android:layout_height="54dp"
+            android:layout_width="@dimen/video_camera_asset_width_size"
+            android:layout_height="@dimen/video_camera_asset_height_size"
             android:elevation="4dp"
             android:layout_margin="16dp"
             app:layout_constraintTop_toTopOf="@id/characterInfoCardView"

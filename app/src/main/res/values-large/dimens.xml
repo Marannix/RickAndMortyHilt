@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="detail_character_info_card_view_height">95dp</dimen>
+    <dimen name="detail_character_name_text_size">20sp</dimen>
+    <dimen name="detail_header_text_size">20sp</dimen>
+    <dimen name="detail_text_text_size">17sp</dimen>
+    <dimen name="detail_view_header_margin_top">24dp</dimen>
+    <dimen name="detail_image_view_header_margin_top">16dp</dimen>
+
+    <dimen name="character_image_width_size">150sp</dimen>
+    <dimen name="character_image_height_size">150sp</dimen>
+
+    <dimen name="episode_name_text_size">20sp</dimen>
+    <dimen name="episode_number_text_size">17sp</dimen>
+    <dimen name="episode_airtime_text_size">15sp</dimen>
+
+    <dimen name="video_camera_asset_width_size">72dp</dimen>
+    <dimen name="video_camera_asset_height_size">72dp</dimen>
+
+    <item name="detail_start_guideline_start_percentage" format="float" type="dimen">0.1</item>
+    <item name="detail_start_guideline_end_percentage" format="float" type="dimen">0.9</item>
+</resources>
