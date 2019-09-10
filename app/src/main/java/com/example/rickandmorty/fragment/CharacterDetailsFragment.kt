@@ -6,12 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.network.EpisodeResponse
 import com.example.rickandmorty.repository.EpisodeRepository
 import com.example.rickandmorty.view.EpisodeListItem
+import com.example.rickandmorty.viewmodel.CharactersViewModel
+import com.example.rickandmorty.viewmodel.EpisodesViewModel
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -25,7 +28,14 @@ class CharacterDetailsFragment : Fragment() {
     private val disposables = CompositeDisposable()
     private lateinit var characters: CharactersResults
     private lateinit var episodeListItem: EpisodeListItem
+    private lateinit var episodesViewModel: EpisodesViewModel
+    private var shouldFetchEpisodes = true
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        episodesViewModel = ViewModelProviders.of(this)
+            .get(EpisodesViewModel::class.java)
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_characters_detail, container, false)
     }
@@ -69,7 +79,7 @@ class CharacterDetailsFragment : Fragment() {
 
     private fun loadCharacterEpisodes() {
         for (i in characters.episode) {
-            val disposable = EpisodeRepository().fetchCharacterEpisodes("$i/")
+            val disposable = episodesViewModel.fetchEpisodes("$i/")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -77,7 +87,7 @@ class CharacterDetailsFragment : Fragment() {
                         onRetrieveEpisodesSuccess(it)
                     },
                     {
-                        onRetrieveEpisodesError(it.message)
+                        onRetrieveEpisodesError()
                     }
                 )
             disposables.add(disposable)
@@ -85,12 +95,21 @@ class CharacterDetailsFragment : Fragment() {
     }
 
     private fun onRetrieveEpisodesSuccess(episode: EpisodeResponse) {
+        episode.characterId = characters.id
+        episodesViewModel.insertEpisodes(episode)
         episodeListItem = EpisodeListItem(requireContext(), episode)
         episodeLayout.addView(episodeListItem.getView())
     }
 
-    private fun onRetrieveEpisodesError(message: String?) {
-        Log.e("Error", message)
+    private fun onRetrieveEpisodesError() {
+        if (shouldFetchEpisodes) {
+            for (i in episodesViewModel.getEpisodes(characters.id)) {
+                episodeListItem = EpisodeListItem(requireContext(), i)
+                episodeLayout.addView(episodeListItem.getView())
+            }
+        }
+
+        shouldFetchEpisodes = false
     }
 
     override fun onStop() {

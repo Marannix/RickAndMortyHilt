@@ -15,6 +15,7 @@ import com.example.rickandmorty.adapter.CharactersAdapter
 import com.example.rickandmorty.data.characters.CharactersPageInfo
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.viewmodel.CharactersViewModel
+import com.example.rickandmorty.viewmodel.EpisodesViewModel
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -30,11 +31,14 @@ class CharactersFragment : Fragment() {
     private lateinit var characters : List<CharactersResults>
     private lateinit var charactersPageInfo : CharactersPageInfo
     private lateinit var charactersViewModel: CharactersViewModel
+    private lateinit var episodesViewModel: EpisodesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         charactersViewModel = ViewModelProviders.of(this)
             .get(CharactersViewModel::class.java)
+        episodesViewModel = ViewModelProviders.of(this)
+            .get(EpisodesViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
