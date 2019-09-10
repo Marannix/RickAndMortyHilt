@@ -15,6 +15,7 @@ import com.example.rickandmorty.adapter.CharactersAdapter
 import com.example.rickandmorty.data.characters.CharactersPageInfo
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.viewmodel.CharactersViewModel
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -56,6 +57,7 @@ class CharactersFragment : Fragment() {
                 {
                     characters = it.charactersResults
                     charactersPageInfo = it.characterPageInfo
+                    refreshButton.visibility = View.GONE
                     onRetrieveCharactersSuccess(it.charactersResults)
                     setNextButton(it.characterPageInfo)
                     setPreviousButton(it.characterPageInfo)
@@ -63,8 +65,6 @@ class CharactersFragment : Fragment() {
                 {
                     onRetrieveCharactersError(it.message)
                     charactersAdapter.setData(charactersViewModel.getCharacters())
-                    nextButton.visibility = View.GONE
-                    previousButton.visibility = View .GONE
                 }
             )
 
@@ -77,7 +77,13 @@ class CharactersFragment : Fragment() {
     }
 
     private fun onRetrieveCharactersError(message: String?) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        Snackbar.make(view!!, "It appears you may be offline", Snackbar.LENGTH_SHORT).show()
+        refreshButton.visibility = View.VISIBLE
+        refreshButton.setOnClickListener {
+            setCharacterAdapter()
+        }
+        nextButton.visibility = View.GONE
+        previousButton.visibility = View .GONE
         Log.e("retrieveCharactersError", message)
     }
 

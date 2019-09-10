@@ -44,7 +44,7 @@ class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
 
             Picasso.get().load(charactersResults.image).into(itemView.characterImage)
 
-            itemView.characterName.setOnClickListener {
+            itemView.characterConstraintLayout.setOnClickListener {
                 val nextFragment = CharactersFragmentDirections.charactersToCharacterDetail(charactersResults)
                 nextFragment.character = charactersResults
                 Navigation.findNavController(it).navigate(nextFragment)

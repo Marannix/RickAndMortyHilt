@@ -2,8 +2,6 @@ package com.example.rickandmorty.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.network.CharactersResponse
 import com.example.rickandmorty.repository.CharactersRepository
