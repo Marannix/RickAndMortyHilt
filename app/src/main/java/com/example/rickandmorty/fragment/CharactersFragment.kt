@@ -63,6 +63,8 @@ class CharactersFragment : Fragment() {
                 {
                     onRetrieveCharactersError(it.message)
                     charactersAdapter.setData(charactersViewModel.getCharacters())
+                    nextButton.visibility = View.GONE
+                    previousButton.visibility = View .GONE
                 }
             )
 
