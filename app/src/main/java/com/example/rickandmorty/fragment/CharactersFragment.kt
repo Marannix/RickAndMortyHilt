@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.CharactersAdapter
 import com.example.rickandmorty.data.characters.CharactersPageInfo
@@ -23,15 +22,20 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_characters.*
 
 const val FIRST_PAGE = 1
+const val MOBILE_SIZE = 1
+const val TABLET_SIZE = 2
 
 class CharactersFragment : Fragment() {
 
     private val disposables = CompositeDisposable()
     private val charactersAdapter = CharactersAdapter()
+
+    private var isTablet: Boolean = false
     private lateinit var characters : List<CharactersResults>
     private lateinit var charactersPageInfo : CharactersPageInfo
     private lateinit var charactersViewModel: CharactersViewModel
     private lateinit var episodesViewModel: EpisodesViewModel
+    private var gridSize = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +55,14 @@ class CharactersFragment : Fragment() {
     }
 
     private fun setCharacterAdapter() {
-        charactersRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        isTablet = resources.getBoolean(R.bool.isTablet)
+        gridSize = if (isTablet) {
+            TABLET_SIZE
+        } else {
+            MOBILE_SIZE
+        }
+
+        charactersRecyclerView.layoutManager = GridLayoutManager(context, gridSize)
         charactersRecyclerView.adapter = charactersAdapter
 
         val disposable = charactersViewModel.fetchCharacters(FIRST_PAGE)

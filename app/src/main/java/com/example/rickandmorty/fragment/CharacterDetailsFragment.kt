@@ -6,7 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.EpisodeAdapter
@@ -30,6 +31,8 @@ class CharacterDetailsFragment : Fragment() {
     private val episodes = ArrayList<EpisodeResponse>()
 
     private lateinit var episodesViewModel: EpisodesViewModel
+    private fun selector(episode: EpisodeResponse): Int = episode.id.toInt()
+
     private var shouldFetchEpisodes = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +84,7 @@ class CharacterDetailsFragment : Fragment() {
     }
 
     private fun setEpisodesAdapter() {
-        episodesRecyclerView.layoutManager = GridLayoutManager(context, 1)
+        episodesRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         episodesRecyclerView.adapter = episodesAdapter
     }
 
@@ -113,7 +116,9 @@ class CharacterDetailsFragment : Fragment() {
                 episode.airdate,
                 episode.episode
             )
-        )
+        ).also {
+            episodes.sortBy { selector(it)}
+        }
         episodesAdapter.setEpisodes(episodes)
         episodesViewModel.insertEpisodes(episode)
     }

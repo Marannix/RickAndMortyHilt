@@ -21,4 +21,12 @@
     <item name="detail_start_guideline_start_percentage" format="float" type="dimen">0</item>
     <item name="detail_start_guideline_end_percentage" format="float" type="dimen">1</item>
 
+    <dimen name="character_id_text_size">13sp</dimen>
+    <dimen name="character_name_text_size">14sp</dimen>
+    <dimen name="character_status_text_size">13sp</dimen>
+    <dimen name="character_species_text_size">13sp</dimen>
+    <dimen name="character_location_text_size">13sp</dimen>
+    <dimen name="character_info_card_view_height">120dp</dimen>
+    <dimen name="character_view_margin_top">6dp</dimen>
+
 </resources>
