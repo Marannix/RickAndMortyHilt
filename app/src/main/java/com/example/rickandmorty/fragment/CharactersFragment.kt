@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.CharactersAdapter
 import com.example.rickandmorty.data.characters.CharactersPageInfo
 import com.example.rickandmorty.data.characters.CharactersResults
-import com.example.rickandmorty.repository.CharactersRepository
+import com.example.rickandmorty.viewmodel.CharactersViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -27,6 +28,13 @@ class CharactersFragment : Fragment() {
     private val charactersAdapter = CharactersAdapter()
     private lateinit var characters : List<CharactersResults>
     private lateinit var charactersPageInfo : CharactersPageInfo
+    private lateinit var charactersViewModel: CharactersViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        charactersViewModel = ViewModelProviders.of(this)
+            .get(CharactersViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_characters, container, false)
@@ -41,25 +49,28 @@ class CharactersFragment : Fragment() {
         charactersRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         charactersRecyclerView.adapter = charactersAdapter
 
-        val disposable = CharactersRepository().fetchCharacters(FIRST_PAGE)
+        val disposable = charactersViewModel.fetchCharacters(FIRST_PAGE)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
                     characters = it.charactersResults
                     charactersPageInfo = it.characterPageInfo
-
                     onRetrieveCharactersSuccess(it.charactersResults)
                     setNextButton(it.characterPageInfo)
                     setPreviousButton(it.characterPageInfo)
                 },
-                { onRetrieveCharactersError(it.message) }
+                {
+                    onRetrieveCharactersError(it.message)
+                    charactersAdapter.setData(charactersViewModel.getCharacters())
+                }
             )
 
         disposables.add(disposable)
     }
 
     private fun onRetrieveCharactersSuccess(charactersResults: List<CharactersResults>) {
+        charactersViewModel.insertCharacters(charactersResults)
         charactersAdapter.setData(charactersResults)
     }
 
@@ -95,7 +106,7 @@ class CharactersFragment : Fragment() {
     }
 
     private fun loadNextCharacters(next: String) {
-        val disposable = CharactersRepository().fetchNextCharacters(next)
+        val disposable = charactersViewModel.getNextCharacters(next)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -111,7 +122,7 @@ class CharactersFragment : Fragment() {
     }
 
     private fun loadPreviousCharacters(previous: String) {
-        val disposable = CharactersRepository().fetchPreviousCharacters(previous)
+        val disposable = charactersViewModel.getPreviousCharacters(previous)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
