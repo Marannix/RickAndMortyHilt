@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,14 +28,12 @@ const val TABLET_SIZE = 2
 class CharactersFragment : Fragment() {
 
     private val disposables = CompositeDisposable()
-    val charactersAdapter = CharactersAdapter()
-
+    private val charactersAdapter = CharactersAdapter()
     private var isTablet: Boolean = false
     private lateinit var characters: List<CharactersResults>
     private lateinit var charactersPageInfo: CharactersPageInfo
     private lateinit var charactersViewModel: CharactersViewModel
     private lateinit var episodesViewModel: EpisodesViewModel
-    private var gridSize = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,13 +47,16 @@ class CharactersFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_characters, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        updateToolbar()
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setCharacterAdapter(isTablet())
     }
 
     private fun setCharacterAdapter(isTablet : Int) {
-
         charactersRecyclerView.layoutManager = GridLayoutManager(context, isTablet)
         charactersRecyclerView.adapter = charactersAdapter
 
@@ -72,7 +73,7 @@ class CharactersFragment : Fragment() {
                     setPreviousButton(it.characterPageInfo)
                 },
                 {
-                    onRetrieveCharactersError(it.message)
+                    onRetrieveCharactersError()
                     charactersAdapter.setData(charactersViewModel.getCharacters())
                 }
             )
@@ -85,15 +86,14 @@ class CharactersFragment : Fragment() {
         charactersAdapter.setData(charactersResults)
     }
 
-    private fun onRetrieveCharactersError(message: String?) {
-        Snackbar.make(view!!, "It appears you may be offline", Snackbar.LENGTH_SHORT).show()
+    private fun onRetrieveCharactersError() {
+        Snackbar.make(view!!, getString(R.string.generic_error_message), Snackbar.LENGTH_SHORT).show()
         refreshButton.visibility = View.VISIBLE
         refreshButton.setOnClickListener {
             setCharacterAdapter(isTablet())
         }
         nextButton.visibility = View.GONE
         previousButton.visibility = View.GONE
-        Log.e("retrieveCharactersError", message)
     }
 
     private fun setNextButton(characterPageInfo: CharactersPageInfo) {
@@ -132,7 +132,7 @@ class CharactersFragment : Fragment() {
                     setNextButton(it.characterPageInfo)
                     setPreviousButton(it.characterPageInfo)
                 },
-                { onRetrieveCharactersError(it.message) }
+                { onRetrieveCharactersError() }
             )
 
         disposables.add(disposable)
@@ -148,20 +148,23 @@ class CharactersFragment : Fragment() {
                     setNextButton(it.characterPageInfo)
                     setPreviousButton(it.characterPageInfo)
                 },
-                { onRetrieveCharactersError(it.message) }
+                { onRetrieveCharactersError() }
             )
 
         disposables.add(disposable)
     }
 
-    fun isTablet(): Int {
+    private fun isTablet(): Int {
         resources.getBoolean(R.bool.isTablet)
         return if (isTablet) {
             TABLET_SIZE
         } else {
             MOBILE_SIZE
         }
+    }
 
+    private fun updateToolbar() {
+        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.toolbar_title)
     }
 
     override fun onStop() {

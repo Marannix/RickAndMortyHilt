@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -57,6 +58,7 @@ class CharacterDetailsFragment : Fragment() {
     }
 
     private fun loadUI() {
+        updateToolbar()
         loadCharacterHeader()
         loadCharacterSummary()
         setEpisodesAdapter()
@@ -128,6 +130,10 @@ class CharacterDetailsFragment : Fragment() {
             episodesAdapter.setEpisodes(episodesViewModel.getEpisodes(characters.id))
         }
         shouldFetchEpisodes = false
+    }
+
+    private fun updateToolbar() {
+        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.toolbar_overview_title)
     }
 
     override fun onStop() {

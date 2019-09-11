@@ -6,14 +6,17 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="DetailHeader">
         <item name="android:textSize">@dimen/detail_header_text_size</item>
         <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textColor">@color/deep_blue</item>
     </style>
 
     <style name="DetailText">
         <item name="android:textSize">@dimen/detail_text_text_size</item>
+        <item name="android:textColor">@color/deep_blue</item>
     </style>
 </resources>

@@ -30,6 +30,7 @@
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:fontFamily="sans-serif-black"
+            android:textColor="@color/deep_blue"
             android:textSize="@dimen/detail_character_name_text_size"
             app:layout_constraintTop_toBottomOf="@id/characterDetailImageCardView"
             app:layout_constraintStart_toStartOf="parent"
