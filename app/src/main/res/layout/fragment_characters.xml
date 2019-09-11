@@ -11,8 +11,9 @@
     <Button
             android:id="@+id/refreshButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/refresh_button_height"
             android:text="@string/refresh_button"
+            android:textSize="@dimen/refresh_button_text_size"
             android:backgroundTint="@color/deep_blue"
             android:background="@color/white"
             android:textColor="@color/off_white"
@@ -31,6 +32,19 @@
            app:layout_constraintTop_toBottomOf="@id/refreshButton"
             app:layout_constraintBottom_toTopOf="@id/previousButton"
     />
+
+    <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/genericError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_fileName="generic_error.json"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/refreshButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
 
     <Button
             android:id="@+id/previousButton"

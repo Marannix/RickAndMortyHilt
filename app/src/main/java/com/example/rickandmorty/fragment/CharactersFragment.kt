@@ -30,6 +30,7 @@ class CharactersFragment : Fragment() {
     private val disposables = CompositeDisposable()
     private val charactersAdapter = CharactersAdapter()
     private var isTablet: Boolean = false
+
     private lateinit var characters: List<CharactersResults>
     private lateinit var charactersPageInfo: CharactersPageInfo
     private lateinit var charactersViewModel: CharactersViewModel
@@ -65,9 +66,10 @@ class CharactersFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
+                    genericError.visibility = View.GONE
+                    refreshButton.visibility = View.GONE
                     characters = it.charactersResults
                     charactersPageInfo = it.characterPageInfo
-                    refreshButton.visibility = View.GONE
                     onRetrieveCharactersSuccess(it.charactersResults)
                     setNextButton(it.characterPageInfo)
                     setPreviousButton(it.characterPageInfo)
@@ -75,6 +77,11 @@ class CharactersFragment : Fragment() {
                 {
                     onRetrieveCharactersError()
                     charactersAdapter.setData(charactersViewModel.getCharacters())
+                    if (charactersViewModel.getCharacters().isEmpty()) {
+                        genericError.visibility = View.VISIBLE
+                    } else {
+                        genericError.visibility = View.GONE
+                    }
                 }
             )
 
