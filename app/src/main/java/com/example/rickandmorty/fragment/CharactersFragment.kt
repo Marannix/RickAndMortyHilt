@@ -155,7 +155,7 @@ class CharactersFragment : Fragment() {
     }
 
     private fun isTablet(): Int {
-        resources.getBoolean(R.bool.isTablet)
+        isTablet = resources.getBoolean(R.bool.isTablet)
         return if (isTablet) {
             TABLET_SIZE
         } else {
