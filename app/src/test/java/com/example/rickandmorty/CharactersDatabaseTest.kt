@@ -38,7 +38,7 @@ class CharactersDatabaseTest {
                 gender = "Male",
                 image = "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
                 location = CharacterLocation("Earth (Replacement Dimension)"),
-                episode = listOf("https://rickandmortyapi.com/api/episode/1\n")
+                episode = listOf("https://rickandmortyapi.com/api/episode/1")
             )
         )
         characterDao?.insertCharacters(characters)

@@ -18,4 +18,6 @@ interface EpisodesDao {
     @Query("select * from episodes")
     fun getAllEpisodes(): List<EpisodeResponse>
 
+    @Query("delete from episodes")
+    fun flushEpisodeData()
 }
