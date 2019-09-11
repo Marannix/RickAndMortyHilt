@@ -28,11 +28,11 @@ const val TABLET_SIZE = 2
 class CharactersFragment : Fragment() {
 
     private val disposables = CompositeDisposable()
-    private val charactersAdapter = CharactersAdapter()
+    val charactersAdapter = CharactersAdapter()
 
     private var isTablet: Boolean = false
-    private lateinit var characters : List<CharactersResults>
-    private lateinit var charactersPageInfo : CharactersPageInfo
+    private lateinit var characters: List<CharactersResults>
+    private lateinit var charactersPageInfo: CharactersPageInfo
     private lateinit var charactersViewModel: CharactersViewModel
     private lateinit var episodesViewModel: EpisodesViewModel
     private var gridSize = 1
@@ -51,18 +51,12 @@ class CharactersFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setCharacterAdapter()
+        setCharacterAdapter(isTablet())
     }
 
-    private fun setCharacterAdapter() {
-        isTablet = resources.getBoolean(R.bool.isTablet)
-        gridSize = if (isTablet) {
-            TABLET_SIZE
-        } else {
-            MOBILE_SIZE
-        }
+    private fun setCharacterAdapter(isTablet : Int) {
 
-        charactersRecyclerView.layoutManager = GridLayoutManager(context, gridSize)
+        charactersRecyclerView.layoutManager = GridLayoutManager(context, isTablet)
         charactersRecyclerView.adapter = charactersAdapter
 
         val disposable = charactersViewModel.fetchCharacters(FIRST_PAGE)
@@ -95,10 +89,10 @@ class CharactersFragment : Fragment() {
         Snackbar.make(view!!, "It appears you may be offline", Snackbar.LENGTH_SHORT).show()
         refreshButton.visibility = View.VISIBLE
         refreshButton.setOnClickListener {
-            setCharacterAdapter()
+            setCharacterAdapter(isTablet())
         }
         nextButton.visibility = View.GONE
-        previousButton.visibility = View .GONE
+        previousButton.visibility = View.GONE
         Log.e("retrieveCharactersError", message)
     }
 
@@ -158,6 +152,16 @@ class CharactersFragment : Fragment() {
             )
 
         disposables.add(disposable)
+    }
+
+    fun isTablet(): Int {
+        resources.getBoolean(R.bool.isTablet)
+        return if (isTablet) {
+            TABLET_SIZE
+        } else {
+            MOBILE_SIZE
+        }
+
     }
 
     override fun onStop() {

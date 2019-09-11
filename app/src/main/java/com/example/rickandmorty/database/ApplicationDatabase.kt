@@ -23,11 +23,15 @@ abstract class ApplicationDatabase : RoomDatabase() {
 
     object DatabaseProvider {
         private var instance: ApplicationDatabase? = null
-
+        var TEST_MODE = false
         fun getInstance(context: Context): ApplicationDatabase? {
             if (instance == null) {
                 synchronized(ApplicationDatabase::class) {
-                    instance = buildDatabase(context)
+                    instance = if (TEST_MODE) {
+                        buildTestDatabase(context)
+                    } else {
+                        buildDatabase(context)
+                    }
                 }
             }
             return instance
@@ -42,5 +46,12 @@ abstract class ApplicationDatabase : RoomDatabase() {
                 .build()
         }
 
+        private fun buildTestDatabase(context: Context): ApplicationDatabase {
+            return Room.inMemoryDatabaseBuilder(
+                context.applicationContext,
+                ApplicationDatabase::class.java)
+                .allowMainThreadQueries()
+                .build()
+        }
     }
 }
