@@ -1,6 +1,6 @@
 # RickAndMorty
  
-In the converting project to use Dagger injection (The horror) 
+In the process of converting this project to use Dagger injection (The horror) 
 ![image](https://user-images.githubusercontent.com/15348446/67815345-97332900-fa9e-11e9-86df-583501ca989e.png)
 
 | Rick And Morty Characters | Characters Overview |
