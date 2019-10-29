@@ -4,15 +4,16 @@ import com.example.rickandmorty.data.network.CharactersResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface CharactersApi {
 
     @GET("character/")
     fun getCharacters(@Query("page") page: Int): Single<CharactersResponse>
 
-    @GET(" ")
-    fun getNextCharacters(): Single<CharactersResponse>
+    @GET
+    fun getNextCharacters(@Url nextCharactersUrl: String): Single<CharactersResponse>
 
-    @GET(" ")
-    fun getPreviousCharacters(): Single<CharactersResponse>
+    @GET
+    fun getPreviousCharacters(@Url previousCharactersUrl: String): Single<CharactersResponse>
 }

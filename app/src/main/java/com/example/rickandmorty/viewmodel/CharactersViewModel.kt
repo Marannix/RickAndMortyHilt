@@ -1,17 +1,15 @@
 package com.example.rickandmorty.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.network.CharactersResponse
 import com.example.rickandmorty.repository.CharactersRepository
 import io.reactivex.Single
+import javax.inject.Inject
 
-class CharactersViewModel(application: Application) : AndroidViewModel(application) {
+class CharactersViewModel @Inject constructor(val charactersRepository: CharactersRepository) : ViewModel() {
 
-    private val charactersRepository = CharactersRepository(application.baseContext)
-
-    fun getCharacters() : List<CharactersResults> {
+    fun getCharacters(): List<CharactersResults> {
         return charactersRepository.getCharacters()
     }
 

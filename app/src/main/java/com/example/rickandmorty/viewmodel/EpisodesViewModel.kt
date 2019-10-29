@@ -1,16 +1,14 @@
 package com.example.rickandmorty.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.example.rickandmorty.data.network.EpisodeResponse
 import com.example.rickandmorty.repository.EpisodeRepository
 import io.reactivex.Single
+import javax.inject.Inject
 
-class EpisodesViewModel(application: Application) : AndroidViewModel(application) {
+class EpisodesViewModel @Inject constructor(val episodeRepository: EpisodeRepository) : ViewModel() {
 
-    private val episodeRepository = EpisodeRepository(application.baseContext)
-
-    fun getEpisodes(characterId: String) : List<EpisodeResponse> {
+    fun getEpisodes(characterId: String): List<EpisodeResponse> {
         return episodeRepository.getEpisodes(characterId)
     }
 

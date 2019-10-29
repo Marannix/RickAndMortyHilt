@@ -1,15 +1,14 @@
 package com.example.rickandmorty.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.EpisodeAdapter
 import com.example.rickandmorty.data.characters.CharactersResults
@@ -22,8 +21,17 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.character_header.*
 import kotlinx.android.synthetic.main.character_summary.*
 import kotlinx.android.synthetic.main.fragment_characters_detail.*
+import javax.inject.Inject
 
-class CharacterDetailsFragment : Fragment() {
+class CharacterDetailsFragment : BaseFragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: EpisodesViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory)
+            .get(EpisodesViewModel::class.java)
+    }
 
     private val disposables = CompositeDisposable()
     private val episodesAdapter = EpisodeAdapter()
@@ -31,16 +39,10 @@ class CharacterDetailsFragment : Fragment() {
     private lateinit var characters: CharactersResults
     private val episodes = ArrayList<EpisodeResponse>()
 
-    private lateinit var episodesViewModel: EpisodesViewModel
+//    private lateinit var episodesViewModel: EpisodesViewModel
     private fun selector(episode: EpisodeResponse): Int = episode.id.toInt()
 
     private var shouldFetchEpisodes = true
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        episodesViewModel = ViewModelProviders.of(this)
-            .get(EpisodesViewModel::class.java)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_characters_detail, container, false)
@@ -92,7 +94,7 @@ class CharacterDetailsFragment : Fragment() {
 
     private fun loadCharacterEpisodes() {
         for (i in characters.episode) {
-            val disposable = episodesViewModel.fetchEpisodes("$i/")
+            val disposable = viewModel.fetchEpisodes("$i/")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -122,12 +124,12 @@ class CharacterDetailsFragment : Fragment() {
             episodes.sortBy { selector(it)}
         }
         episodesAdapter.setEpisodes(episodes)
-        episodesViewModel.insertEpisodes(episode)
+        viewModel.insertEpisodes(episode)
     }
 
     private fun onRetrieveEpisodesError() {
         if (shouldFetchEpisodes) {
-            episodesAdapter.setEpisodes(episodesViewModel.getEpisodes(characters.id))
+            episodesAdapter.setEpisodes(viewModel.getEpisodes(characters.id))
         }
         shouldFetchEpisodes = false
     }

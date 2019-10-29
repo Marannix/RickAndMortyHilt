@@ -1,12 +1,11 @@
 package com.example.rickandmorty.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
@@ -14,18 +13,18 @@ import com.example.rickandmorty.adapter.CharactersAdapter
 import com.example.rickandmorty.data.characters.CharactersPageInfo
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.viewmodel.CharactersViewModel
-import com.example.rickandmorty.viewmodel.EpisodesViewModel
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_characters.*
+import javax.inject.Inject
 
 const val FIRST_PAGE = 1
 const val MOBILE_SIZE = 1
 const val TABLET_SIZE = 2
 
-class CharactersFragment : Fragment() {
+class CharactersFragment : BaseFragment() {
 
     private val disposables = CompositeDisposable()
     private val charactersAdapter = CharactersAdapter()
@@ -33,17 +32,15 @@ class CharactersFragment : Fragment() {
 
     private lateinit var characters: List<CharactersResults>
     private lateinit var charactersPageInfo: CharactersPageInfo
-    private lateinit var charactersViewModel: CharactersViewModel
-    private lateinit var episodesViewModel: EpisodesViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        charactersViewModel = ViewModelProviders.of(this)
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val charactersViewModel: CharactersViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory)
             .get(CharactersViewModel::class.java)
-        episodesViewModel = ViewModelProviders.of(this)
-            .get(EpisodesViewModel::class.java)
     }
-
+    
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_characters, container, false)
     }
