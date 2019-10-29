@@ -2,10 +2,7 @@ package com.example.rickandmorty.dagger.components
 
 import android.app.Application
 import com.example.rickandmorty.MainApplication
-import com.example.rickandmorty.dagger.modules.ActivityBuilder
-import com.example.rickandmorty.dagger.modules.ApiModule
-import com.example.rickandmorty.dagger.modules.ApplicationModule
-import com.example.rickandmorty.dagger.modules.ViewModelModule
+import com.example.rickandmorty.dagger.modules.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -16,6 +13,7 @@ import javax.inject.Singleton
 @Component(
     modules = [ActivityBuilder::class,
         ApiModule::class,
+        RoomModule::class,
         ApplicationModule::class,
         ViewModelModule::class,
         AndroidSupportInjectionModule::class]

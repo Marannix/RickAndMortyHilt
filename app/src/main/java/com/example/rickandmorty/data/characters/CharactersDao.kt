@@ -12,6 +12,6 @@ interface CharactersDao {
     fun insertCharacters(characters: List<CharactersResults>)
 
     @Query("select * from characters")
-    fun getAllCharacters(): List<CharactersResults>
+    fun getCharacters(): List<CharactersResults>
 
 }

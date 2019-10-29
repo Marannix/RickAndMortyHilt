@@ -9,11 +9,11 @@ import javax.inject.Inject
 class EpisodesViewModel @Inject constructor(val episodeRepository: EpisodeRepository) : ViewModel() {
 
     fun getEpisodes(characterId: String): List<EpisodeResponse> {
-        return episodeRepository.getEpisodes(characterId)
+        return episodeRepository.getEpisodesFromDb(characterId)
     }
 
     fun insertEpisodes(episodes: EpisodeResponse) {
-        return episodeRepository.insertEpisodes(episodes)
+        return episodeRepository.storeEpisodesInDb(episodes)
     }
 
     fun fetchEpisodes(episodeUrl: String): Single<EpisodeResponse> {

@@ -10,11 +10,11 @@ import javax.inject.Inject
 class CharactersViewModel @Inject constructor(val charactersRepository: CharactersRepository) : ViewModel() {
 
     fun getCharacters(): List<CharactersResults> {
-        return charactersRepository.getCharacters()
+        return charactersRepository.getCharactersFromDb()
     }
 
     fun insertCharacters(characters: List<CharactersResults>) {
-        return charactersRepository.insertCharacters(characters)
+        return charactersRepository.storeCharactersInDb(characters)
     }
 
     fun fetchCharacters(page: Int): Single<CharactersResponse> {

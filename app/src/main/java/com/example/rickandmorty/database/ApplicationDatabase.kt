@@ -1,8 +1,6 @@
 package com.example.rickandmorty.database
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.rickandmorty.data.Converters
@@ -17,41 +15,6 @@ import com.example.rickandmorty.data.network.EpisodeResponse
 )
 @TypeConverters(Converters::class)
 abstract class ApplicationDatabase : RoomDatabase() {
-
     abstract fun charactersDao(): CharactersDao
     abstract fun episodeDao(): EpisodesDao
-
-    object DatabaseProvider {
-        private var instance: ApplicationDatabase? = null
-        var TEST_MODE = false
-        fun getInstance(context: Context): ApplicationDatabase? {
-            if (instance == null) {
-                synchronized(ApplicationDatabase::class) {
-                    instance = if (TEST_MODE) {
-                        buildTestDatabase(context)
-                    } else {
-                        buildDatabase(context)
-                    }
-                }
-            }
-            return instance
-        }
-
-        private fun buildDatabase(context: Context): ApplicationDatabase {
-            return Room.databaseBuilder(
-                context.applicationContext,
-                ApplicationDatabase::class.java, "rickandmorty.db"
-            ).allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build()
-        }
-
-        private fun buildTestDatabase(context: Context): ApplicationDatabase {
-            return Room.inMemoryDatabaseBuilder(
-                context.applicationContext,
-                ApplicationDatabase::class.java)
-                .allowMainThreadQueries()
-                .build()
-        }
-    }
 }
