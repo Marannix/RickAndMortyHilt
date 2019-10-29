@@ -1,17 +1,11 @@
 package com.example.rickandmorty.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.navigation.Navigation
 import com.example.rickandmorty.R
-import com.example.rickandmorty.repository.CharactersRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private val disposables = CompositeDisposable()
 
