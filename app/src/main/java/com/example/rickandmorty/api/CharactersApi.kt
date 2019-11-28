@@ -8,6 +8,7 @@ import retrofit2.http.Url
 
 interface CharactersApi {
 
+    // Maybe instead of passing page just getvalue character/?page=1
     @GET("character/")
     fun getCharacters(@Query("page") page: Int): Single<CharactersResponse>
 

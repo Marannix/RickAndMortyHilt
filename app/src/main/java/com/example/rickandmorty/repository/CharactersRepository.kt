@@ -14,7 +14,7 @@ class CharactersRepository @Inject constructor(
     private val charactersApi: CharactersApi
 ) {
 
-    // TODO: Find a from characters Api solution to getPageState
+// TODO: Find a from characters Api solution to getPageState
 //    val pageStateLiveData = MutableLiveData<CharactersPageInfo>()
 //    fun getCharacterPageInfo() = pageStateLiveData
 
@@ -25,21 +25,30 @@ class CharactersRepository @Inject constructor(
         )
     }
 
-
-    fun fetchNextCharacters(nextCharactersUrl: String): Single<CharactersResponse> {
+    private fun fetchNextCharacters(nextCharactersUrl: String): Single<CharactersResponse> {
         return charactersApi.getNextCharacters(nextCharactersUrl)
+            .doOnSuccess {response ->
+                storeCharactersInDb(response.charactersResults)
+            }
+            .doOnError { Observable.empty<CharactersResults>() }
+            .subscribeOn(Schedulers.io())
     }
 
     fun fetchPreviousCharacters(previousCharactersUrl: String): Single<CharactersResponse> {
         return charactersApi.getPreviousCharacters(previousCharactersUrl)
+            .doOnSuccess { response ->
+                storeCharactersInDb(response.charactersResults)
+            }
+            .doOnError { Observable.empty<CharactersResults>() }
+            .subscribeOn(Schedulers.io())
     }
 
     private fun getCharactersFromApi(page: Int): Single<List<CharactersResults>> {
         return charactersApi.getCharacters(page).doOnSuccess { response ->
             storeCharactersInDb(response.charactersResults)
-//            pageStateLiveData.postValue(response.characterPageInfo)
-        }
-            .map { it.charactersResults }
+            fetchNextCharacters(response.characterPageInfo.next)
+            fetchPreviousCharacters(response.characterPageInfo.prev)
+        }.map { it.charactersResults }
             .subscribeOn(Schedulers.io())
     }
 

@@ -3,9 +3,7 @@ package com.example.rickandmorty.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.rickandmorty.data.characters.CharactersResults
-import com.example.rickandmorty.data.network.CharactersResponse
 import com.example.rickandmorty.repository.CharactersRepository
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -16,6 +14,7 @@ class CharactersViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
     val viewState = MutableLiveData<List<CharactersResults>>()
 
+    // TODO: Remove init and call manually
     init {
         getCharacters2()
     }
@@ -29,6 +28,10 @@ class CharactersViewModel @Inject constructor(
         )
     }
 
+//    fun getNextCharacters() {
+//
+//    }
+
 //    fun getCharacters(): List<CharactersResults> {
 //        return charactersRepository.getCharactersFromDb()
 //    }
@@ -38,11 +41,11 @@ class CharactersViewModel @Inject constructor(
 //        return charactersRepository.getCharactersFromApi(page)
 //    }
 
-    fun getNextCharacters(url: String): Single<CharactersResponse> {
-        return charactersRepository.fetchNextCharacters(url)
-    }
+//    fun getNextCharacters(url: String): Single<CharactersResponse> {
+//        return charactersRepository.fetchNextCharacters(url)
+//    }
 
-    fun getPreviousCharacters(url: String): Single<CharactersResponse> {
-        return charactersRepository.fetchPreviousCharacters(url)
-    }
+//    fun getPreviousCharacters(url: String): Single<CharactersResponse> {
+//        return charactersRepository.fetchPreviousCharacters(url)
+//    }
 }

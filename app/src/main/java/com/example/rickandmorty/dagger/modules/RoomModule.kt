@@ -16,7 +16,7 @@ class RoomModule {
     @Provides
     fun provideRoomDatabase(application: Application): ApplicationDatabase {
         return Room.databaseBuilder(
-            application,
+            application.applicationContext,
             ApplicationDatabase::class.java, "rickandmorty.db"
         )
             .allowMainThreadQueries()
