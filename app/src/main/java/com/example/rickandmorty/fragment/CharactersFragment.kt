@@ -1,9 +1,11 @@
 package com.example.rickandmorty.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.CharactersAdapter
 import com.example.rickandmorty.data.characters.CharactersPageInfo
+import com.example.rickandmorty.state.CharacterViewState
 import com.example.rickandmorty.viewmodel.CharactersViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_characters.*
@@ -46,12 +49,26 @@ class CharactersFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         updateToolbar()
         setCharacterAdapter(isTablet())
+        charactersViewModel.getCharacters()
         subscribeToCharacterViewState()
     }
 
     private fun subscribeToCharacterViewState() {
-        charactersViewModel.viewState.observe(this, Observer { list ->
-            charactersAdapter.setData(list)
+        charactersViewModel.viewState.observe(this, Observer { viewState ->
+            when (viewState) {
+                is CharacterViewState.ShowCharacters -> {
+                    Toast.makeText(requireContext(), "Show Characters", Toast.LENGTH_SHORT).show()
+                    charactersAdapter.setData(viewState.characters)
+                }
+                is CharacterViewState.ShowError -> {
+                    Log.d("error", viewState.errorMessage)
+                    Toast.makeText(requireContext(), viewState.errorMessage, Toast.LENGTH_SHORT).show()
+                }
+                is CharacterViewState.Loading -> {
+                    Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                }
+            }
+
         })
     }
 

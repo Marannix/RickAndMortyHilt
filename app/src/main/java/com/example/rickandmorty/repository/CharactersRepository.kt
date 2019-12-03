@@ -1,5 +1,6 @@
 package com.example.rickandmorty.repository
 
+import android.util.Log
 import com.example.rickandmorty.api.CharactersApi
 import com.example.rickandmorty.data.characters.CharactersDao
 import com.example.rickandmorty.data.characters.CharactersResults
@@ -15,8 +16,8 @@ class CharactersRepository @Inject constructor(
 ) {
 
 // TODO: Find a from characters Api solution to getPageState
-//    val pageStateLiveData = MutableLiveData<CharactersPageInfo>()
-//    fun getCharacterPageInfo() = pageStateLiveData
+//  val pageStateLiveData = MutableLiveData<CharactersPageInfo>()
+//  fun getCharacterPageInfo() = pageStateLiveData
 
     fun getCharacters(): Observable<List<CharactersResults>> {
         return Observable.concatArray(
@@ -25,16 +26,20 @@ class CharactersRepository @Inject constructor(
         )
     }
 
-    private fun fetchNextCharacters(nextCharactersUrl: String): Single<CharactersResponse> {
+    private fun fetchNextCharacters(nextCharactersUrl: String): Single<List<CharactersResults>> {
         return charactersApi.getNextCharacters(nextCharactersUrl)
-            .doOnSuccess {response ->
+            .doOnSuccess { response ->
                 storeCharactersInDb(response.charactersResults)
             }
-            .doOnError { Observable.empty<CharactersResults>() }
+            .map {it.charactersResults}
+            .doOnError {
+                Log.d("error fetch", it.message!!)
+                Observable.empty<CharactersResults>()
+            }
             .subscribeOn(Schedulers.io())
     }
 
-    fun fetchPreviousCharacters(previousCharactersUrl: String): Single<CharactersResponse> {
+    private fun fetchPreviousCharacters(previousCharactersUrl: String): Single<CharactersResponse> {
         return charactersApi.getPreviousCharacters(previousCharactersUrl)
             .doOnSuccess { response ->
                 storeCharactersInDb(response.charactersResults)
@@ -46,9 +51,12 @@ class CharactersRepository @Inject constructor(
     private fun getCharactersFromApi(page: Int): Single<List<CharactersResults>> {
         return charactersApi.getCharacters(page).doOnSuccess { response ->
             storeCharactersInDb(response.charactersResults)
-            fetchNextCharacters(response.characterPageInfo.next)
-            fetchPreviousCharacters(response.characterPageInfo.prev)
-        }.map { it.charactersResults }
+        }
+            .flatMap {response ->
+                fetchNextCharacters(response.characterPageInfo.next)
+                fetchPreviousCharacters(response.characterPageInfo.prev)
+            }
+            .map { it.charactersResults }
             .subscribeOn(Schedulers.io())
     }
 
