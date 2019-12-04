@@ -27,7 +27,12 @@ class CharactersViewModel @Inject constructor(
                             CharacterViewState.ShowCharacters(characterDataState.characters)
                         }
                         is CharacterDataState.Error -> {
-                            CharacterViewState.ShowError(characterDataState.errorMessage)
+                            if (viewState.value is CharacterViewState.ShowCharacters) {
+                                viewState.value
+                            } else {
+                                CharacterViewState.ShowError(characterDataState.errorMessage)
+                            }
+
                         }
                     }
                 }
@@ -35,30 +40,6 @@ class CharactersViewModel @Inject constructor(
                 .subscribe { viewState ->
                     this.viewState.value = viewState
                 }
-//            charactersRepository.getCharacters().subscribe{
-//                viewState.postValue(it)
-//            }
         )
     }
-
-//    fun getNextCharacters() {
-//
-//    }
-
-//    fun getCharacters(): List<CharactersResults> {
-//        return charactersRepository.getCharactersFromDb()
-//    }
-
-
-//    fun fetchCharacters(page: Int): Single<CharactersResponse> {
-//        return charactersRepository.getCharactersFromApi(page)
-//    }
-
-//    fun getNextCharacters(url: String): Single<CharactersResponse> {
-//        return charactersRepository.fetchNextCharacters(url)
-//    }
-
-//    fun getPreviousCharacters(url: String): Single<CharactersResponse> {
-//        return charactersRepository.fetchPreviousCharacters(url)
-//    }
 }

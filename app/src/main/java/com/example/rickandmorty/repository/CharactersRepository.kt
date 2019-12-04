@@ -15,23 +15,20 @@ class CharactersRepository @Inject constructor(
     private val charactersApi: CharactersApi
 ) {
 
-// TODO: Find a from characters Api solution to getPageState
-//  val pageStateLiveData = MutableLiveData<CharactersPageInfo>()
-//  fun getCharacterPageInfo() = pageStateLiveData
 
     fun getCharacters(): Observable<List<CharactersResults>> {
-        return Observable.concatArray(
-            getCharactersFromDb(),
-            getCharactersFromApi(1).toObservable()
+        return Observable.concatArrayEagerDelayError(
+            getCharactersFromApi(1).toObservable(),
+            getCharactersFromDb()
         )
     }
 
-    private fun fetchNextCharacters(nextCharactersUrl: String): Single<List<CharactersResults>> {
-        return charactersApi.getNextCharacters(nextCharactersUrl)
+    private fun fetchNextCharacters(nextUrl: String): Single<CharactersResponse> {
+        return charactersApi.getNextCharacters(nextUrl)
             .doOnSuccess { response ->
                 storeCharactersInDb(response.charactersResults)
+                // TODO: Try to find a way to call api response several times (Roughly 25 times)
             }
-            .map {it.charactersResults}
             .doOnError {
                 Log.d("error fetch", it.message!!)
                 Observable.empty<CharactersResults>()
@@ -39,24 +36,15 @@ class CharactersRepository @Inject constructor(
             .subscribeOn(Schedulers.io())
     }
 
-    private fun fetchPreviousCharacters(previousCharactersUrl: String): Single<CharactersResponse> {
-        return charactersApi.getPreviousCharacters(previousCharactersUrl)
-            .doOnSuccess { response ->
-                storeCharactersInDb(response.charactersResults)
-            }
-            .doOnError { Observable.empty<CharactersResults>() }
-            .subscribeOn(Schedulers.io())
-    }
-
     private fun getCharactersFromApi(page: Int): Single<List<CharactersResults>> {
         return charactersApi.getCharacters(page).doOnSuccess { response ->
             storeCharactersInDb(response.charactersResults)
         }
-            .flatMap {response ->
-                fetchNextCharacters(response.characterPageInfo.next)
-                fetchPreviousCharacters(response.characterPageInfo.prev)
+            .flatMap { fetchNextCharacters(it.characterPageInfo.next) }
+            .map {
+                // TODO: This is probably causing my list to only display the last item retrieved
+                it.charactersResults
             }
-            .map { it.charactersResults }
             .subscribeOn(Schedulers.io())
     }
 
