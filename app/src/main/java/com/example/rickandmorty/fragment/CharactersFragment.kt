@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.CharactersAdapter
-import com.example.rickandmorty.data.characters.CharactersPageInfo
 import com.example.rickandmorty.state.CharacterViewState
 import com.example.rickandmorty.viewmodel.CharactersViewModel
 import io.reactivex.disposables.CompositeDisposable
@@ -29,9 +28,6 @@ class CharactersFragment : BaseFragment() {
     private val disposables = CompositeDisposable()
     private val charactersAdapter = CharactersAdapter()
     private var isTablet: Boolean = false
-
-//    private lateinit var characters: List<CharactersResults>
-    private lateinit var charactersPageInfo: CharactersPageInfo
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -61,10 +57,12 @@ class CharactersFragment : BaseFragment() {
                     charactersAdapter.setData(viewState.characters)
                 }
                 is CharacterViewState.ShowError -> {
+                    // TODO need to add an error state (when no characters have been fetched, probably due to no network)
                     Log.d("error", viewState.errorMessage)
                     Toast.makeText(requireContext(), viewState.errorMessage, Toast.LENGTH_SHORT).show()
                 }
                 is CharacterViewState.Loading -> {
+                    // TODO: Add loading indicator
                     Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -72,10 +70,13 @@ class CharactersFragment : BaseFragment() {
         })
     }
 
-    private fun setCharacterAdapter(isTablet : Int) {
+    private fun setCharacterAdapter(isTablet: Int) {
         charactersRecyclerView.layoutManager = GridLayoutManager(context, isTablet)
         charactersRecyclerView.adapter = charactersAdapter
     }
+
+    // TODO: Look at the methods and remove (Methods below are used for tablet support and error handling)
+    // Refactoring is required
 
 //    private fun setCharacterAdapter2(isTablet : Int) {
 //        charactersRecyclerView.layoutManager = GridLayoutManager(context, isTablet)

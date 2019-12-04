@@ -16,7 +16,7 @@ class CharactersViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
     val viewState = MutableLiveData<CharacterViewState>()
 
-    //TODO: Handle error state when fails (no network or bad request..)
+    //TODO: Handle error state when fails (no network or bad request..)r
     fun getCharacters() {
         disposables.add(
             characterUseCase.getCharacterDataState()

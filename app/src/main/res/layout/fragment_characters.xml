@@ -46,7 +46,7 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"/>
 
-    <!-- TODO: Remove previous and next button --> 
+    <!-- TODO: Remove previous and next button -->
     <Button
             android:id="@+id/previousButton"
             android:layout_width="wrap_content"

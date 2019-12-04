@@ -1,6 +1,5 @@
 package com.example.rickandmorty.repository
 
-import android.util.Log
 import com.example.rickandmorty.api.CharactersApi
 import com.example.rickandmorty.data.characters.CharactersDao
 import com.example.rickandmorty.data.characters.CharactersResults
@@ -15,8 +14,11 @@ class CharactersRepository @Inject constructor(
     private val charactersApi: CharactersApi
 ) {
 
+    // TODO: Add and remove favourite characters and save to database
 
     fun getCharacters(): Observable<List<CharactersResults>> {
+        // Added concatArrayEagerDelayError to repository when fetching data from api and database,
+        //  it delays any errors (no network from api) until both api and database source terminate
         return Observable.concatArrayEagerDelayError(
             getCharactersFromApi(1).toObservable(),
             getCharactersFromDb()
@@ -27,10 +29,9 @@ class CharactersRepository @Inject constructor(
         return charactersApi.getNextCharacters(nextUrl)
             .doOnSuccess { response ->
                 storeCharactersInDb(response.charactersResults)
-                // TODO: Try to find a way to call api response several times (Roughly 25 times)
             }
             .doOnError {
-                Log.d("error fetch", it.message!!)
+                // TODO: I wonder if this is useful, might not be
                 Observable.empty<CharactersResults>()
             }
             .subscribeOn(Schedulers.io())
@@ -40,11 +41,11 @@ class CharactersRepository @Inject constructor(
         return charactersApi.getCharacters(page).doOnSuccess { response ->
             storeCharactersInDb(response.charactersResults)
         }
-            .flatMap { fetchNextCharacters(it.characterPageInfo.next) }
-            .map {
-                // TODO: This is probably causing my list to only display the last item retrieved
-                it.charactersResults
+            .flatMap {
+                //TODO: Need to check if next page exists, might want to do nothing when last character is reached
+                fetchNextCharacters(it.characterPageInfo.next)
             }
+            .map(CharactersResponse::charactersResults)
             .subscribeOn(Schedulers.io())
     }
 
