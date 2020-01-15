@@ -16,4 +16,5 @@ class CharacterUseCase @Inject constructor(
             }
             .onErrorReturn { error -> CharacterDataState.Error(error.message) }
     }
+
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -11,7 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.EpisodeAdapter
+import com.example.rickandmorty.data.characters.CharacterLocation
 import com.example.rickandmorty.data.characters.CharactersResults
+import com.example.rickandmorty.data.favourites.FavouriteModel
 import com.example.rickandmorty.data.network.EpisodeResponse
 import com.example.rickandmorty.viewmodel.EpisodesViewModel
 import com.squareup.picasso.Picasso
@@ -39,7 +42,6 @@ class CharacterDetailsFragment : BaseFragment() {
     private lateinit var characters: CharactersResults
     private val episodes = ArrayList<EpisodeResponse>()
 
-//    private lateinit var episodesViewModel: EpisodesViewModel
     private fun selector(episode: EpisodeResponse): Int = episode.id.toInt()
 
     private var shouldFetchEpisodes = true
@@ -74,6 +76,25 @@ class CharacterDetailsFragment : BaseFragment() {
 
     private fun loadCharacterImage() {
         Picasso.get().load(characters.image).into(characterDetailImage)
+        stuff()
+    }
+
+    private fun stuff() {
+        characterDetailImage.setOnClickListener {
+           viewModel.insertFavourite(
+               FavouriteModel(characters.id,
+                   characters.name,
+                   characters.status,
+                   characters.species,
+                   characters.gender,
+                   characters.image,
+                   CharacterLocation(characters.location.name),
+                   characters.episode
+               )
+           )
+            viewModel.getFavourite()
+            Toast.makeText(requireContext(), "Favourite???", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun loadCharacterName() {

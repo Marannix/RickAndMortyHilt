@@ -18,8 +18,7 @@ class CharactersViewModel @Inject constructor(
 
     //TODO: Handle error state when fails (no network or bad request..)r
     fun getCharacters() {
-        disposables.add(
-            characterUseCase.getCharacterDataState()
+        val disposable = characterUseCase.getCharacterDataState()
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { characterDataState ->
                     return@map when (characterDataState) {
@@ -40,6 +39,14 @@ class CharactersViewModel @Inject constructor(
                 .subscribe { viewState ->
                     this.viewState.value = viewState
                 }
-        )
+
+        disposables.add(disposable)
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposables.clear()
+    }
+
+
 }

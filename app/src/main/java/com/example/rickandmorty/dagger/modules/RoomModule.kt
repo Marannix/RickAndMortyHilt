@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.example.rickandmorty.data.characters.CharactersDao
 import com.example.rickandmorty.data.episodes.EpisodesDao
+import com.example.rickandmorty.data.favourites.FavouriteDao
 import com.example.rickandmorty.database.ApplicationDatabase
 import dagger.Module
 import dagger.Provides
@@ -20,12 +21,13 @@ class RoomModule {
             ApplicationDatabase::class.java, "rickandmorty.db"
         )
             .allowMainThreadQueries()
+            .fallbackToDestructiveMigration()
             .build()
     }
 
     @Singleton
     @Provides
-    fun provideCharactersoDao(applicationDatabase: ApplicationDatabase): CharactersDao {
+    fun provideCharactersDao(applicationDatabase: ApplicationDatabase): CharactersDao {
         return applicationDatabase.charactersDao()
     }
 
@@ -33,5 +35,11 @@ class RoomModule {
     @Provides
     fun providesEpisodeDao(applicationDatabase: ApplicationDatabase): EpisodesDao {
         return applicationDatabase.episodeDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providesFavouriteDao(applicationDatabase: ApplicationDatabase): FavouriteDao {
+        return applicationDatabase.favouriteDao()
     }
 }

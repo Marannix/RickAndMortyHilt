@@ -68,5 +68,4 @@ class CharactersRepository @Inject constructor(
                 }
             }
     }
-
 }
