@@ -14,4 +14,7 @@ interface CharactersDao {
 
     @Query("select * from characters")
     fun getCharacters(): Single<List<CharactersResults>>
+
+    @Query("delete from characters")
+    fun deleteCharacters()
 }

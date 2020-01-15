@@ -5,8 +5,11 @@ import androidx.lifecycle.ViewModel
 import com.example.rickandmorty.state.CharacterDataState
 import com.example.rickandmorty.state.CharacterViewState
 import com.example.rickandmorty.usecase.CharacterUseCase
+import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class CharactersViewModel @Inject constructor(
@@ -14,12 +17,14 @@ class CharactersViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val disposables = CompositeDisposable()
-    val viewState = MutableLiveData<CharacterViewState>()
+    private val viewState = MutableLiveData<CharacterViewState>()
 
-    //TODO: Handle error state when fails (no network or bad request..)r
-    fun getCharacters() {
-        disposables.add(
-            characterUseCase.getCharacterDataState()
+    fun onStart() {
+        disposables.add(getCharacters())
+    }
+    //TODO: Handle error state when fails (no network or bad request..)
+    private fun getCharacters(): Disposable {
+        return characterUseCase.getCharacterDataState()
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { characterDataState ->
                     return@map when (characterDataState) {
@@ -40,6 +45,26 @@ class CharactersViewModel @Inject constructor(
                 .subscribe { viewState ->
                     this.viewState.value = viewState
                 }
-        )
+    }
+
+    fun refresh() {
+        val disposable =
+            Completable.fromAction(characterUseCase::removeCharactersFromDatabase)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    onStart()
+                }
+
+        disposables.add(disposable)
+    }
+
+    fun getViewState(): MutableLiveData<CharacterViewState> {
+        return viewState
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposables.clear()
     }
 }
