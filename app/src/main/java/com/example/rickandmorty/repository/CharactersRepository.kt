@@ -16,13 +16,17 @@ class CharactersRepository @Inject constructor(
 
     // TODO: Add and remove favourite characters and save to database
 
+//    fun getCharacters(): Observable<List<CharactersResults>> {
+//        // Added concatArrayEagerDelayError to repository when fetching data from api and database,
+//        //  it delays any errors (no network from api) until both api and database source terminate
+//        return Observable.concatArrayEagerDelayError(
+//            getCharactersFromApi(1).toObservable(),
+//            getCharactersFromDb()
+//        )
+//    }
+
     fun getCharacters(): Observable<List<CharactersResults>> {
-        // Added concatArrayEagerDelayError to repository when fetching data from api and database,
-        //  it delays any errors (no network from api) until both api and database source terminate
-        return Observable.concatArrayEagerDelayError(
-            getCharactersFromApi(1).toObservable(),
-            getCharactersFromDb()
-        )
+        return getCharactersFromDb()
     }
 
     private fun fetchNextCharacters(nextUrl: String): Single<CharactersResponse> {
@@ -58,7 +62,7 @@ class CharactersRepository @Inject constructor(
             .toObservable()
             .flatMap { list ->
                 return@flatMap if (list.isEmpty()) {
-                    Observable.empty()
+                    getCharactersFromApi(1).toObservable()
                 } else {
                     Observable.just(list)
                 }
