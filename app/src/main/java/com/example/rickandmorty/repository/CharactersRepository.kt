@@ -5,7 +5,6 @@ import com.example.rickandmorty.data.characters.CharactersDao
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.network.CharactersResponse
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -29,30 +28,106 @@ class CharactersRepository @Inject constructor(
         return getCharactersFromDb()
     }
 
-    private fun fetchNextCharacters(nextUrl: String): Single<CharactersResponse> {
+    private fun fetchNextCharacters(nextUrl: String): Observable<CharactersResponse> {
         return charactersApi.getNextCharacters(nextUrl)
-            .doOnSuccess { response ->
-                storeCharactersInDb(response.charactersResults)
-            }
-            .doOnError {
-                // TODO: I wonder if this is useful, might not be
-                Observable.empty<CharactersResults>()
-            }
             .subscribeOn(Schedulers.io())
+            .concatMap { response ->
+                if (response.characterPageInfo.next.isEmpty()) {
+                    Observable.just(response)
+                }
+                Observable.just(response)
+                    .concatWith(fetchNextCharacters(response.characterPageInfo.next))
+
+            }
+            .doOnNext {
+                storeCharactersInDb(it.charactersResults)
+            }
+
+
+//            .reduce(
+//                List.<ResponseObject>builder(),
+//                (builder, response) -> builder.addAll(response.results))
+//        // Convert list builder to one List<ResponseObject> of all the things.
+//        .map(builder -> builder.build())
+////            .toSortedList()
+//            .toObservable()
+
+
     }
 
-    private fun getCharactersFromApi(page: Int): Single<List<CharactersResults>> {
-        return charactersApi.getCharacters(page).doOnSuccess { response ->
-            storeCharactersInDb(response.charactersResults)
-        }
-            .flatMap {
-                //TODO: Need to check if next page exists, might want to do nothing when last character is reached
-                fetchNextCharacters(it.characterPageInfo.next)
-            }
+
+//    private fun getCharactersFromApi() Observable<CharactersResponse> {
+//        return fetchNextCharacters("hi")
+//            .doonsu
+//
+//    }
+
+//    private fun fetchNextCharacters(nextUrl: String): Single<CharactersResponse> {
+//        return charactersApi.getNextCharacters(nextUrl)
+//            .doOnSuccess { response ->
+//                if (!response.charactersResults.isNullOrEmpty()) {
+//                    storeCharactersInDb(response.charactersResults)
+//                }
+//            }
+//            .toObservable()
+//            .doAfterNext {
+//                if (it.characterPageInfo.next.isNotEmpty()) {
+//                    fetchNextCharacters(it.characterPageInfo.next)
+//                }
+//            }
+//            //     .flatMap { response ->
+////                fetchNextCharacters(response.characterPageInfo.next)
+//            //}
+//            .doOnError {
+//                // TODO: I wonder if this is useful, might not be
+//                Observable.empty<CharactersResults>()
+//            }
+//            .subscribeOn(Schedulers.io()).singleOrError()
+//    }
+//
+//    private fun getCharactersFromApi(): Single<List<CharactersResults>> {
+//        return charactersApi.getCharacters().doOnSuccess { response ->
+//            storeCharactersInDb(response.charactersResults)
+//            getPageAndNext(response.characterPageInfo.next)
+//        }
+//            .map(CharactersResponse::charactersResults)
+//            .subscribeOn(Schedulers.io())
+////    }
+//
+//    private fun getCharactersFromApi(url: String): Observable<List<CharactersResults>> {
+//        return charactersApi.getNextCharacters(url)
+//            .subscribeOn(Schedulers.io())
+//            .concatMap (object: )
+//                if (it.characterPageInfo.next.isEmpty()) {
+//                    Observable.just(it)
+//                } else {
+//                    Observable.just(it)
+//                        .concatWith(getCharactersFromApi(it.characterPageInfo.next))
+//
+//                }
+//            }.map(CharactersResponse::charactersResults)
+
+    // }
+
+//    fun getPageAndNext(page: Int): Observable<ApiResponse> {
+//        return getResults(page)
+//            .concatMap(object : Func1<ApiResponse, Observable<ApiResponse>>() {
+//
+//                fun call(response: ApiResponse): Observable<ApiResponse> {
+//                    // Terminal case.
+//                    return if (response.next == null) {
+//                        Observable.just<ApiResponse>(response)
+//                    } else Observable.just<ApiResponse>(response)
+//                        .concatWith(getPageAndNext(response.next))
+//                }
+//
+//            })
+//    }
+
+    private fun getCharactersFromApi(): Observable<List<CharactersResults>> {
+        return fetchNextCharacters("https://rickandmortyapi.com/api/character/?page=1")
             .map(CharactersResponse::charactersResults)
-            .subscribeOn(Schedulers.io())
     }
-
     private fun storeCharactersInDb(characters: List<CharactersResults>) {
         charactersDao.insertCharacters(characters)
     }
@@ -62,7 +137,7 @@ class CharactersRepository @Inject constructor(
             .toObservable()
             .flatMap { list ->
                 return@flatMap if (list.isEmpty()) {
-                    getCharactersFromApi(1).toObservable()
+                    getCharactersFromApi()
                 } else {
                     Observable.just(list)
                 }
