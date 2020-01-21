@@ -31,6 +31,10 @@ class EpisodesViewModel @Inject constructor(
         favouriteRepository.storeInFavourite(character)
     }
 
+    fun removeFromFavourites(character: FavouriteModel) {
+        favouriteRepository.removeFromFavourites(character)
+    }
+
     fun isFavourite(characterId: String) : Boolean {
         return favouriteRepository.isFavourite(characterId)
     }

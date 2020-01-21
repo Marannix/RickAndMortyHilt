@@ -14,6 +14,10 @@ class FavouriteRepository @Inject constructor(
         favouriteDao.insertFavouriteCharacter(character)
     }
 
+    fun removeFromFavourites(character: FavouriteModel) {
+        favouriteDao.deleteFavouriteCharacter(character)
+    }
+
     fun isFavourite(characterId: String) : Boolean {
         return favouriteDao.isFavourite(characterId)
     }

@@ -97,13 +97,17 @@ class CharacterDetailsFragment : BaseFragment() {
 
     private fun setFavouriteButtonListener() {
         favouriteButton.setOnClickListener {
-            addToFavourite()
+            when {
+                viewModel.isFavourite(characters.id) -> removeFromFavourite()
+                else -> addToFavourite()
+            }
         }
     }
 
     private fun addToFavourite() {
         viewModel.insertFavourite(
-            FavouriteModel(characters.id,
+            FavouriteModel(
+                characters.id,
                 characters.name,
                 characters.status,
                 characters.species,
@@ -114,8 +118,23 @@ class CharacterDetailsFragment : BaseFragment() {
             )
         )
 
-        // Just checking if item has been added to favourite will be removed
+        // Just checking all the items which has been added to favourites, will be this piece of code later
         viewModel.getFavourite()
+    }
+
+    private fun removeFromFavourite() {
+        viewModel.removeFromFavourites(
+            FavouriteModel(
+                characters.id,
+                characters.name,
+                characters.status,
+                characters.species,
+                characters.gender,
+                characters.image,
+                CharacterLocation(characters.location.name),
+                characters.episode
+            )
+        )
     }
 
     private fun loadCharacterName() {
@@ -165,7 +184,7 @@ class CharacterDetailsFragment : BaseFragment() {
                 episode.episode
             )
         ).also {
-            episodes.sortBy { selector(it)}
+            episodes.sortBy { selector(it) }
         }
         episodesAdapter.setEpisodes(episodes)
         viewModel.insertEpisodes(episode)
