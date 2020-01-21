@@ -67,6 +67,7 @@ class CharacterDetailsFragment : BaseFragment() {
         loadCharacterSummary()
         setEpisodesAdapter()
         loadCharacterEpisodes()
+        setListeners()
     }
 
     private fun loadCharacterHeader() {
@@ -74,9 +75,12 @@ class CharacterDetailsFragment : BaseFragment() {
         loadCharacterName()
     }
 
+    private fun setListeners() {
+        setFavouriteButtonListener()
+    }
+
     private fun loadCharacterImage() {
         Picasso.get().load(characters.image).into(characterDetailImage)
-        testingAddingFavouriteCharacters()
         if (viewModel.isFavourite(characters.id)) {
             Log.d("favouriteh", "yes")
             favouriteButton.isChecked = true
@@ -87,21 +91,27 @@ class CharacterDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun testingAddingFavouriteCharacters() {
+    private fun setFavouriteButtonListener() {
         favouriteButton.setOnClickListener {
-           viewModel.insertFavourite(
-               FavouriteModel(characters.id,
-                   characters.name,
-                   characters.status,
-                   characters.species,
-                   characters.gender,
-                   characters.image,
-                   CharacterLocation(characters.location.name),
-                   characters.episode
-               )
-           )
-            viewModel.getFavourite()
+            addToFavourite()
         }
+    }
+
+    private fun addToFavourite() {
+        viewModel.insertFavourite(
+            FavouriteModel(characters.id,
+                characters.name,
+                characters.status,
+                characters.species,
+                characters.gender,
+                characters.image,
+                CharacterLocation(characters.location.name),
+                characters.episode
+            )
+        )
+
+        // Just checking if item has been added to favourite will be removed
+        viewModel.getFavourite()
     }
 
     private fun loadCharacterName() {
