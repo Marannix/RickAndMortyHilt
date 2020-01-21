@@ -6,7 +6,13 @@
 
     <color name="white">#ffffff</color>
     <color name="light_grey">#fcfaf2</color>
+    <color name="bittersweet">#FF6666</color>
     <color name="deep_blue">#2b3648</color>
     <color name="off_white">#fcfaf2</color>
+    <color name="eunry">#CC9999</color>
+
+
+    <color name="favouriteButtonColour">@color/bittersweet</color>
+    <color name="favouriteButtonShineColour">@color/eunry</color>
     <color name="backgroundColor">#FAFAFA</color>
 </resources>

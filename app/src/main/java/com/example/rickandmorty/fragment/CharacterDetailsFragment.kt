@@ -1,10 +1,10 @@
 package com.example.rickandmorty.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -52,7 +52,7 @@ class CharacterDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        favouriteButton.init(activity)
         arguments?.let {
             val safeArgs = CharacterDetailsFragmentArgs.fromBundle(it)
             characters = safeArgs.character
@@ -76,11 +76,19 @@ class CharacterDetailsFragment : BaseFragment() {
 
     private fun loadCharacterImage() {
         Picasso.get().load(characters.image).into(characterDetailImage)
-        stuff()
+        testingAddingFavouriteCharacters()
+        if (viewModel.isFavourite(characters.id)) {
+            Log.d("favouriteh", "yes")
+            favouriteButton.isChecked = true
+        } else {
+            Log.d("favouriteh", "no")
+            favouriteButton.isChecked = false
+
+        }
     }
 
-    private fun stuff() {
-        characterDetailImage.setOnClickListener {
+    private fun testingAddingFavouriteCharacters() {
+        favouriteButton.setOnClickListener {
            viewModel.insertFavourite(
                FavouriteModel(characters.id,
                    characters.name,
@@ -93,7 +101,6 @@ class CharacterDetailsFragment : BaseFragment() {
                )
            )
             viewModel.getFavourite()
-            Toast.makeText(requireContext(), "Favourite???", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -114,6 +121,7 @@ class CharacterDetailsFragment : BaseFragment() {
     }
 
     private fun loadCharacterEpisodes() {
+        // TODO: Put this in viewmodel ;)
         for (i in characters.episode) {
             val disposable = viewModel.fetchEpisodes("$i/")
                 .subscribeOn(Schedulers.io())
@@ -131,6 +139,7 @@ class CharacterDetailsFragment : BaseFragment() {
     }
 
     private fun onRetrieveEpisodesSuccess(episode: EpisodeResponse) {
+        // This should be handled in the viewmodel
         episode.characterId = characters.id
         episodes.add(
             EpisodeResponse(

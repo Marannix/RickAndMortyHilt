@@ -14,9 +14,9 @@ class FavouriteRepository @Inject constructor(
         favouriteDao.insertFavouriteCharacter(character)
     }
 
-//    fun isFavourite(characterId: Int) {
-//        return favouriteDao.isFavourite(characterId)
-//    }
+    fun isFavourite(characterId: String) : Boolean {
+        return favouriteDao.isFavourite(characterId)
+    }
 
     fun getFavourite(): Observable<List<FavouriteModel>> {
         return favouriteDao.getFavouriteCharacters().subscribeOn(Schedulers.io())

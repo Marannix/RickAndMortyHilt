@@ -31,6 +31,10 @@ class EpisodesViewModel @Inject constructor(
         favouriteRepository.storeInFavourite(character)
     }
 
+    fun isFavourite(characterId: String) : Boolean {
+        return favouriteRepository.isFavourite(characterId)
+    }
+
     fun getFavourite() {
         val disposable = favouriteRepository.getFavourite().observeOn(AndroidSchedulers.mainThread()).subscribe {
             if (it.isEmpty()) {
