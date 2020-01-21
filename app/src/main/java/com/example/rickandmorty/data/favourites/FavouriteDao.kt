@@ -9,6 +9,7 @@ interface FavouriteDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertFavouriteCharacter(characters: FavouriteModel)
 
+    // How about if i just remove the character with a specific id?
     @Delete
     fun deleteFavouriteCharacter(characters: FavouriteModel)
 

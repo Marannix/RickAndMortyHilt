@@ -96,9 +96,6 @@ class CharacterDetailsFragment : BaseFragment() {
 
     private fun addToFavourite() {
         viewModel.insertFavourite(characters)
-
-        // Just checking all the items which has been added to favourites, will be this piece of code later
-        viewModel.getFavourite()
     }
 
     private fun removeFromFavourite() {
