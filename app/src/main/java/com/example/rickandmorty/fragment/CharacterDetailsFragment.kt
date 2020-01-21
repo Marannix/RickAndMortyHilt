@@ -67,7 +67,7 @@ class CharacterDetailsFragment : BaseFragment() {
         loadCharacterSummary()
         setEpisodesAdapter()
         loadCharacterEpisodes()
-        setListeners()
+        setFavouriteButton()
     }
 
     private fun loadCharacterHeader() {
@@ -75,12 +75,12 @@ class CharacterDetailsFragment : BaseFragment() {
         loadCharacterName()
     }
 
-    private fun setListeners() {
+    private fun setFavouriteButton() {
+        setFavouriteButtonIcon()
         setFavouriteButtonListener()
     }
 
-    private fun loadCharacterImage() {
-        Picasso.get().load(characters.image).into(characterDetailImage)
+    private fun setFavouriteButtonIcon() {
         if (viewModel.isFavourite(characters.id)) {
             Log.d("favouriteh", "yes")
             favouriteButton.isChecked = true
@@ -89,6 +89,10 @@ class CharacterDetailsFragment : BaseFragment() {
             favouriteButton.isChecked = false
 
         }
+    }
+
+    private fun loadCharacterImage() {
+        Picasso.get().load(characters.image).into(characterDetailImage)
     }
 
     private fun setFavouriteButtonListener() {
