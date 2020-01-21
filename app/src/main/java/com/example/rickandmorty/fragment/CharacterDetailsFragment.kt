@@ -1,7 +1,6 @@
 package com.example.rickandmorty.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,14 +78,7 @@ class CharacterDetailsFragment : BaseFragment() {
     }
 
     private fun setFavouriteButtonIcon() {
-        if (viewModel.isFavourite(characters.id)) {
-            Log.d("favouriteh", "yes")
-            favouriteButton.isChecked = true
-        } else {
-            Log.d("favouriteh", "no")
-            favouriteButton.isChecked = false
-
-        }
+        favouriteButton.isChecked = viewModel.isFavourite(characters.id)
     }
 
     private fun loadCharacterImage() {
