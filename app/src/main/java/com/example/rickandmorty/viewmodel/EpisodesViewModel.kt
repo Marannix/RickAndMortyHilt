@@ -2,6 +2,8 @@ package com.example.rickandmorty.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.rickandmorty.data.characters.CharacterLocation
+import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.favourites.FavouriteModel
 import com.example.rickandmorty.data.network.EpisodeResponse
 import com.example.rickandmorty.repository.EpisodeRepository
@@ -27,15 +29,37 @@ class EpisodesViewModel @Inject constructor(
         return episodeRepository.fetchCharacterEpisodes(episodeUrl)
     }
 
-    fun insertFavourite(character: FavouriteModel) {
-        favouriteRepository.storeInFavourite(character)
+    fun insertFavourite(character: CharactersResults) {
+        favouriteRepository.storeInFavourite(
+            FavouriteModel(
+                character.id,
+                character.name,
+                character.status,
+                character.species,
+                character.gender,
+                character.image,
+                CharacterLocation(character.location.name),
+                character.episode
+            )
+        )
     }
 
-    fun removeFromFavourites(character: FavouriteModel) {
-        favouriteRepository.removeFromFavourites(character)
+    fun removeFromFavourites(character: CharactersResults) {
+        favouriteRepository.removeFromFavourites(
+            FavouriteModel(
+                character.id,
+                character.name,
+                character.status,
+                character.species,
+                character.gender,
+                character.image,
+                CharacterLocation(character.location.name),
+                character.episode
+            )
+        )
     }
 
-    fun isFavourite(characterId: String) : Boolean {
+    fun isFavourite(characterId: String): Boolean {
         return favouriteRepository.isFavourite(characterId)
     }
 

@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.EpisodeAdapter
-import com.example.rickandmorty.data.characters.CharacterLocation
 import com.example.rickandmorty.data.characters.CharactersResults
-import com.example.rickandmorty.data.favourites.FavouriteModel
 import com.example.rickandmorty.data.network.EpisodeResponse
 import com.example.rickandmorty.viewmodel.EpisodesViewModel
 import com.squareup.picasso.Picasso
@@ -105,36 +103,14 @@ class CharacterDetailsFragment : BaseFragment() {
     }
 
     private fun addToFavourite() {
-        viewModel.insertFavourite(
-            FavouriteModel(
-                characters.id,
-                characters.name,
-                characters.status,
-                characters.species,
-                characters.gender,
-                characters.image,
-                CharacterLocation(characters.location.name),
-                characters.episode
-            )
-        )
+        viewModel.insertFavourite(characters)
 
         // Just checking all the items which has been added to favourites, will be this piece of code later
         viewModel.getFavourite()
     }
 
     private fun removeFromFavourite() {
-        viewModel.removeFromFavourites(
-            FavouriteModel(
-                characters.id,
-                characters.name,
-                characters.status,
-                characters.species,
-                characters.gender,
-                characters.image,
-                CharacterLocation(characters.location.name),
-                characters.episode
-            )
-        )
+        viewModel.removeFromFavourites(characters)
     }
 
     private fun loadCharacterName() {
