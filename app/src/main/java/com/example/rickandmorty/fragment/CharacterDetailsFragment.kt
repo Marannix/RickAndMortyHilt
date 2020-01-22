@@ -15,9 +15,7 @@ import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.network.EpisodeResponse
 import com.example.rickandmorty.viewmodel.EpisodesViewModel
 import com.squareup.picasso.Picasso
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.character_header.*
 import kotlinx.android.synthetic.main.character_summary.*
 import kotlinx.android.synthetic.main.fragment_characters_detail.*
@@ -120,20 +118,21 @@ class CharacterDetailsFragment : BaseFragment() {
 
     private fun loadCharacterEpisodes() {
         // TODO: Put this in viewmodel ;)
-        for (i in characters.episode) {
-            val disposable = viewModel.fetchEpisodes("$i/")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        onRetrieveEpisodesSuccess(it)
-                    },
-                    {
-                        onRetrieveEpisodesError()
-                    }
-                )
-            disposables.add(disposable)
-        }
+        viewModel.stuff(characters.id, characters.episode)
+//        for (i in characters.episode) {
+//            val disposable = viewModel.fetchEpisodes("$i/")
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                    {
+//                        onRetrieveEpisodesSuccess(it)
+//                    },
+//                    {
+//                        onRetrieveEpisodesError()
+//                    }
+//                )
+//            disposables.add(disposable)
+//        }
     }
 
     private fun onRetrieveEpisodesSuccess(episode: EpisodeResponse) {
@@ -154,13 +153,13 @@ class CharacterDetailsFragment : BaseFragment() {
         episodesAdapter.setEpisodes(episodes)
         viewModel.insertEpisodes(episode)
     }
-
-    private fun onRetrieveEpisodesError() {
-        if (shouldFetchEpisodes) {
-            episodesAdapter.setEpisodes(viewModel.getEpisodes(characters.id))
-        }
-        shouldFetchEpisodes = false
-    }
+//
+//    private fun onRetrieveEpisodesError() {
+//        if (shouldFetchEpisodes) {
+//            episodesAdapter.setEpisodes(viewModel.getEpisodes(characters.id))
+//        }
+//        shouldFetchEpisodes = false
+//    }
 
     private fun updateToolbar() {
         (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.toolbar_overview_title)

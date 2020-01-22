@@ -8,8 +8,8 @@ import com.example.rickandmorty.data.favourites.FavouriteModel
 import com.example.rickandmorty.data.network.EpisodeResponse
 import com.example.rickandmorty.repository.EpisodeRepository
 import com.example.rickandmorty.repository.FavouriteRepository
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class EpisodesViewModel @Inject constructor(
@@ -17,17 +17,30 @@ class EpisodesViewModel @Inject constructor(
     private val favouriteRepository: FavouriteRepository
 ) : ViewModel() {
 
-    fun getEpisodes(characterId: String): List<EpisodeResponse> {
-        return episodeRepository.getEpisodesFromDb(characterId)
-    }
+//    fun getEpisodes(characterId: String): List<EpisodeResponse> {
+//        return episodeRepository.getEpisodesFromDb(characterId)
+//    }
+
+    private val disposablesc = CompositeDisposable()
 
     fun insertEpisodes(episodes: EpisodeResponse) {
         return episodeRepository.storeEpisodesInDb(episodes)
     }
 
-    fun fetchEpisodes(episodeUrl: String): Single<EpisodeResponse> {
-        return episodeRepository.fetchCharacterEpisodes(episodeUrl)
+    fun stuff(characterId: String, episodeUrl: List<String>){
+        val disposable =  episodeRepository.getEpisodes(characterId, episodeUrl)
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                Log.d("yes", it.toString())
+            }, {
+                Log.d("empty", it.message)
+            })
+
+        disposablesc.add(disposable)
     }
+
+//    fun fetchEpisodes(episodeUrl: String): Single<EpisodeResponse> {
+//        return episodeRepository.fetchCharacterEpisodes(episodeUrl)
+//    }
 
     fun insertFavourite(character: CharactersResults) {
         favouriteRepository.storeInFavourite(
