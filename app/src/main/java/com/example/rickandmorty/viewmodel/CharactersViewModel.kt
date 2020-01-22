@@ -26,6 +26,7 @@ class CharactersViewModel @Inject constructor(
                             CharacterViewState.ShowCharacters(characterDataState.characters)
                         }
                         is CharacterDataState.Error -> {
+                            //Probably not needed, could just show error
                             if (viewState.value is CharacterViewState.ShowCharacters) {
                                 viewState.value
                             } else {

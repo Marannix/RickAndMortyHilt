@@ -1,10 +1,12 @@
 package com.example.rickandmorty.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +18,8 @@ import com.example.rickandmorty.data.network.EpisodeResponse
 import com.example.rickandmorty.viewmodel.EpisodesViewModel
 import com.squareup.picasso.Picasso
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.exceptions.UndeliverableException
+import io.reactivex.plugins.RxJavaPlugins
 import kotlinx.android.synthetic.main.character_header.*
 import kotlinx.android.synthetic.main.character_summary.*
 import kotlinx.android.synthetic.main.fragment_characters_detail.*
@@ -34,12 +38,10 @@ class CharacterDetailsFragment : BaseFragment() {
     private val disposables = CompositeDisposable()
     private val episodesAdapter = EpisodeAdapter()
 
-    private lateinit var characters: CharactersResults
+    private lateinit var character: CharactersResults
     private val episodes = ArrayList<EpisodeResponse>()
 
     private fun selector(episode: EpisodeResponse): Int = episode.id.toInt()
-
-    private var shouldFetchEpisodes = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_characters_detail, container, false)
@@ -50,10 +52,23 @@ class CharacterDetailsFragment : BaseFragment() {
         favouriteButton.init(activity)
         arguments?.let {
             val safeArgs = CharacterDetailsFragmentArgs.fromBundle(it)
-            characters = safeArgs.character
+            character = safeArgs.character
         }
-
+        viewModel.getEpisodes(character)
+        handleUndeliverableException()
         loadUI()
+    }
+
+    private fun handleUndeliverableException() {
+        //Added due to -  2 exceptions occurred. which causes a crash
+        RxJavaPlugins.setErrorHandler { e ->
+            var error = ""
+            if (e is UndeliverableException) {
+                error = e.cause.toString()
+            }
+            Log.e("Whats going on", error)
+
+        }
     }
 
     private fun loadUI() {
@@ -76,39 +91,39 @@ class CharacterDetailsFragment : BaseFragment() {
     }
 
     private fun setFavouriteButtonIcon() {
-        favouriteButton.isChecked = viewModel.isFavourite(characters.id)
+        favouriteButton.isChecked = viewModel.isFavourite(character.id)
     }
 
     private fun loadCharacterImage() {
-        Picasso.get().load(characters.image).into(characterDetailImage)
+        Picasso.get().load(character.image).into(characterDetailImage)
     }
 
     private fun setFavouriteButtonListener() {
         favouriteButton.setOnClickListener {
             when {
-                viewModel.isFavourite(characters.id) -> removeFromFavourite()
+                viewModel.isFavourite(character.id) -> removeFromFavourite()
                 else -> addToFavourite()
             }
         }
     }
 
     private fun addToFavourite() {
-        viewModel.insertFavourite(characters)
+        viewModel.insertFavourite(character)
     }
 
     private fun removeFromFavourite() {
-        viewModel.removeFromFavourites(characters)
+        viewModel.removeFromFavourites(character)
     }
 
     private fun loadCharacterName() {
-        characterDetailName.text = characters.name
+        characterDetailName.text = character.name
     }
 
     private fun loadCharacterSummary() {
-        characterStatus.text = characters.status
-        characterSpecies.text = characters.species
-        characterGender.text = characters.gender
-        characterLocation.text = characters.location.name
+        characterStatus.text = character.status
+        characterSpecies.text = character.species
+        characterGender.text = character.gender
+        characterLocation.text = character.location.name
     }
 
     private fun setEpisodesAdapter() {
@@ -118,8 +133,27 @@ class CharacterDetailsFragment : BaseFragment() {
 
     private fun loadCharacterEpisodes() {
         // TODO: Put this in viewmodel ;)
-        viewModel.stuff(characters.id, characters.episode)
-//        for (i in characters.episode) {
+        viewModel.viewState.observe(this, Observer { viewState ->
+            when (viewState) {
+                EpisodesViewModel.ViewState.Loading -> {
+                    // Show Loading indicator
+                }
+                is EpisodesViewModel.ViewState.Content -> {
+                    Log.d(
+                        "I have content",
+                        viewState.listOfEpisodes.also { viewState.listOfEpisodes.sortedBy { selector(it) }}.toString()
+                    )
+                }
+                is EpisodesViewModel.ViewState.Error -> {
+                    Log.d(
+                        "I don't have content",
+                        viewState.message
+                    )
+                }
+            }
+        })
+//        viewModel.stuff(character.id, character.episode)
+//        for (i in character.episode) {
 //            val disposable = viewModel.fetchEpisodes("$i/")
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
@@ -137,7 +171,7 @@ class CharacterDetailsFragment : BaseFragment() {
 
     private fun onRetrieveEpisodesSuccess(episode: EpisodeResponse) {
         // This should be handled in the viewmodel
-        episode.characterId = characters.id
+        episode.characterId = character.id
         episodes.add(
             EpisodeResponse(
                 episode.episodeId,
@@ -151,12 +185,12 @@ class CharacterDetailsFragment : BaseFragment() {
             episodes.sortBy { selector(it) }
         }
         episodesAdapter.setEpisodes(episodes)
-        viewModel.insertEpisodes(episode)
+     //  viewModel.insertEpisodes(episode)
     }
 //
 //    private fun onRetrieveEpisodesError() {
 //        if (shouldFetchEpisodes) {
-//            episodesAdapter.setEpisodes(viewModel.getEpisodes(characters.id))
+//            episodesAdapter.setEpisodes(viewModel.getEpisodes(character.id))
 //        }
 //        shouldFetchEpisodes = false
 //    }
