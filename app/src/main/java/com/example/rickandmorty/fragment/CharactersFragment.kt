@@ -17,17 +17,14 @@ import com.example.rickandmorty.adapter.CharactersAdapter
 import com.example.rickandmorty.dialog.FullscreenLoadingDialog
 import com.example.rickandmorty.state.CharacterViewState
 import com.example.rickandmorty.viewmodel.CharactersViewModel
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_characters.*
 import javax.inject.Inject
 
-const val FIRST_PAGE = 1
 const val MOBILE_SIZE = 1
 const val TABLET_SIZE = 2
 
 class CharactersFragment : BaseFragment() {
 
-    private val disposables = CompositeDisposable()
     private val charactersAdapter = CharactersAdapter()
     private var isTablet: Boolean = false
 
@@ -99,10 +96,5 @@ class CharactersFragment : BaseFragment() {
 
     private fun updateToolbar() {
         (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.toolbar_title)
-    }
-
-    override fun onStop() {
-        disposables.clear()
-        super.onStop()
     }
 }
