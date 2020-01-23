@@ -74,9 +74,7 @@ class CharactersFragment : BaseFragment() {
                     Log.d("error", viewState.errorMessage)
                     Toast.makeText(requireContext(), viewState.errorMessage, Toast.LENGTH_SHORT).show()
                 }
-
             }
-
         })
     }
 
