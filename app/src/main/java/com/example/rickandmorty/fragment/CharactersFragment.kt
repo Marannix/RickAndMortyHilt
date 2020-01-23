@@ -72,6 +72,8 @@ class CharactersFragment : BaseFragment() {
                 is CharacterViewState.ShowError -> {
                     loadingDialog.hide()
                     // TODO need to add an error state (when no characters have been fetched, probably due to no network)
+                    genericError.visibility = View.VISIBLE
+                    refreshButton.visibility = View.VISIBLE
                     Log.d("error", viewState.errorMessage)
                     Toast.makeText(requireContext(), viewState.errorMessage, Toast.LENGTH_SHORT).show()
                 }
@@ -122,78 +124,6 @@ class CharactersFragment : BaseFragment() {
 //        disposables.add(disposable)
 //    }
 
-//    private fun onRetrieveCharactersSuccess(charactersResults: List<CharactersResults>) {
-////        charactersViewModel.insertCharacters(charactersResults)
-//        charactersAdapter.setData(charactersResults)
-//    }
-
-//    private fun onRetrieveCharactersError() {
-//        Snackbar.make(view!!, getString(R.string.generic_error_message), Snackbar.LENGTH_SHORT).show()
-//        refreshButton.visibility = View.VISIBLE
-//        refreshButton.setOnClickListener {
-//            setCharacterAdapter(isTablet())
-//        }
-//        nextButton.visibility = View.GONE
-//        previousButton.visibility = View.GONE
-//    }
-
-//    private fun setNextButton(characterPageInfo: CharactersPageInfo) {
-//        if (characterPageInfo.next.isEmpty()) {
-//            nextButton.visibility = View.INVISIBLE
-//            return
-//        }
-//
-//        nextButton.visibility = View.VISIBLE
-//        nextButton.setOnClickListener {
-//            loadNextCharacters(characterPageInfo.next)
-//        }
-//
-//    }
-
-//    private fun setPreviousButton(characterPageInfo: CharactersPageInfo) {
-//        if (characterPageInfo.prev.isEmpty()) {
-//            previousButton.visibility = View.INVISIBLE
-//            return
-//        }
-//
-//        previousButton.visibility = View.VISIBLE
-//        previousButton.setOnClickListener {
-//            loadPreviousCharacters(characterPageInfo.prev)
-//        }
-//
-//    }
-
-//    private fun loadNextCharacters(next: String) {
-//        val disposable = charactersViewModel.getNextCharacters(next)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                {
-//                    onRetrieveCharactersSuccess(it.charactersResults)
-////                    setNextButton(it.characterPageInfo)
-////                    setPreviousButton(it.characterPageInfo)
-//                },
-//                { onRetrieveCharactersError() }
-//            )
-//
-//        disposables.add(disposable)
-//    }
-
-//    private fun loadPreviousCharacters(previous: String) {
-//        val disposable = charactersViewModel.getPreviousCharacters(previous)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                {
-//                    onRetrieveCharactersSuccess(it.charactersResults)
-////                    setNextButton(it.characterPageInfo)
-////                    setPreviousButton(it.characterPageInfo)
-//                },
-//                { onRetrieveCharactersError() }
-//            )
-//
-//        disposables.add(disposable)
-//    }
 
     private fun isTablet(): Int {
         isTablet = resources.getBoolean(R.bool.isTablet)
