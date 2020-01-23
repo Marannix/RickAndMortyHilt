@@ -54,7 +54,7 @@ class CharactersFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         updateToolbar()
-        setCharacterAdapter(isTablet())
+        setCharacterAdapter()
         charactersViewModel.getCharacters()
         subscribeToCharacterViewState()
     }
@@ -83,47 +83,10 @@ class CharactersFragment : BaseFragment() {
         })
     }
 
-    private fun setCharacterAdapter(isTablet: Int) {
-        charactersRecyclerView.layoutManager = GridLayoutManager(context, isTablet)
+    private fun setCharacterAdapter() {
+        charactersRecyclerView.layoutManager = GridLayoutManager(context, isTablet())
         charactersRecyclerView.adapter = charactersAdapter
     }
-
-    // TODO: Look at the methods and remove (Methods below are used for tablet support and error handling)
-    // Refactoring is required
-
-//    private fun setCharacterAdapter2(isTablet : Int) {
-//        charactersRecyclerView.layoutManager = GridLayoutManager(context, isTablet)
-//        charactersRecyclerView.adapter = charactersAdapter
-
-//        val disposable = charactersViewModel.fetchCharacters(FIRST_PAGE)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                {
-//                    genericError.visibility = View.GONE
-//                    refreshButton.visibility = View.GONE
-//                    characters = it.charactersResults
-//                    charactersPageInfo = it.characterPageInfo
-//                    onRetrieveCharactersSuccess(it.charactersResults)
-//                    setNextButton(it.characterPageInfo)
-//                    setPreviousButton(it.characterPageInfo)
-//                },
-//                {
-//                    Toast.makeText(requireContext(), "TODO!!!", Toast.LENGTH_SHORT).show()
-////                    onRetrieveCharactersError()
-////                    charactersAdapter.setData(charactersViewModel.getCharacters())
-////                    // TODO: Fix Error when no characters in dp / Api
-////                    if (charactersViewModel.getCharacters().isEmpty()) {
-////                        genericError.visibility = View.VISIBLE
-////                    } else {
-////                        genericError.visibility = View.GONE
-////                    }
-//                }
-//            )
-
-//        disposables.add(disposable)
-//    }
-
 
     private fun isTablet(): Int {
         isTablet = resources.getBoolean(R.bool.isTablet)
