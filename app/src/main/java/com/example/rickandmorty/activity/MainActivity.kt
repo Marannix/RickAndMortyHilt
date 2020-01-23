@@ -2,6 +2,7 @@ package com.example.rickandmorty.activity
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.navigation.Navigation
 import com.example.rickandmorty.R
 import com.luseen.spacenavigation.SpaceItem
 import com.luseen.spacenavigation.SpaceNavigationView
@@ -47,10 +48,12 @@ class MainActivity : BaseActivity() {
             override fun onItemClick(itemIndex: Int, itemName: String?) {
                 when (itemIndex) {
                     0 -> {
+                        onCharactersListSelected()
                         Toast.makeText(applicationContext, "$itemIndex - $itemName Not implemented", Toast.LENGTH_SHORT)
                             .show()
                     }
                     1 -> {
+                        onEpisodeFragmentSelected()
                         Toast.makeText(applicationContext, "$itemIndex - $itemName Not implemented", Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -63,8 +66,25 @@ class MainActivity : BaseActivity() {
         })
     }
 
+
+    fun onCharactersListSelected() {
+        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        navController.navigate(R.id.destination_characters)
+    }
+
+    fun onEpisodeFragmentSelected() {
+        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+       // val nextFragment = CharactersFragmentDirections.actionDestinationCharactersToEpisodesFragment()
+        navController.navigate(R.id.action_destination_characters_to_episodesFragment)
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         bottomNavigationView.onSaveInstanceState(outState)
+    }
+
+    override fun onBackPressed() {
+        // Would love to handle navigation flow
+        super.onBackPressed()
     }
 }
