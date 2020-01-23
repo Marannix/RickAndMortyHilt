@@ -19,4 +19,11 @@
         <item name="android:textSize">@dimen/detail_text_text_size</item>
         <item name="android:textColor">@color/deep_blue</item>
     </style>
+
+    <style name="FullscreenLoading" parent="AppTheme">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>

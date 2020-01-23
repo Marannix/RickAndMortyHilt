@@ -1,5 +1,6 @@
 package com.example.rickandmorty.fragment
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.CharactersAdapter
+import com.example.rickandmorty.dialog.FullscreenLoadingDialog
 import com.example.rickandmorty.state.CharacterViewState
 import com.example.rickandmorty.viewmodel.CharactersViewModel
 import io.reactivex.disposables.CompositeDisposable
@@ -31,6 +33,7 @@ class CharactersFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var loadingDialog: Dialog
 
     private val charactersViewModel: CharactersViewModel by lazy {
         ViewModelProviders.of(this, viewModelFactory)
@@ -39,6 +42,13 @@ class CharactersFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_characters, container, false)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        loadingDialog = FullscreenLoadingDialog(requireContext()).apply {
+            setCanceledOnTouchOutside(false)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,19 +62,20 @@ class CharactersFragment : BaseFragment() {
     private fun subscribeToCharacterViewState() {
         charactersViewModel.viewState.observe(this, Observer { viewState ->
             when (viewState) {
+                is CharacterViewState.Loading -> {
+                    loadingDialog.show()
+                }
                 is CharacterViewState.ShowCharacters -> {
-                    Toast.makeText(requireContext(), "Show Characters", Toast.LENGTH_SHORT).show()
+                    loadingDialog.hide()
                     charactersAdapter.setData(viewState.characters)
                 }
                 is CharacterViewState.ShowError -> {
+                    loadingDialog.hide()
                     // TODO need to add an error state (when no characters have been fetched, probably due to no network)
                     Log.d("error", viewState.errorMessage)
                     Toast.makeText(requireContext(), viewState.errorMessage, Toast.LENGTH_SHORT).show()
                 }
-                is CharacterViewState.Loading -> {
-                    // TODO: Add loading indicator
-                    Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
-                }
+
             }
 
         })
