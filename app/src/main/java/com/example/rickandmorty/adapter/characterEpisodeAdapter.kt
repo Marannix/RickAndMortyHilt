@@ -33,7 +33,7 @@ class CharacterEpisodeAdapter : RecyclerView.Adapter<CharacterEpisodeAdapter.Vie
     }
 
     fun setEpisodes(characterEpisodeResponse: List<CharacterEpisodeResponse>) {
-        characterEpisodes = characterEpisodeResponse
+        characterEpisodes = characterEpisodeResponse.sortedBy { it.id.toInt() }
         this.notifyDataSetChanged()
     }
 

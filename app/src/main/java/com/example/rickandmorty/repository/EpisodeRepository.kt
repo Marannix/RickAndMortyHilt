@@ -66,9 +66,8 @@ class EpisodeRepository @Inject constructor(
                     .subscribeOn(Schedulers.io())
             }.doOnNext {
                 val episode = CharacterEpisodeResponse(
-                    it.episodeId,
-                    character.id,
                     it.id,
+                    character.id,
                     it.name,
                     it.airdate,
                     it.episode

@@ -18,6 +18,27 @@ class CharactersRepository @Inject constructor(
         return getCharactersFromDb()
     }
 
+    private fun getCharactersFromApi(): Observable<CharactersResults> {
+        return fetchInitialCharacters()
+            .concatMap { listOfCharacters -> Observable.fromIterable(listOfCharacters) }
+    }
+
+    private fun fetchInitialCharacters() : Observable<List<CharactersResults>> {
+        return charactersApi.getCharacters()
+            .subscribeOn(Schedulers.io())
+            .concatMap {  response ->
+                if (response.characterPageInfo.next.isEmpty()) {
+                    Observable.just(response.charactersResults)
+                } else {
+                    Observable.just(response.charactersResults)
+                        .concatWith(fetchNextCharacters(response.characterPageInfo.next))
+                }
+            }
+            .doOnNext {
+                storeCharactersInDb(it)
+            }
+    }
+
     private fun fetchNextCharacters(nextUrl: String): Observable<List<CharactersResults>> {
         return charactersApi.getNextCharacters(nextUrl)
             .subscribeOn(Schedulers.io())
@@ -32,11 +53,6 @@ class CharactersRepository @Inject constructor(
             .doOnNext {
                 storeCharactersInDb(it)
             }
-    }
-
-    private fun getCharactersFromApi(): Observable<CharactersResults> {
-        return fetchNextCharacters("https://rickandmortyapi.com/api/character/?page=1")
-            .concatMap { listOfCharacters -> Observable.fromIterable(listOfCharacters) }
     }
 
     private fun storeCharactersInDb(characters: List<CharactersResults>) {

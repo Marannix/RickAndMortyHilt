@@ -110,7 +110,6 @@ class CharacterDetailsFragment : BaseFragment() {
     }
 
     private fun loadCharacterEpisodes() {
-        // TODO: Put this in viewmodel ;)
         viewModel.viewState.observe(this, Observer { viewState ->
             when (viewState) {
                 EpisodesViewModel.ViewState.Loading -> {

@@ -9,7 +9,7 @@ import retrofit2.http.Url
 interface CharactersApi {
 
     @GET("character/?page=1")
-    fun getCharacters(): Single<CharactersResponse>
+    fun getCharacters(): Observable<CharactersResponse>
 
     @GET
     fun getNextCharacters(@Url nextCharactersUrl: String): Observable<CharactersResponse>
