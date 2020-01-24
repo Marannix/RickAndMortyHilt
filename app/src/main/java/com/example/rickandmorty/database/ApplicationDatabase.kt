@@ -4,15 +4,16 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.rickandmorty.data.Converters
+import com.example.rickandmorty.data.characters.CharacterEpisodeResponse
 import com.example.rickandmorty.data.characters.CharactersDao
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.episodes.EpisodesDao
+import com.example.rickandmorty.data.episodes.EpisodesResult
 import com.example.rickandmorty.data.favourites.FavouriteDao
 import com.example.rickandmorty.data.favourites.FavouriteModel
-import com.example.rickandmorty.data.characters.CharacterEpisodeResponse
 
 @Database(
-    entities = [CharactersResults::class, CharacterEpisodeResponse::class, FavouriteModel::class],
+    entities = [CharactersResults::class, CharacterEpisodeResponse::class, EpisodesResult::class, FavouriteModel::class],
     version = 5
 )
 @TypeConverters(Converters::class)

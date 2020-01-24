@@ -11,17 +11,17 @@ import io.reactivex.Single
 interface EpisodesDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertEpisodes(episodes: CharacterEpisodeResponse)
+    fun insertCharacterEpisodes(episodes: CharacterEpisodeResponse)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAllEpisodes(episodes: CharacterEpisodeResponse)
+    fun insertAllEpisodes(episodes: List<EpisodesResult>)
 
-    @Query("select * from episodes where characterId = :character_id order by id")
+    @Query("select * from characterEpisodes where characterId = :character_id order by id")
     fun getEpisodes(character_id: String): Single<List<CharacterEpisodeResponse>>
 
-    @Query("select * from episodes")
-    fun getAllEpisodes(): Single<List<CharacterEpisodeResponse>>
+    @Query("select * from episode")
+    fun getAllEpisodes(): Single<List<EpisodesResult>>
 
-    @Query("delete from episodes")
-    fun flushEpisodeData()
+    @Query("delete from characterEpisodes")
+    fun flushCharactersEpisodeData()
 }

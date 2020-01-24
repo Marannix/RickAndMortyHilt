@@ -2,60 +2,37 @@ package com.example.rickandmorty.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.rickandmorty.data.characters.CharacterEpisodeResponse
 import com.example.rickandmorty.data.characters.CharacterLocation
 import com.example.rickandmorty.data.characters.CharactersResults
+import com.example.rickandmorty.data.episodes.EpisodesResult
 import com.example.rickandmorty.data.favourites.FavouriteModel
-import com.example.rickandmorty.data.characters.CharacterEpisodeResponse
-import com.example.rickandmorty.repository.EpisodeRepository
 import com.example.rickandmorty.repository.FavouriteRepository
 import com.example.rickandmorty.usecase.EpisodeUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
+//todo rename to character detail
 class EpisodesViewModel @Inject constructor(
     private val episodeUseCase: EpisodeUseCase,
-    private val episodeRepository: EpisodeRepository,
     private val favouriteRepository: FavouriteRepository
 ) : ViewModel() {
 
-//    fun getEpisodes(characterId: String): List<CharacterEpisodeResponse> {
-//        return episodeRepository.getEpisodesFromDb(characterId)
-//    }
-
     private val disposables = CompositeDisposable()
     val viewState = MutableLiveData<ViewState>()
-
-//    fun insertEpisodes(episodes: CharacterEpisodeResponse) {
-//        return episodeRepository.storeEpisodesInDb(episodes)
-//    }
-
-//    fun stuff(characterId: String, episodeUrl: List<String>) {
-//        val disposable = episodeRepository.getEpisodes(characterId, episodeUrl)
-//            .observeOn(AndroidSchedulers.mainThread()).subscribe({
-//                Log.d("yes", it.toString())
-//            }, {
-//                Log.d("empty", it.message)
-//            })
-//
-//        disposables.add(disposable)
-//    }
-
-//    fun start(character: CharactersResults) {
-//        //store selected character in shared preference?
-//        disposables.add(getEpisodes(character))
-//    }
+    val episodeViewState = MutableLiveData<EpisodeViewState>()
 
      fun getEpisodes(character: CharactersResults) {
         val disposable = episodeUseCase.getEpisodesDataState(character)
             .observeOn(AndroidSchedulers.mainThread())
             .map { episodeDataState ->
                 return@map when (episodeDataState) {
-                    is EpisodeUseCase.EpisodeDataState.Success -> {
+                    is EpisodeUseCase.CharacterEpisodesDataState.Success -> {
                         ViewState.Content(episodeDataState.listOfCharacterEpisodes)
                     }
 
-                    is EpisodeUseCase.EpisodeDataState.Error -> {
+                    is EpisodeUseCase.CharacterEpisodesDataState.Error -> {
                         ViewState.Error(episodeDataState.message)
                     }
                 }
@@ -66,14 +43,26 @@ class EpisodesViewModel @Inject constructor(
             }
         disposables.add(disposable)
     }
-//
-//    fun getAllEpisodes() {
-//        val disposable = episodeUseCase.getAllEpisodesDataState
-//    }
 
-//    fun fetchEpisodes(episodeUrl: String): Single<CharacterEpisodeResponse> {
-//        return episodeRepository.fetchCharacterEpisodes(episodeUrl)
-//    }
+    fun getAllEpisodes() {
+        val disposable = episodeUseCase.getAllEpisodeDataState()
+            .observeOn(AndroidSchedulers.mainThread())
+            .map { dataState ->
+                return@map when (dataState) {
+                    is EpisodeUseCase.EpisodesDataState.Success -> {
+                        EpisodeViewState.Content(dataState.listOfEpisodes)
+                    }
+                    is EpisodeUseCase.EpisodesDataState.Error -> {
+                        EpisodeViewState.Error(dataState.message)
+                    }
+                }
+            }
+            .doOnSubscribe { episodeViewState.value = EpisodeViewState.Loading }
+            .subscribe { episodeViewState ->
+                this.episodeViewState.value = episodeViewState
+            }
+        disposables.add(disposable)
+    }
 
     fun insertFavourite(character: CharactersResults) {
         favouriteRepository.storeInFavourite(
@@ -123,6 +112,12 @@ class EpisodesViewModel @Inject constructor(
         object Loading : ViewState()
         data class Content(val listOfCharacterEpisodes: List<CharacterEpisodeResponse>) : ViewState()
         data class Error(val message: String?) : ViewState()
+    }
+
+    sealed class EpisodeViewState {
+        object Loading : EpisodeViewState()
+        data class Content(val listOfEpisodes: List<EpisodesResult>) : EpisodeViewState()
+        data class Error(val message: String?) : EpisodeViewState()
     }
 
     override fun onCleared() {
