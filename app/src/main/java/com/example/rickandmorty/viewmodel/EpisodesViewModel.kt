@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.rickandmorty.data.characters.CharacterLocation
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.favourites.FavouriteModel
-import com.example.rickandmorty.data.network.CharacterEpisodeResponse
+import com.example.rickandmorty.data.characters.CharacterEpisodeResponse
 import com.example.rickandmorty.repository.EpisodeRepository
 import com.example.rickandmorty.repository.FavouriteRepository
 import com.example.rickandmorty.usecase.EpisodeUseCase

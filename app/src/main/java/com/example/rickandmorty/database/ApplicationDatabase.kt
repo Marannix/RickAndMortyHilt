@@ -9,7 +9,7 @@ import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.episodes.EpisodesDao
 import com.example.rickandmorty.data.favourites.FavouriteDao
 import com.example.rickandmorty.data.favourites.FavouriteModel
-import com.example.rickandmorty.data.network.CharacterEpisodeResponse
+import com.example.rickandmorty.data.characters.CharacterEpisodeResponse
 
 @Database(
     entities = [CharactersResults::class, CharacterEpisodeResponse::class, FavouriteModel::class],

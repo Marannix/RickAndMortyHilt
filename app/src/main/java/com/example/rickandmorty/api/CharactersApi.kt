@@ -1,6 +1,6 @@
 package com.example.rickandmorty.api
 
-import com.example.rickandmorty.data.network.CharactersResponse
+import com.example.rickandmorty.data.characters.CharactersResponse
 import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.GET

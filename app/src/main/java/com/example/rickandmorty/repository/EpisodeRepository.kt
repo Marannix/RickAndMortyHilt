@@ -3,7 +3,7 @@ package com.example.rickandmorty.repository
 import com.example.rickandmorty.api.EpisodeApi
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.episodes.EpisodesDao
-import com.example.rickandmorty.data.network.CharacterEpisodeResponse
+import com.example.rickandmorty.data.characters.CharacterEpisodeResponse
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class EpisodeRepository @Inject constructor(
                 episodeApi.getCharacterEpisodes(character.episode[episodeNumber])
                     .subscribeOn(Schedulers.io())
             }.doOnNext {
-                val episode =  CharacterEpisodeResponse(
+                val episode = CharacterEpisodeResponse(
                     it.episodeId,
                     character.id,
                     it.id,

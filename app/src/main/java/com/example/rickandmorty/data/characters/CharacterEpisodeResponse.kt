@@ -1,4 +1,4 @@
-package com.example.rickandmorty.data.network
+package com.example.rickandmorty.data.characters
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

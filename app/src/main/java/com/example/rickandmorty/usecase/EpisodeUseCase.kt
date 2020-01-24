@@ -1,7 +1,7 @@
 package com.example.rickandmorty.usecase
 
 import com.example.rickandmorty.data.characters.CharactersResults
-import com.example.rickandmorty.data.network.CharacterEpisodeResponse
+import com.example.rickandmorty.data.characters.CharacterEpisodeResponse
 import com.example.rickandmorty.repository.EpisodeRepository
 import io.reactivex.Observable
 import javax.inject.Inject
