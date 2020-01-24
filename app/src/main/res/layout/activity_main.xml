@@ -32,23 +32,4 @@
             app:layout_constraintEnd_toEndOf="parent"
     />
 
-    <com.luseen.spacenavigation.SpaceNavigationView
-            android:id="@+id/bottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:active_item_color="@color/off_white"
-            app:inactive_item_color="@color/eunry"
-            app:centre_button_color="@color/colorPrimary"
-            app:active_centre_button_icon_color="@color/white"
-            app:space_background_color="@color/colorPrimary"
-            app:active_centre_button_background_color="@color/centre_button_color"
-            app:inactive_centre_button_icon_color="@color/eunry"
-            app:centre_button_icon="@drawable/ic_monster"
-            app:space_item_icon_size="@dimen/space_item_icon_only_size"
-            app:space_item_icon_only_size="@dimen/space_item_icon_only_size"
-            app:space_item_text_size="@dimen/space_item_icon_default_size"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
