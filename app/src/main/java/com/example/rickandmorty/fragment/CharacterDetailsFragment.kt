@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
-import com.example.rickandmorty.adapter.EpisodeAdapter
+import com.example.rickandmorty.adapter.characterEpisodeAdapter
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.viewmodel.EpisodesViewModel
 import com.squareup.picasso.Picasso
@@ -31,7 +31,7 @@ class CharacterDetailsFragment : BaseFragment() {
             .get(EpisodesViewModel::class.java)
     }
 
-    private val episodesAdapter = EpisodeAdapter()
+    private val characterEpisodesAdapter = characterEpisodeAdapter()
     private lateinit var character: CharactersResults
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -106,7 +106,7 @@ class CharacterDetailsFragment : BaseFragment() {
 
     private fun setEpisodesAdapter() {
         episodesRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        episodesRecyclerView.adapter = episodesAdapter
+        episodesRecyclerView.adapter = characterEpisodesAdapter
     }
 
     private fun loadCharacterEpisodes() {
@@ -117,7 +117,7 @@ class CharacterDetailsFragment : BaseFragment() {
                     // Show Loading indicator
                 }
                 is EpisodesViewModel.ViewState.Content -> {
-                    episodesAdapter.setEpisodes(viewState.listOfEpisodes)
+                    characterEpisodesAdapter.setEpisodes(viewState.listOfEpisodes)
                 }
                 is EpisodesViewModel.ViewState.Error -> {
                     Log.d(

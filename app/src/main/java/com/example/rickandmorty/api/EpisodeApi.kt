@@ -9,4 +9,7 @@ interface EpisodeApi {
 
     @GET
     fun getCharacterEpisodes(@Url episodeUrl: String): Observable<EpisodeResponse>
+
+    @GET
+    fun getAllEpisodes(@Url nextEpisodeUrl: String): Observable<EpisodeResponse>
 }

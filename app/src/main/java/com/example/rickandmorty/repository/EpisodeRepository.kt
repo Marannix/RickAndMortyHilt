@@ -17,15 +17,11 @@ class EpisodeRepository @Inject constructor(
         return getEpisodesFromDb(character)
     }
 
-//    fun fetchCharacterEpisodes(episodeUrl: String): Single<EpisodeResponse> {
-//        return episodeApi.getCharacterEpisodes(episodeUrl)
-//    }
-
-    fun storeEpisodesInDb(episodes: EpisodeResponse) {
-        episodesDao.insertEpisodes(episodes)
+    fun getAllEpisodes(): Observable<List<EpisodeResponse>> {
+        return getAllEpisodesFromDb()
     }
 
-    private fun fetchAllEpisodes(character: CharactersResults): Observable<EpisodeResponse> {
+    private fun fetchAllCharacterEpisodes(character: CharactersResults): Observable<EpisodeResponse> {
         return Observable.range(0, character.episode.size)
             .flatMap { episodeNumber ->
                 episodeApi.getCharacterEpisodes(character.episode[episodeNumber])
@@ -43,7 +39,18 @@ class EpisodeRepository @Inject constructor(
             }
     }
 
+    private fun fetchAllEpisodes(nextUrl: String): Observable<EpisodeResponse> {
+        return episodeApi.getAllEpisodes(nextUrl)
+            .concatMap {
+                if (it.)
+            }
+    }
+
     private fun getEpisodesFromApi(character: CharactersResults): Observable<EpisodeResponse> {
+        return fetchAllCharacterEpisodes(character)
+    }
+
+    private fun getAllEpisodesFromApi(character: CharactersResults): Observable<EpisodeResponse> {
         return fetchAllEpisodes(character)
     }
 
@@ -59,8 +66,14 @@ class EpisodeRepository @Inject constructor(
             }
     }
 
-//    fun getEpisodesFromDb(characterId: String): List<EpisodeResponse> {
-//        return episodesDao.getEpisodes(characterId)
-//    }
+    private fun getAllEpisodesFromDb() : Observable<List<EpisodeResponse>> {
+        return episodesDao.getAllEpisodes()
+            .toObservable()
+            .flatMap { listOfAllEpisodes ->
+                if(listOfAllEpisodes.isEmpty()) {
+                    getAl
+                }
+            }
+    }
 
 }

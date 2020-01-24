@@ -13,11 +13,14 @@ interface EpisodesDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertEpisodes(episodes: EpisodeResponse)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertAllEpisodes(episodes: EpisodeResponse)
+
     @Query("select * from episodes where characterId = :character_id order by id")
     fun getEpisodes(character_id: String): Single<List<EpisodeResponse>>
 
     @Query("select * from episodes")
-    fun getAllEpisodes(): List<EpisodeResponse>
+    fun getAllEpisodes(): Single<List<EpisodeResponse>>
 
     @Query("delete from episodes")
     fun flushEpisodeData()

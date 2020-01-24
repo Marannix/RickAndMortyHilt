@@ -67,6 +67,10 @@ class EpisodesViewModel @Inject constructor(
         disposables.add(disposable)
     }
 
+    fun getAllEpisodes() {
+        val disposable = episodeUseCase.getAllEpisodesDataState
+    }
+
 //    fun fetchEpisodes(episodeUrl: String): Single<EpisodeResponse> {
 //        return episodeRepository.fetchCharacterEpisodes(episodeUrl)
 //    }

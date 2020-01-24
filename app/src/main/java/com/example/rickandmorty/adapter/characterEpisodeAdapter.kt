@@ -8,7 +8,7 @@ import com.example.rickandmorty.R
 import com.example.rickandmorty.data.network.EpisodeResponse
 import kotlinx.android.synthetic.main.character_episode_item.view.*
 
-class EpisodeAdapter : RecyclerView.Adapter<EpisodeAdapter.ViewHolder>() {
+class characterEpisodeAdapter : RecyclerView.Adapter<characterEpisodeAdapter.ViewHolder>() {
 
     private var episodes: List<EpisodeResponse> = emptyList()
 
