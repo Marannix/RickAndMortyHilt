@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.rickandmorty.data.characters.CharacterLocation
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.favourites.FavouriteModel
-import com.example.rickandmorty.data.network.EpisodeResponse
+import com.example.rickandmorty.data.network.CharacterEpisodeResponse
 import com.example.rickandmorty.repository.EpisodeRepository
 import com.example.rickandmorty.repository.FavouriteRepository
 import com.example.rickandmorty.usecase.EpisodeUseCase
@@ -19,14 +19,14 @@ class EpisodesViewModel @Inject constructor(
     private val favouriteRepository: FavouriteRepository
 ) : ViewModel() {
 
-//    fun getEpisodes(characterId: String): List<EpisodeResponse> {
+//    fun getEpisodes(characterId: String): List<CharacterEpisodeResponse> {
 //        return episodeRepository.getEpisodesFromDb(characterId)
 //    }
 
     private val disposables = CompositeDisposable()
     val viewState = MutableLiveData<ViewState>()
 
-//    fun insertEpisodes(episodes: EpisodeResponse) {
+//    fun insertEpisodes(episodes: CharacterEpisodeResponse) {
 //        return episodeRepository.storeEpisodesInDb(episodes)
 //    }
 
@@ -52,7 +52,7 @@ class EpisodesViewModel @Inject constructor(
             .map { episodeDataState ->
                 return@map when (episodeDataState) {
                     is EpisodeUseCase.EpisodeDataState.Success -> {
-                        ViewState.Content(episodeDataState.listOfEpisodes)
+                        ViewState.Content(episodeDataState.listOfCharacterEpisodes)
                     }
 
                     is EpisodeUseCase.EpisodeDataState.Error -> {
@@ -66,12 +66,12 @@ class EpisodesViewModel @Inject constructor(
             }
         disposables.add(disposable)
     }
+//
+//    fun getAllEpisodes() {
+//        val disposable = episodeUseCase.getAllEpisodesDataState
+//    }
 
-    fun getAllEpisodes() {
-        val disposable = episodeUseCase.getAllEpisodesDataState
-    }
-
-//    fun fetchEpisodes(episodeUrl: String): Single<EpisodeResponse> {
+//    fun fetchEpisodes(episodeUrl: String): Single<CharacterEpisodeResponse> {
 //        return episodeRepository.fetchCharacterEpisodes(episodeUrl)
 //    }
 
@@ -121,7 +121,7 @@ class EpisodesViewModel @Inject constructor(
 
     sealed class ViewState {
         object Loading : ViewState()
-        data class Content(val listOfEpisodes: List<EpisodeResponse>) : ViewState()
+        data class Content(val listOfCharacterEpisodes: List<CharacterEpisodeResponse>) : ViewState()
         data class Error(val message: String?) : ViewState()
     }
 

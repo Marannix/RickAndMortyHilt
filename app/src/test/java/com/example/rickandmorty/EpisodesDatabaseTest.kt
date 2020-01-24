@@ -8,10 +8,10 @@ class EpisodesDatabaseTest {
 
 
     // TODO: Improve test after creating usecase and repository
-//    private var firstCharacterEpisode: EpisodeResponse = EpisodeResponse(
+//    private var firstCharacterEpisode: CharacterEpisodeResponse = CharacterEpisodeResponse(
 //        1, "1", "1", "Pilot", "December 2, 2013", "S01E01"
 //    )
-//    private var secondCharacterEpisode: EpisodeResponse = EpisodeResponse(
+//    private var secondCharacterEpisode: CharacterEpisodeResponse = CharacterEpisodeResponse(
 //        2, "2", "2", "Lawnmower Dog", "December 9, 2013", "S01E02"
 //    )
 //

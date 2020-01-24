@@ -4,23 +4,23 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.rickandmorty.data.network.EpisodeResponse
+import com.example.rickandmorty.data.network.CharacterEpisodeResponse
 import io.reactivex.Single
 
 @Dao
 interface EpisodesDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertEpisodes(episodes: EpisodeResponse)
+    fun insertEpisodes(episodes: CharacterEpisodeResponse)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAllEpisodes(episodes: EpisodeResponse)
+    fun insertAllEpisodes(episodes: CharacterEpisodeResponse)
 
     @Query("select * from episodes where characterId = :character_id order by id")
-    fun getEpisodes(character_id: String): Single<List<EpisodeResponse>>
+    fun getEpisodes(character_id: String): Single<List<CharacterEpisodeResponse>>
 
     @Query("select * from episodes")
-    fun getAllEpisodes(): Single<List<EpisodeResponse>>
+    fun getAllEpisodes(): Single<List<CharacterEpisodeResponse>>
 
     @Query("delete from episodes")
     fun flushEpisodeData()

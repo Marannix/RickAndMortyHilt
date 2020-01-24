@@ -9,10 +9,10 @@ import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.episodes.EpisodesDao
 import com.example.rickandmorty.data.favourites.FavouriteDao
 import com.example.rickandmorty.data.favourites.FavouriteModel
-import com.example.rickandmorty.data.network.EpisodeResponse
+import com.example.rickandmorty.data.network.CharacterEpisodeResponse
 
 @Database(
-    entities = [CharactersResults::class, EpisodeResponse::class, FavouriteModel::class],
+    entities = [CharactersResults::class, CharacterEpisodeResponse::class, FavouriteModel::class],
     version = 5
 )
 @TypeConverters(Converters::class)

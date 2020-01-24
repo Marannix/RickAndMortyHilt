@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "episodes")
-data class EpisodeResponse(
+data class CharacterEpisodeResponse(
     @PrimaryKey(autoGenerate = true)
     val episodeId: Int,
     var characterId: String,

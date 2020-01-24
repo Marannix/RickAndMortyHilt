@@ -1,7 +1,7 @@
 package com.example.rickandmorty.usecase
 
 import com.example.rickandmorty.data.characters.CharactersResults
-import com.example.rickandmorty.data.network.EpisodeResponse
+import com.example.rickandmorty.data.network.CharacterEpisodeResponse
 import com.example.rickandmorty.repository.EpisodeRepository
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -19,7 +19,7 @@ class EpisodeUseCase @Inject constructor(
     }
 
     sealed class EpisodeDataState {
-        data class Success(val listOfEpisodes: List<EpisodeResponse>) : EpisodeDataState()
+        data class Success(val listOfCharacterEpisodes: List<CharacterEpisodeResponse>) : EpisodeDataState()
         data class Error(val message: String?) : EpisodeDataState()
     }
 }
