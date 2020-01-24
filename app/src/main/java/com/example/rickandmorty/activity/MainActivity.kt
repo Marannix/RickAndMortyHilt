@@ -30,8 +30,9 @@ class MainActivity : BaseActivity() {
 
     private fun addItemToBottomNavigationView(savedInstanceState: Bundle?) {
         navigationView.initWithSaveInstanceState(savedInstanceState)
-        navigationView.addSpaceItem(SpaceItem("", R.drawable.ic_video_camera))
-        navigationView.addSpaceItem(SpaceItem("", R.drawable.ic_video_camera))
+        navigationView.addSpaceItem(SpaceItem("", R.drawable.ic_character_girl))
+        navigationView.addSpaceItem(SpaceItem("", R.drawable.ic_episode_list))
+        navigationView.addSpaceItem(SpaceItem("", R.drawable.ic_characters_icon))
     }
 
     private fun setNavigationViewClickListener() {
@@ -48,11 +49,13 @@ class MainActivity : BaseActivity() {
             override fun onItemClick(itemIndex: Int, itemName: String?) {
                 when (itemIndex) {
                     0 -> {
+                        currentSelectedItem = 0
                         onCharactersListSelected()
                         Toast.makeText(applicationContext, "$itemIndex - $itemName Not implemented", Toast.LENGTH_SHORT)
                             .show()
                     }
                     1 -> {
+                        currentSelectedItem = 1
                         onEpisodeFragmentSelected()
                         Toast.makeText(applicationContext, "$itemIndex - $itemName Not implemented", Toast.LENGTH_SHORT)
                             .show()
@@ -74,7 +77,7 @@ class MainActivity : BaseActivity() {
 
     fun onEpisodeFragmentSelected() {
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-       // val nextFragment = CharactersFragmentDirections.actionDestinationCharactersToEpisodesFragment()
+        // val nextFragment = CharactersFragmentDirections.actionDestinationCharactersToEpisodesFragment()
         navController.navigate(R.id.action_destination_characters_to_episodesFragment)
     }
 
@@ -82,9 +85,5 @@ class MainActivity : BaseActivity() {
         super.onSaveInstanceState(outState)
         bottomNavigationView.onSaveInstanceState(outState)
     }
-
-    override fun onBackPressed() {
-        // Would love to handle navigation flow
-        super.onBackPressed()
-    }
+    
 }
