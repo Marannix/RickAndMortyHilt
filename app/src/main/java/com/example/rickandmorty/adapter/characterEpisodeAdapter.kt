@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.characters.CharacterEpisodeResponse
-import kotlinx.android.synthetic.main.character_episode_item.view.*
+import kotlinx.android.synthetic.main.item_character_episode.view.*
 
 class CharacterEpisodeAdapter : RecyclerView.Adapter<CharacterEpisodeAdapter.ViewHolder>() {
 
@@ -15,7 +15,7 @@ class CharacterEpisodeAdapter : RecyclerView.Adapter<CharacterEpisodeAdapter.Vie
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.character_episode_item,
+                R.layout.item_character_episode,
                 parent,
                 false
             )
