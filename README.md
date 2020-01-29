@@ -1,6 +1,17 @@
 # RickAndMorty
  
-### In the process of converting this project to use Dagger injection (The horror) 
+  ```
+Android Architecture Components and libraries used
+- MVVM
+- Dagger
+- Retrofit
+- Room
+- RxJava 
+- Lottie
+- Material
+```
+
+### Was in the process of converting this project to use Dagger injection (The horror) 
 
 | Somebody | Save Me! |
 |---|---|
@@ -10,6 +21,6 @@
 
 Display rick and morty characters in a list and when selected displays the episodes they appeared in. Pretty neat right? RIGHT?
 
-| Rick And Morty Characters | Characters Overview |
+| Characters | Favourites |
 |---|---|
-|![WhatsApp Image 2019-10-29 at 22 28 59](https://user-images.githubusercontent.com/15348446/67814465-065b4e00-fa9c-11e9-9eb8-eb6ba99d32b3.jpeg)|![WhatsApp Image 2019-10-29 at 22 28 31](https://user-images.githubusercontent.com/15348446/67814468-08251180-fa9c-11e9-9d1d-aa5a9f757cfb.jpeg)|
+|![Screenshot_1580339759](https://user-images.githubusercontent.com/15348446/73406046-65c03880-42ed-11ea-9fc7-e2f27a00dde9.png)|![Screenshot_1580339765](https://user-images.githubusercontent.com/15348446/73406058-6a84ec80-42ed-11ea-9367-82912938fdd0.png)|
