@@ -89,6 +89,6 @@ class CharactersFragment : BaseFragment() {
     }
 
     private fun updateToolbar() {
-        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.toolbar_title)
+        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.toolbar_character_title)
     }
 }

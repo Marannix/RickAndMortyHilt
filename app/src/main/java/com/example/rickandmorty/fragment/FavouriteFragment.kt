@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -27,6 +28,7 @@ class FavouriteFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        updateToolbar()
         viewModel.getFavourites()
         subscribeToFavouriteViewState()
         setFavouriteAdapter()
@@ -54,5 +56,8 @@ class FavouriteFragment : BaseFragment() {
         favouritesRecyclerView.adapter = adapter
     }
 
+    private fun updateToolbar() {
+        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.toolbar_favourite_title)
+    }
 
 }

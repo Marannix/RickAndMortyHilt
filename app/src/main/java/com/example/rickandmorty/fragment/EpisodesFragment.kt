@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ class EpisodesFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        updateToolbar()
         viewModel.getAllEpisodes()
         setEpisodeAdapter()
         subscribeToEpisodeViewState()
@@ -58,5 +60,7 @@ class EpisodesFragment : BaseFragment() {
         episodesRecyclerView.adapter = episodeAdapter
     }
 
-
+    private fun updateToolbar() {
+        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.toolbar_episode_title)
+    }
 }
