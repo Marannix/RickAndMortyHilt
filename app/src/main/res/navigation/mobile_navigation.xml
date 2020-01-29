@@ -22,5 +22,8 @@
     <fragment android:id="@+id/destination_episodes" android:name="com.example.rickandmorty.fragment.EpisodesFragment"
               android:label="fragment_episodes" tools:layout="@layout/fragment_episodes"/>
     <fragment android:id="@+id/destination_favourites" android:name="com.example.rickandmorty.fragment.FavouriteFragment"
-              android:label="fragment_favourite" tools:layout="@layout/fragment_favourite"/>
+              android:label="fragment_favourite" tools:layout="@layout/fragment_favourite">
+        <action android:id="@+id/action_destination_favourites_to_destination_characters_details"
+                app:destination="@id/destination_characters_details"/>
+    </fragment>
 </navigation>
