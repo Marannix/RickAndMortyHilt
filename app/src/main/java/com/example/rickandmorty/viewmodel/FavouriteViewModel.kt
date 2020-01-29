@@ -39,6 +39,11 @@ class FavouriteViewModel @Inject constructor(
         return viewState
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        disposables.clear()
+    }
+
     sealed class FavouriteViewState {
         object Loading : FavouriteViewState()
         data class Content(val listOfFavourites: List<FavouriteModel>) : FavouriteViewState()
