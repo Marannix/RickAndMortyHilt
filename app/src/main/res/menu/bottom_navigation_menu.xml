@@ -12,9 +12,9 @@
             android:title="Episodes"
     />
 
-    <!--<item-->
-            <!--android:id="@+id/destination_settings"-->
-            <!--android:icon="@drawable/ic_character_girl"-->
-            <!--android:title="Settings"-->
-    <!--/>-->
+    <item
+            android:id="@+id/destination_favourites"
+            android:icon="@drawable/ic_favourite"
+            android:title="Favourites"
+    />
 </menu>

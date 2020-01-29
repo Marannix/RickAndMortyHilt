@@ -5,6 +5,7 @@ import com.example.rickandmorty.activity.MainActivity
 import com.example.rickandmorty.fragment.CharacterDetailsFragment
 import com.example.rickandmorty.fragment.CharactersFragment
 import com.example.rickandmorty.fragment.EpisodesFragment
+import com.example.rickandmorty.fragment.FavouriteFragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -23,4 +24,7 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector
     abstract fun episodeFragment(): EpisodesFragment
+
+    @ContributesAndroidInjector
+    abstract fun favouriteFragment(): FavouriteFragment
 }

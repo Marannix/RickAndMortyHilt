@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,12 +18,8 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.character_header.*
 import kotlinx.android.synthetic.main.character_summary.*
 import kotlinx.android.synthetic.main.fragment_characters_detail.*
-import javax.inject.Inject
 
 class CharacterDetailsFragment : BaseFragment() {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel: EpisodesViewModel by lazy {
         ViewModelProviders.of(this, viewModelFactory)

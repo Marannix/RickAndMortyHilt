@@ -6,21 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.EpisodeAdapter
 import com.example.rickandmorty.viewmodel.EpisodesViewModel
 import kotlinx.android.synthetic.main.fragment_episodes.*
-import javax.inject.Inject
 
 class EpisodesFragment : BaseFragment() {
-
-
-    //todo move to base fragment right??
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel: EpisodesViewModel by lazy {
         ViewModelProviders.of(this, viewModelFactory)

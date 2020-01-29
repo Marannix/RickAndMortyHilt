@@ -10,6 +10,8 @@
                 app:destination="@+id/destination_characters_details"/>
         <action android:id="@+id/action_destination_characters_to_episodesFragment"
                 app:destination="@id/destination_episodes"/>
+        <action android:id="@+id/action_destination_characters_to_favouriteFragment"
+                app:destination="@id/destination_favourites"/>
     </fragment>
     <fragment android:id="@+id/destination_characters_details"
               android:name="com.example.rickandmorty.fragment.CharacterDetailsFragment"
@@ -19,4 +21,6 @@
     </fragment>
     <fragment android:id="@+id/destination_episodes" android:name="com.example.rickandmorty.fragment.EpisodesFragment"
               android:label="fragment_episodes" tools:layout="@layout/fragment_episodes"/>
+    <fragment android:id="@+id/destination_favourites" android:name="com.example.rickandmorty.fragment.FavouriteFragment"
+              android:label="fragment_favourite" tools:layout="@layout/fragment_favourite"/>
 </navigation>
