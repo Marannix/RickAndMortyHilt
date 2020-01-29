@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmorty.R
+import com.example.rickandmorty.adapter.EpisodeAdapter
 import com.example.rickandmorty.viewmodel.EpisodesViewModel
+import kotlinx.android.synthetic.main.fragment_episodes.*
 import javax.inject.Inject
 
 class EpisodesFragment : BaseFragment() {
+
 
     //todo move to base fragment right??
     @Inject
@@ -22,10 +26,12 @@ class EpisodesFragment : BaseFragment() {
         ViewModelProviders.of(this, viewModelFactory)
             .get(EpisodesViewModel::class.java)
     }
+    private val episodeAdapter = EpisodeAdapter()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getAllEpisodes()
+        setEpisodeAdapter()
         subscribeToEpisodeViewState()
     }
 
@@ -42,7 +48,8 @@ class EpisodesFragment : BaseFragment() {
                 }
                 is EpisodesViewModel.EpisodeViewState.Content -> {
                     //hide loading
-                    Log.d("content", viewstate.listOfEpisodes.toString())
+                    Log.d("data", viewstate.listOfEpisodes.toString())
+                    episodeAdapter.setData(viewstate.listOfEpisodes)
                 }
                 is EpisodesViewModel.EpisodeViewState.Error -> {
                     //hide loading
@@ -52,5 +59,11 @@ class EpisodesFragment : BaseFragment() {
             }
         })
     }
+
+    private fun setEpisodeAdapter() {
+        episodesRecyclerView.layoutManager = LinearLayoutManager(context)
+        episodesRecyclerView.adapter = episodeAdapter
+    }
+
 
 }
