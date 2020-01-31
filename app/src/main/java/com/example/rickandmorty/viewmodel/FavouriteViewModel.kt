@@ -1,22 +1,19 @@
 package com.example.rickandmorty.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.rickandmorty.data.favourites.FavouriteModel
 import com.example.rickandmorty.usecase.FavouriteUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class FavouriteViewModel @Inject constructor(
     private val favouriteUseCase: FavouriteUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
-    private val disposables = CompositeDisposable()
     private val viewState = MutableLiveData<FavouriteViewState>()
 
     fun getFavourites() {
-        val disposable = favouriteUseCase.getFavouriteDataState()
+        favouriteUseCase.getFavouriteDataState()
             .observeOn(AndroidSchedulers.mainThread())
             .map { favouriteDataState ->
                 return@map when (favouriteDataState) {
@@ -31,17 +28,11 @@ class FavouriteViewModel @Inject constructor(
             .doOnSubscribe { viewState.value = FavouriteViewState.Loading }
             .subscribe { viewState ->
                 this.viewState.value = viewState
-            }
-        disposables.add(disposable)
+            }.addDisposable()
     }
 
     fun getViewState(): MutableLiveData<FavouriteViewState> {
         return viewState
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposables.clear()
     }
 
     sealed class FavouriteViewState {

@@ -1,7 +1,6 @@
 package com.example.rickandmorty.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.rickandmorty.data.characters.CharacterEpisodeResponse
 import com.example.rickandmorty.data.characters.CharacterLocation
 import com.example.rickandmorty.data.characters.CharactersResults
@@ -10,21 +9,19 @@ import com.example.rickandmorty.data.favourites.FavouriteModel
 import com.example.rickandmorty.repository.FavouriteRepository
 import com.example.rickandmorty.usecase.EpisodeUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 //todo rename to character detail
 class EpisodesViewModel @Inject constructor(
     private val episodeUseCase: EpisodeUseCase,
     private val favouriteRepository: FavouriteRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
-    private val disposables = CompositeDisposable()
     val viewState = MutableLiveData<ViewState>()
     val episodeViewState = MutableLiveData<EpisodeViewState>()
 
-     fun getEpisodes(character: CharactersResults) {
-        val disposable = episodeUseCase.getEpisodesDataState(character)
+    fun getEpisodes(character: CharactersResults) {
+        episodeUseCase.getEpisodesDataState(character)
             .observeOn(AndroidSchedulers.mainThread())
             .map { episodeDataState ->
                 return@map when (episodeDataState) {
@@ -40,12 +37,11 @@ class EpisodesViewModel @Inject constructor(
             .doOnSubscribe { viewState.value = ViewState.Loading }
             .subscribe { viewState ->
                 this.viewState.value = viewState
-            }
-        disposables.add(disposable)
+            }.addDisposable()
     }
 
     fun getAllEpisodes() {
-        val disposable = episodeUseCase.getAllEpisodeDataState()
+        episodeUseCase.getAllEpisodeDataState()
             .observeOn(AndroidSchedulers.mainThread())
             .map { dataState ->
                 return@map when (dataState) {
@@ -60,8 +56,7 @@ class EpisodesViewModel @Inject constructor(
             .doOnSubscribe { episodeViewState.value = EpisodeViewState.Loading }
             .subscribe { episodeViewState ->
                 this.episodeViewState.value = episodeViewState
-            }
-        disposables.add(disposable)
+            }.addDisposable()
     }
 
     fun insertFavourite(character: CharactersResults) {
@@ -110,7 +105,9 @@ class EpisodesViewModel @Inject constructor(
 
     sealed class ViewState {
         object Loading : ViewState()
-        data class Content(val listOfCharacterEpisodes: List<CharacterEpisodeResponse>) : ViewState()
+        data class Content(val listOfCharacterEpisodes: List<CharacterEpisodeResponse>) :
+            ViewState()
+
         data class Error(val message: String?) : ViewState()
     }
 
@@ -118,10 +115,5 @@ class EpisodesViewModel @Inject constructor(
         object Loading : EpisodeViewState()
         data class Content(val listOfEpisodes: List<EpisodesResult>) : EpisodeViewState()
         data class Error(val message: String?) : EpisodeViewState()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposables.clear()
     }
 }
