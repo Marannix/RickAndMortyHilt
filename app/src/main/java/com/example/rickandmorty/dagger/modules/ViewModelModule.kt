@@ -2,6 +2,8 @@ package com.example.rickandmorty.dagger.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.rickandmorty.dagger.ViewModelFactory
+import com.example.rickandmorty.dagger.ViewModelKey
 import com.example.rickandmorty.viewmodel.*
 import dagger.Binds
 import dagger.Module

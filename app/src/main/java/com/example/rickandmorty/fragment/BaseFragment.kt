@@ -2,6 +2,7 @@ package com.example.rickandmorty.fragment
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerFragment
 import io.reactivex.exceptions.UndeliverableException
@@ -27,5 +28,9 @@ abstract class BaseFragment : DaggerFragment() {
             }
             Log.e("Whats going on", error)
         }
+    }
+
+    fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 }
