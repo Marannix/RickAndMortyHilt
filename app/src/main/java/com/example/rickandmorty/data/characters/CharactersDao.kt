@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import io.reactivex.Observable
 import io.reactivex.Single
 
 @Dao
@@ -13,5 +14,5 @@ interface CharactersDao {
     fun insertCharacters(characters: List<CharactersResults>)
 
     @Query("select * from characters")
-    fun getCharacters(): Single<List<CharactersResults>>
+    fun getCharacters(): Observable<List<CharactersResults>>
 }

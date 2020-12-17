@@ -2,6 +2,7 @@ package com.example.rickandmorty.dagger.modules
 
 import androidx.fragment.app.FragmentActivity
 import com.example.rickandmorty.activity.MainActivity
+import com.example.rickandmorty.characters.CharactersFragmentRx
 import com.example.rickandmorty.fragment.CharacterDetailsFragment
 import com.example.rickandmorty.fragment.CharactersFragment
 import com.example.rickandmorty.fragment.EpisodesFragment
@@ -21,6 +22,9 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector
     abstract fun charactersFragment(): CharactersFragment
+
+    @ContributesAndroidInjector
+    abstract fun charactersRx2Fragment(): CharactersFragmentRx
 
     @ContributesAndroidInjector
     abstract fun episodeFragment(): EpisodesFragment

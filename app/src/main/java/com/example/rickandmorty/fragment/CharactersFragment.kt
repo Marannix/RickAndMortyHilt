@@ -18,8 +18,8 @@ import com.example.rickandmorty.state.CharacterViewState
 import com.example.rickandmorty.viewmodel.CharactersViewModel
 import kotlinx.android.synthetic.main.fragment_characters.*
 
-const val MOBILE_SIZE = 1
-const val TABLET_SIZE = 2
+private const val MOBILE_SIZE = 1
+private const val TABLET_SIZE = 2
 
 class CharactersFragment : BaseFragment() {
 
@@ -49,10 +49,10 @@ class CharactersFragment : BaseFragment() {
         updateToolbar()
         setCharacterAdapter()
         charactersViewModel.getCharacters()
-        subscribeToCharacterViewState()
+        render()
     }
 
-    private fun subscribeToCharacterViewState() {
+    private fun render() {
         charactersViewModel.viewState.observe(this, Observer { viewState ->
             when (viewState) {
                 is CharacterViewState.Loading -> {

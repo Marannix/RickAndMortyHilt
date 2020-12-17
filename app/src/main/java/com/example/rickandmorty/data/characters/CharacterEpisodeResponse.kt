@@ -4,7 +4,6 @@ import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-
 @Entity(tableName = "characterEpisodes")
 data class CharacterEpisodeResponse(
     @NonNull
