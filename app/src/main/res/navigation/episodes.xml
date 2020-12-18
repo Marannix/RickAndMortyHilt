@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/episodes"
+        app:startDestination="@id/destination_episodes"
+        xmlns:tools="http://schemas.android.com/tools">
+    <fragment android:id="@+id/destination_episodes" android:name="com.example.rickandmorty.fragment.EpisodesFragment"
+            android:label="fragment_episodes" tools:layout="@layout/fragment_episodes"/>
+</navigation>

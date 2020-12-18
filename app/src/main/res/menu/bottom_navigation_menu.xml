@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-            android:id="@+id/destination_characters"
+            android:id="@+id/characters"
             android:icon="@drawable/ic_character_nav_bar"
             android:title="Characters"
     />
 
     <item
-            android:id="@+id/destination_episodes"
+            android:id="@+id/episodes"
             android:icon="@drawable/ic_episode_list"
             android:title="Episodes"
     />
 
     <item
-            android:id="@+id/destination_favourites"
+            android:id="@+id/favourite"
             android:icon="@drawable/ic_favourite"
             android:title="Favourites"
     />

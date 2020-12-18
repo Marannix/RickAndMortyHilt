@@ -55,11 +55,14 @@ class CharactersFragmentRx : BaseFragment() {
         charactersRecyclerView.adapter = charactersAdapter
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        updateToolbar()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
-            updateToolbar()
 
             setCharacterAdapter()
 
