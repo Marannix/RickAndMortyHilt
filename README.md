@@ -11,6 +11,8 @@ Android Architecture Components and libraries used
 - Material
 ```
 
+This is a playground, used to test random features.
+
 ### Was in the process of converting this project to use Dagger injection (The horror) 
 
 | Somebody | Save Me! |
