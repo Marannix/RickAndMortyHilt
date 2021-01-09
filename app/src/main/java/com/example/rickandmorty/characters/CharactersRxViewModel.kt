@@ -2,6 +2,8 @@ package com.example.rickandmorty.characters
 
 import com.example.rickandmorty.common.AsyncResult
 import com.example.rickandmorty.common.mapToAsyncResult
+import com.example.rickandmorty.usecase.FetchCharactersUseCase
+import com.example.rickandmorty.usecase.ObserveCharactersUseCase
 import com.example.rickandmorty.viewmodel.Reducer
 import com.example.rickandmorty.viewmodel.RxViewModelStore
 import io.reactivex.schedulers.Schedulers

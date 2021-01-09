@@ -3,6 +3,7 @@ package com.example.rickandmorty.activity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -28,9 +29,9 @@ class MainActivity : BaseActivity() {
         } // Else, need to wait for onRestoreInstanceState
 
         setSupportActionBar(toolbar)
+        updateToolbar()
 
         setNavController()
-        //setupBottomNavMenu()
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
@@ -53,12 +54,6 @@ class MainActivity : BaseActivity() {
                 }
                 else -> hideBottomNav()
             }
-        }
-    }
-
-    private fun setupBottomNavMenu() {
-        bottomNavigation.let {
-            NavigationUI.setupWithNavController(it, navController)
         }
     }
 
@@ -94,8 +89,8 @@ class MainActivity : BaseActivity() {
         return currentNavController?.value?.navigateUp() ?: false
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        val navigated = NavigationUI.onNavDestinationSelected(item, navController)
-//        return navigated || super.onOptionsItemSelected(item)
-//    }
+    private fun updateToolbar() {
+        this.supportActionBar?.title =
+            getString(R.string.toolbar_character_title)
+    }
 }
