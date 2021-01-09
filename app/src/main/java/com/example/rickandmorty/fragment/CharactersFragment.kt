@@ -7,13 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.CharactersAdapter
 import com.example.rickandmorty.viewmodel.CharactersViewModel
-import com.example.rickandmorty.viewmodel.CharactersViewModel.CharacterRxViewEvent.GenericErrorEvent
+import com.example.rickandmorty.viewmodel.CharactersViewModel.CharacterViewEvent.GenericErrorEvent
 import com.example.rickandmorty.common.AutoCompositeDisposable
 import com.example.rickandmorty.common.addTo
 import com.example.rickandmorty.dialog.FullscreenLoadingDialog

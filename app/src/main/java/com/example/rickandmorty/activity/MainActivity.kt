@@ -49,7 +49,12 @@ class MainActivity : BaseActivity() {
     private fun setupBottomNavigationBar() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
 
-        val navGraphIds = listOf(R.navigation.characters, R.navigation.favourite, R.navigation.episodes)
+        val navGraphIds = listOf(
+            R.navigation.characters,
+            R.navigation.favourite,
+            R.navigation.episodes,
+            R.navigation.settings
+        )
 
         // Setup the bottom navigation view with a list of navigation graphs
         val controller = bottomNavigationView.setupWithNavController(
@@ -66,7 +71,8 @@ class MainActivity : BaseActivity() {
                 when (destination.id) {
                     R.id.destination_characters,
                     R.id.destination_episodes,
-                    R.id.destination_favourites -> {
+                    R.id.destination_favourites,
+                    R.id.settingsFragment -> {
                         showBottomNav()
                     }
                     else -> hideBottomNav()

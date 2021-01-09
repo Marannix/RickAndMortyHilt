@@ -7,6 +7,7 @@ import com.example.rickandmorty.dagger.ViewModelFactory
 import com.example.rickandmorty.dagger.ViewModelKey
 import com.example.rickandmorty.viewmodel.EpisodesViewModel
 import com.example.rickandmorty.viewmodel.FavouriteViewModel
+import com.example.rickandmorty.viewmodel.SettingsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -21,6 +22,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CharactersViewModel::class)
     internal abstract fun bindingCharactersRxViewModel(viewModel: CharactersViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsViewModel::class)
+    internal abstract fun bindingSettingsViewModel(viewModel: SettingsViewModel): ViewModel
 
     @Binds
     @IntoMap

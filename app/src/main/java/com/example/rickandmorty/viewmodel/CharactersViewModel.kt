@@ -11,7 +11,7 @@ import javax.inject.Inject
 class CharactersViewModel @Inject constructor(
     characterUseCase: FetchCharactersUseCase,
     observeCharactersUseCase: ObserveCharactersUseCase
-) : RxViewModelStore<CharactersViewState, CharactersViewModel.CharacterRxViewEvent>(
+) : RxViewModelStore<CharactersViewState, CharactersViewModel.CharacterViewEvent>(
     CharactersViewState()
 ) {
 
@@ -29,12 +29,12 @@ class CharactersViewModel @Inject constructor(
             .subscribe { result ->
                 applyState(Reducer { it.copy(characters = result) })
                 if (result is AsyncResult.Error) {
-                    publish(CharacterRxViewEvent.GenericErrorEvent(result.error))
+                    publish(CharacterViewEvent.GenericErrorEvent(result.error))
                 }
             }.addDisposable()
    }
 
-    sealed class CharacterRxViewEvent {
-        data class GenericErrorEvent(val error: Throwable?) : CharacterRxViewEvent()
+    sealed class CharacterViewEvent {
+        data class GenericErrorEvent(val error: Throwable?) : CharacterViewEvent()
     }
 }
