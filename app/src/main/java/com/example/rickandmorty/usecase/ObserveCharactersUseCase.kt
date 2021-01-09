@@ -1,4 +1,4 @@
-package com.example.rickandmorty.characters
+package com.example.rickandmorty.usecase
 
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.repository.CharactersRepository

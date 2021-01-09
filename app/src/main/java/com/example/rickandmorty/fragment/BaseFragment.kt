@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.rickandmorty.characters.CharactersRxViewModel
-import com.example.rickandmorty.viewmodel.CharactersViewModel
 import dagger.android.support.DaggerFragment
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins

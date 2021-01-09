@@ -1,9 +1,9 @@
-package com.example.rickandmorty.characters
+package com.example.rickandmorty.viewstate
 
 import com.example.rickandmorty.common.AsyncResult
 import com.example.rickandmorty.data.characters.CharactersResults
 
-data class CharacterRxViewState(
+data class CharactersViewState(
     val fetchCharacters: AsyncResult<Nothing>? = null,
     val characters: AsyncResult<List<CharactersResults>>? = null
 ) {

@@ -13,19 +13,28 @@
             android:background="?attr/colorPrimary"
     />
 
-    <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation"
+    <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintWidth_percent="0.15"
-            app:layout_constraintHeight_percent="0.1"
-            android:adjustViewBounds="true"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_fileName="@string/lottie_loading_progress" />
+            app:layout_constraintHeight_percent="0.1">
+
+        <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_fileName="@string/lottie_loading_progress"
+                android:layout_margin="8dp"/>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

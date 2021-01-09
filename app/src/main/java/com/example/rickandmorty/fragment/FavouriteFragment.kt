@@ -28,21 +28,19 @@ class FavouriteFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updateToolbar()
         viewModel.getFavourites()
         subscribeToFavouriteViewState()
         setFavouriteAdapter()
     }
 
     private fun subscribeToFavouriteViewState() {
-        viewModel.getViewState().observe(this, Observer { viewwState ->
-            when (viewwState) {
+        viewModel.getViewState().observe(this, Observer { viewState ->
+            when (viewState) {
                 FavouriteViewModel.FavouriteViewState.Loading -> {
                     //Loading Indicator
                 }
                 is FavouriteViewModel.FavouriteViewState.Content -> {
-//                    Log.d("favourite list", viewwState.listOfFavourites.toString())
-                    adapter.setFavouriteCharacters(viewwState.listOfFavourites)
+                    adapter.setFavouriteCharacters(viewState.listOfFavourites)
                 }
                 is FavouriteViewModel.FavouriteViewState.Empty -> {
                     // Show there are no favourites
@@ -55,9 +53,4 @@ class FavouriteFragment : BaseFragment() {
         favouritesRecyclerView.layoutManager = GridLayoutManager(context, 2)
         favouritesRecyclerView.adapter = adapter
     }
-
-    private fun updateToolbar() {
-        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.toolbar_favourite_title)
-    }
-
 }

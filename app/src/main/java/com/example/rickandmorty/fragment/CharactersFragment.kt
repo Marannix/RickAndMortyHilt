@@ -8,14 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.CharactersAdapter
-import com.example.rickandmorty.dialog.FullscreenLoadingDialog
-import com.example.rickandmorty.state.CharacterViewState
 import com.example.rickandmorty.viewmodel.CharactersViewModel
+import com.example.rickandmorty.viewmodel.CharactersViewModel.CharacterRxViewEvent.GenericErrorEvent
+import com.example.rickandmorty.common.AutoCompositeDisposable
+import com.example.rickandmorty.common.addTo
+import com.example.rickandmorty.dialog.FullscreenLoadingDialog
 import kotlinx.android.synthetic.main.fragment_characters.*
 
 private const val MOBILE_SIZE = 1
@@ -27,13 +28,18 @@ class CharactersFragment : BaseFragment() {
     private var isTablet: Boolean = false
 
     private lateinit var loadingDialog: Dialog
+    private val disposable: AutoCompositeDisposable by lazy { AutoCompositeDisposable(lifecycle) }
 
-    private val charactersViewModel: CharactersViewModel by lazy {
+    private val viewModel: CharactersViewModel by lazy {
         ViewModelProviders.of(this, viewModelFactory)
             .get(CharactersViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_characters, container, false)
     }
 
@@ -44,41 +50,46 @@ class CharactersFragment : BaseFragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        updateToolbar()
-        setCharacterAdapter()
-        charactersViewModel.getCharacters()
-        render()
-    }
-
-    private fun render() {
-        charactersViewModel.viewState.observe(this, Observer { viewState ->
-            when (viewState) {
-                is CharacterViewState.Loading -> {
-                    loadingDialog.show()
-                }
-                is CharacterViewState.ShowCharacters -> {
-                    loadingDialog.hide()
-                    charactersAdapter.setData(viewState.characters)
-                }
-                is CharacterViewState.ShowError -> {
-                    loadingDialog.hide()
-                    // TODO need to add an error state (when no characters have been fetched, probably due to no network)
-                    genericError.visibility = View.VISIBLE
-                    refreshButton.visibility = View.VISIBLE
-                    Log.d("error", viewState.errorMessage)
-                    Toast.makeText(requireContext(), viewState.errorMessage, Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
-    }
-
     private fun setCharacterAdapter() {
         charactersRecyclerView.layoutManager = GridLayoutManager(context, isTablet())
         charactersRecyclerView.adapter = charactersAdapter
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+
+            setCharacterAdapter()
+
+        viewModel.events()
+            .subscribe {
+                when (it) {
+                    is GenericErrorEvent -> {
+                        genericError.visibility = View.VISIBLE
+                        refreshButton.visibility = View.VISIBLE
+                        Log.d("error", it.error.toString())
+                        Toast.makeText(requireContext(), it.error.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }.addTo(disposable)
+
+        viewModel.states()
+            .distinctUntilChanged()
+            .subscribe { state ->
+                state.isLoading.let {
+                    when {
+                        it -> { loadingDialog.show() }
+                        else -> { loadingDialog.hide() }
+                    }
+                }
+
+                state.getCharacters?.let {
+                    charactersAdapter.setData(it)
+                }
+            }
+            .addTo(disposable)
+
+    }
     private fun isTablet(): Int {
         isTablet = resources.getBoolean(R.bool.isTablet)
         return if (isTablet) {
@@ -88,7 +99,8 @@ class CharactersFragment : BaseFragment() {
         }
     }
 
-    private fun updateToolbar() {
-        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.toolbar_character_title)
+    override fun onPause() {
+        super.onPause()
+        (charactersRecyclerView.layoutManager as GridLayoutManager).onSaveInstanceState()
     }
 }

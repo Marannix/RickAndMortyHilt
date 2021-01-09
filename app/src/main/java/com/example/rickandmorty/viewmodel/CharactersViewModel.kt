@@ -1,42 +1,40 @@
 package com.example.rickandmorty.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import com.example.rickandmorty.state.CharacterDataState
-import com.example.rickandmorty.state.CharacterViewState
-import com.example.rickandmorty.usecase.CharacterUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.example.rickandmorty.viewstate.CharactersViewState
+import com.example.rickandmorty.common.AsyncResult
+import com.example.rickandmorty.common.mapToAsyncResult
+import com.example.rickandmorty.usecase.FetchCharactersUseCase
+import com.example.rickandmorty.usecase.ObserveCharactersUseCase
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class CharactersViewModel @Inject constructor(
-    private val characterUseCase: CharacterUseCase
-) : BaseViewModel() {
+    characterUseCase: FetchCharactersUseCase,
+    observeCharactersUseCase: ObserveCharactersUseCase
+) : RxViewModelStore<CharactersViewState, CharactersViewModel.CharacterRxViewEvent>(
+    CharactersViewState()
+) {
 
-    val viewState = MutableLiveData<CharacterViewState>()
-
-    //TODO: Handle error state when fails (no network or bad request..)r
-    fun getCharacters() {
-        characterUseCase.getCharacterDataState()
-            .observeOn(AndroidSchedulers.mainThread())
-            .map { characterDataState ->
-                return@map when (characterDataState) {
-                    is CharacterDataState.Success -> {
-                        CharacterViewState.ShowCharacters(characterDataState.characters)
-                    }
-                    is CharacterDataState.Error -> {
-                        //Probably not needed, could just show error
-                        if (viewState.value is CharacterViewState.ShowCharacters) {
-                            viewState.value
-                        } else {
-                            CharacterViewState.ShowError(characterDataState.errorMessage)
-                        }
-
-                    }
-                }
-            }
-            .doOnSubscribe { viewState.value = CharacterViewState.Loading }
-            .subscribe { viewState ->
-                this.viewState.value = viewState
+    init {
+        characterUseCase.invoke()
+            .mapToAsyncResult()
+            .subscribeOn(Schedulers.io())
+            .subscribe { result ->
+                applyState(Reducer { it.copy(fetchCharacters = result) })
             }.addDisposable()
-    }
 
+        observeCharactersUseCase.invoke()
+            .mapToAsyncResult()
+            .subscribeOn(Schedulers.io())
+            .subscribe { result ->
+                applyState(Reducer { it.copy(characters = result) })
+                if (result is AsyncResult.Error) {
+                    publish(CharacterRxViewEvent.GenericErrorEvent(result.error))
+                }
+            }.addDisposable()
+   }
+
+    sealed class CharacterRxViewEvent {
+        data class GenericErrorEvent(val error: Throwable?) : CharacterRxViewEvent()
+    }
 }
