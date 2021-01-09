@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="bottomNavigationBackground" format="color"/>
+    <attr name="bottomNavigationItemTint" format="color"/>
+    <attr name="bottomNavigationTextColor" format="color"/>
+
+</resources>

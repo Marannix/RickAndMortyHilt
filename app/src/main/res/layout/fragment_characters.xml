@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="?android:colorBackground"
         android:paddingBottom="@dimen/bottom_navigation_bar_height"
         tools:context=".fragment.CharactersFragment">
 
@@ -25,7 +25,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/charactersRecyclerView"
-            android:background="@color/white"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"

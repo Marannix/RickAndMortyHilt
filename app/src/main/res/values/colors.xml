@@ -11,6 +11,8 @@
     <color name="off_white">#fcfaf2</color>
     <color name="eunry">#CC9999</color>
     <color name="dark_grey">#121212</color>
+    <color name="cod_grey">#161616</color>
+    <color name="teal">#00798e</color>
 
     <color name="favouriteButtonColour">@color/bittersweet</color>
     <color name="favouriteButtonShineColour">@color/eunry</color>

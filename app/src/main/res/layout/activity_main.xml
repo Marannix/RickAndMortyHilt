@@ -21,8 +21,8 @@
 
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:background="@color/deep_blue"
-            app:titleTextColor="@color/white"
+            android:background="?attr/colorPrimary"
+            app:titleTextColor="?attr/colorOnPrimary"
             android:elevation="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,14 +36,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/white"
+            android:background="?attr/bottomNavigationBackground"
             app:elevation="8dp"
-            app:itemIconTint="@color/deep_blue"
-            app:itemTextColor="@color/deep_blue"
+            app:itemIconTint="?attr/bottomNavigationItemTint"
+            app:itemTextColor="?attr/bottomNavigationTextColor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/bottom_navigation_menu" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
