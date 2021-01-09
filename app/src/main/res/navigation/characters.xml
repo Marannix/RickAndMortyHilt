@@ -6,7 +6,7 @@
         app:startDestination="@id/destination_characters">
     <fragment
             android:id="@+id/destination_characters"
-            android:name="com.example.rickandmorty.characters.CharactersFragmentRx"
+            android:name="com.example.rickandmorty.fragment.CharactersFragment"
             android:label="@string/toolbar_character_title"
             tools:layout="@layout/fragment_characters">
         <action

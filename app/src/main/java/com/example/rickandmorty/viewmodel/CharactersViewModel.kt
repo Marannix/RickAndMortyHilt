@@ -1,18 +1,19 @@
-package com.example.rickandmorty.characters
+package com.example.rickandmorty.viewmodel
 
+import com.example.rickandmorty.viewstate.CharactersViewState
 import com.example.rickandmorty.common.AsyncResult
 import com.example.rickandmorty.common.mapToAsyncResult
 import com.example.rickandmorty.usecase.FetchCharactersUseCase
 import com.example.rickandmorty.usecase.ObserveCharactersUseCase
-import com.example.rickandmorty.viewmodel.Reducer
-import com.example.rickandmorty.viewmodel.RxViewModelStore
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class CharactersRxViewModel @Inject constructor(
+class CharactersViewModel @Inject constructor(
     characterUseCase: FetchCharactersUseCase,
     observeCharactersUseCase: ObserveCharactersUseCase
-) : RxViewModelStore<CharacterRxViewState, CharactersRxViewModel.CharacterRxViewEvent>(CharacterRxViewState()) {
+) : RxViewModelStore<CharactersViewState, CharactersViewModel.CharacterRxViewEvent>(
+    CharactersViewState()
+) {
 
     init {
         characterUseCase.invoke()
@@ -32,7 +33,7 @@ class CharactersRxViewModel @Inject constructor(
                 }
             }.addDisposable()
    }
-    
+
     sealed class CharacterRxViewEvent {
         data class GenericErrorEvent(val error: Throwable?) : CharacterRxViewEvent()
     }

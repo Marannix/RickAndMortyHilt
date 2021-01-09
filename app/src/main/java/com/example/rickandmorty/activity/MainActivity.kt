@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
-    private lateinit var navController: NavController
     private var currentNavController: LiveData<NavController>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +28,6 @@ class MainActivity : BaseActivity() {
         } // Else, need to wait for onRestoreInstanceState
 
         setSupportActionBar(toolbar)
-        updateToolbar()
-
-        setNavController()
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
@@ -40,21 +36,6 @@ class MainActivity : BaseActivity() {
         // and its selectedItemId, we can proceed with setting up the
         // BottomNavigationBar with Navigation
         setupBottomNavigationBar()
-    }
-
-
-    private fun setNavController() {
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.destination_characters,
-                R.id.destination_episodes,
-                R.id.destination_favourites -> {
-                    showBottomNav()
-                }
-                else -> hideBottomNav()
-            }
-        }
     }
 
     private fun showBottomNav() {
@@ -78,19 +59,24 @@ class MainActivity : BaseActivity() {
             intent = intent
         )
 
-        // Whenever the selected controller changes, setup the action bar.
+        // Whenever the selected controller changes, setup the action bar
         controller.observe(this, Observer { navController ->
             setupActionBarWithNavController(navController)
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                when (destination.id) {
+                    R.id.destination_characters,
+                    R.id.destination_episodes,
+                    R.id.destination_favourites -> {
+                        showBottomNav()
+                    }
+                    else -> hideBottomNav()
+                }
+            }
         })
         currentNavController = controller
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
-    }
-
-    private fun updateToolbar() {
-        this.supportActionBar?.title =
-            getString(R.string.toolbar_character_title)
     }
 }

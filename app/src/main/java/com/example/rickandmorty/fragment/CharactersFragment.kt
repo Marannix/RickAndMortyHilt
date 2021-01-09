@@ -1,4 +1,4 @@
-package com.example.rickandmorty.characters
+package com.example.rickandmorty.fragment
 
 import android.app.Dialog
 import android.os.Bundle
@@ -12,17 +12,17 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.CharactersAdapter
-import com.example.rickandmorty.characters.CharactersRxViewModel.CharacterRxViewEvent.GenericErrorEvent
+import com.example.rickandmorty.viewmodel.CharactersViewModel
+import com.example.rickandmorty.viewmodel.CharactersViewModel.CharacterRxViewEvent.GenericErrorEvent
 import com.example.rickandmorty.common.AutoCompositeDisposable
 import com.example.rickandmorty.common.addTo
 import com.example.rickandmorty.dialog.FullscreenLoadingDialog
-import com.example.rickandmorty.fragment.BaseFragment
 import kotlinx.android.synthetic.main.fragment_characters.*
 
 private const val MOBILE_SIZE = 1
 private const val TABLET_SIZE = 2
 
-class CharactersFragmentRx : BaseFragment() {
+class CharactersFragment : BaseFragment() {
 
     private val charactersAdapter = CharactersAdapter()
     private var isTablet: Boolean = false
@@ -30,9 +30,9 @@ class CharactersFragmentRx : BaseFragment() {
     private lateinit var loadingDialog: Dialog
     private val disposable: AutoCompositeDisposable by lazy { AutoCompositeDisposable(lifecycle) }
 
-    private val viewModel: CharactersRxViewModel by lazy {
+    private val viewModel: CharactersViewModel by lazy {
         ViewModelProviders.of(this, viewModelFactory)
-            .get(CharactersRxViewModel::class.java)
+            .get(CharactersViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -53,11 +53,6 @@ class CharactersFragmentRx : BaseFragment() {
     private fun setCharacterAdapter() {
         charactersRecyclerView.layoutManager = GridLayoutManager(context, isTablet())
         charactersRecyclerView.adapter = charactersAdapter
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        updateToolbar()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -107,10 +102,5 @@ class CharactersFragmentRx : BaseFragment() {
     override fun onPause() {
         super.onPause()
         (charactersRecyclerView.layoutManager as GridLayoutManager).onSaveInstanceState()
-    }
-
-    private fun updateToolbar() {
-        (activity as? AppCompatActivity)?.supportActionBar?.title =
-            getString(R.string.toolbar_character_title)
     }
 }

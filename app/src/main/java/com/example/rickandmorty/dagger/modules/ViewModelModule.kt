@@ -2,7 +2,7 @@ package com.example.rickandmorty.dagger.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.rickandmorty.characters.CharactersRxViewModel
+import com.example.rickandmorty.viewmodel.CharactersViewModel
 import com.example.rickandmorty.dagger.ViewModelFactory
 import com.example.rickandmorty.dagger.ViewModelKey
 import com.example.rickandmorty.viewmodel.EpisodesViewModel
@@ -19,8 +19,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(CharactersRxViewModel::class)
-    internal abstract fun bindingCharactersRxViewModel(viewModel: CharactersRxViewModel): ViewModel
+    @ViewModelKey(CharactersViewModel::class)
+    internal abstract fun bindingCharactersRxViewModel(viewModel: CharactersViewModel): ViewModel
 
     @Binds
     @IntoMap

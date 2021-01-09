@@ -9,6 +9,7 @@ import com.example.rickandmorty.R
 import com.example.rickandmorty.data.characters.CharacterLocation
 import com.example.rickandmorty.data.characters.CharactersResults
 import com.example.rickandmorty.data.favourites.FavouriteModel
+import com.example.rickandmorty.fragment.FavouriteFragmentDirections
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_favourite_list.view.*
 
@@ -52,9 +53,9 @@ class FavouriteAdapter : RecyclerView.Adapter<FavouriteAdapter.ViewHolder>() {
                         CharacterLocation(favourite.location.name),
                         favourite.episode
                     )
-//                val nextFragment = FavouriteFragmentDirections.actionDestinationFavouritesToDestinationCharactersDetails(charactersResults)
-//                nextFragment.character = charactersResults
-//                Navigation.findNavController(it).navigate(nextFragment)
+                val nextFragment = FavouriteFragmentDirections.actionDestinationFavouritesToDestinationCharactersDetails(charactersResults)
+                nextFragment.character = charactersResults
+                Navigation.findNavController(it).navigate(nextFragment)
             }
 
         }

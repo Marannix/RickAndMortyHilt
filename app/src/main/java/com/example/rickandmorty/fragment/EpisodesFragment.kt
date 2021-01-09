@@ -24,7 +24,6 @@ class EpisodesFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        updateToolbar()
         viewModel.getAllEpisodes()
         setEpisodeAdapter()
         subscribeToEpisodeViewState()
@@ -60,7 +59,4 @@ class EpisodesFragment : BaseFragment() {
         episodesRecyclerView.adapter = episodeAdapter
     }
 
-    private fun updateToolbar() {
-        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.toolbar_episode_title)
-    }
 }

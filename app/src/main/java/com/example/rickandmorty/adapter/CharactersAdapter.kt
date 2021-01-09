@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
-import com.example.rickandmorty.characters.CharactersFragmentRxDirections
 import com.example.rickandmorty.data.characters.CharactersResults
+import com.example.rickandmorty.fragment.CharactersFragmentDirections
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_characters.view.*
 
@@ -45,7 +45,7 @@ class CharactersAdapter : RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
             Picasso.get().load(charactersResults.image).into(itemView.characterImage)
 
             itemView.characterConstraintLayout.setOnClickListener {
-                val nextFragment = CharactersFragmentRxDirections.charactersToCharacterDetail(charactersResults)
+                val nextFragment = CharactersFragmentDirections.charactersToCharacterDetail(charactersResults)
                 nextFragment.character = charactersResults
                 Navigation.findNavController(it).navigate(nextFragment)
             }

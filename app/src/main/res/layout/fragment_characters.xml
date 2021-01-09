@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:paddingBottom="@dimen/bottom_navigation_bar_height"
-        tools:context=".characters.CharactersFragmentRx">
+        tools:context=".fragment.CharactersFragment">
 
     <Button
             android:id="@+id/refreshButton"
