@@ -14,6 +14,7 @@ import com.example.rickandmorty.R
 import com.example.rickandmorty.common.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
 

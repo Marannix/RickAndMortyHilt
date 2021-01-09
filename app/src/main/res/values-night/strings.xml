@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Rick And Morty</string>
+
+    <string name="previous_button">previous</string>
+    <string name="next_button">next</string>
+    <string name="refresh_button">Refresh</string>
+    <string name="episodes">Episodes</string>
+    <string name="status">Status</string>
+    <string name="species">Species</string>
+    <string name="gender">Gender</string>
+    <string name="location">Location</string>
+    <string name="generic_error_message">It appears you may be offline</string>
+    <string name="toolbar_character_title">Characters</string>
+    <string name="toolbar_episode_title">Episodes</string>
+    <string name="toolbar_favourite_title">Favourites</string>
+    <string name="toolbar_overview_title">Overview</string>
+    <string name="lottie_loading_progress">loading_progress.json</string>
+</resources>
