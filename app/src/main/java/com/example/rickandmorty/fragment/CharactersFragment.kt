@@ -57,8 +57,7 @@ class CharactersFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
-            setCharacterAdapter()
+        setCharacterAdapter()
 
         viewModel.events()
             .subscribe {
@@ -67,7 +66,8 @@ class CharactersFragment : BaseFragment() {
                         genericError.visibility = View.VISIBLE
                         refreshButton.visibility = View.VISIBLE
                         Log.d("error", it.error.toString())
-                        Toast.makeText(requireContext(), it.error.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), it.error.toString(), Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }.addTo(disposable)
@@ -77,8 +77,12 @@ class CharactersFragment : BaseFragment() {
             .subscribe { state ->
                 state.isLoading.let {
                     when {
-                        it -> { loadingDialog.show() }
-                        else -> { loadingDialog.hide() }
+                        it -> {
+                            loadingDialog.show()
+                        }
+                        else -> {
+                            loadingDialog.hide()
+                        }
                     }
                 }
 
@@ -89,6 +93,7 @@ class CharactersFragment : BaseFragment() {
             .addTo(disposable)
 
     }
+
     private fun isTablet(): Int {
         isTablet = resources.getBoolean(R.bool.isTablet)
         return if (isTablet) {

@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.rickandmorty.data.characters.CharactersDao
 import com.example.rickandmorty.data.episodes.EpisodesDao
 import com.example.rickandmorty.data.favourites.FavouriteDao
+import com.example.rickandmorty.data.settings.SettingsDao
 import com.example.rickandmorty.database.ApplicationDatabase
 import dagger.Module
 import dagger.Provides
@@ -41,5 +42,11 @@ class RoomModule {
     @Provides
     fun providesFavouriteDao(applicationDatabase: ApplicationDatabase): FavouriteDao {
         return applicationDatabase.favouriteDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providesSettingsDao(applicationDatabase: ApplicationDatabase): SettingsDao {
+        return applicationDatabase.settingsDao()
     }
 }

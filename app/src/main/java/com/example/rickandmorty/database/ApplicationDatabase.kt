@@ -11,14 +11,18 @@ import com.example.rickandmorty.data.episodes.EpisodesDao
 import com.example.rickandmorty.data.episodes.EpisodesResult
 import com.example.rickandmorty.data.favourites.FavouriteDao
 import com.example.rickandmorty.data.favourites.FavouriteModel
+import com.example.rickandmorty.data.settings.AccountSettings
+import com.example.rickandmorty.data.settings.SettingsDao
 
 @Database(
-    entities = [CharactersResults::class, CharacterEpisodeResponse::class, EpisodesResult::class, FavouriteModel::class],
-    version = 5
+    entities = [CharactersResults::class, CharacterEpisodeResponse::class, EpisodesResult::class, FavouriteModel::class,
+    AccountSettings::class],
+    version = 6
 )
 @TypeConverters(Converters::class)
 abstract class ApplicationDatabase : RoomDatabase() {
     abstract fun charactersDao(): CharactersDao
     abstract fun episodeDao(): EpisodesDao
     abstract fun favouriteDao(): FavouriteDao
+    abstract fun settingsDao(): SettingsDao
 }

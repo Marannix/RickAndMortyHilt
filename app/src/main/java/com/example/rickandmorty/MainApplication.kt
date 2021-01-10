@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.rickandmorty.dagger.components.ApplicationComponent
 import com.example.rickandmorty.dagger.components.DaggerApplicationComponent
+import com.example.rickandmorty.data.settings.AccountSettings
+import com.example.rickandmorty.data.settings.SettingsDao
 import com.example.rickandmorty.database.LocalPersistenceManager
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -22,11 +24,18 @@ class MainApplication : Application(), HasActivityInjector {
 
     lateinit var applicationComponent: ApplicationComponent
 
+    @Inject
+    lateinit var settingsDao: SettingsDao
+
     override fun onCreate() {
         super.onCreate()
         initComponent().inject(this)
-        sharedPreferences.setNightMode(true)
-        if (sharedPreferences.isNightModeToggled()) {
+        if (sharedPreferences.isFirstLaunch()) {
+            settingsDao.setSettings(AccountSettings(id = 1, isDarkMode = false))
+            sharedPreferences.setFirstLaunch(false)
+        }
+
+        if (settingsDao.getSettingsAtLaunch().isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
     }

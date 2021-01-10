@@ -8,6 +8,7 @@ data class CharactersViewState(
     val characters: AsyncResult<List<CharactersResults>>? = null
 ) {
 
+    //TODO: A different type of loading for fetching from Api
     val isLoading: Boolean
         get() = fetchCharacters is AsyncResult.Loading
 

@@ -15,4 +15,5 @@
     <string name="toolbar_favourite_title">Favourites</string>
     <string name="toolbar_overview_title">Overview</string>
     <string name="lottie_loading_progress">loading_progress.json</string>
+    <string name="dark_mode_label">Dark Mode</string>
 </resources>
