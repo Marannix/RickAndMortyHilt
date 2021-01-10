@@ -80,7 +80,7 @@ class EpisodeRepository @Inject constructor(
         return episodeApi.getNextEpisodes(nextUrl)
             .subscribeOn(Schedulers.io())
             .concatMap { response ->
-                if (response.episodesPageInfo.next.isEmpty()) {
+                if (response.episodesPageInfo.next.isNullOrEmpty()) {
                     Observable.just(response.episodes)
                 } else {
                     Observable.just(response.episodes)
