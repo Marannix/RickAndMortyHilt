@@ -4,6 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:cardBackgroundColor="?android:colorBackground"
         app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,86 +14,78 @@
 
         <TextView
                 android:id="@+id/characterStatusHeader"
+                style="@style/DetailHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/status"
-                style="@style/DetailHeader"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-        />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
                 android:id="@+id/characterStatus"
+                style="@style/DetailText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/DetailText"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/characterStatusHeader"
-        />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/characterStatusHeader" />
 
         <TextView
                 android:id="@+id/characterSpeciesHeader"
+                style="@style/DetailHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/species"
-                style="@style/DetailHeader"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/characterStatus"
-        />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/characterStatus" />
 
         <TextView
                 android:id="@+id/characterSpecies"
+                style="@style/DetailText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/DetailText"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/characterSpeciesHeader"
-        />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/characterSpeciesHeader" />
 
         <TextView
                 android:id="@+id/characterGenderHeader"
+                style="@style/DetailHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/gender"
-                style="@style/DetailHeader"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/characterSpecies"
-        />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/characterSpecies" />
 
         <TextView
                 android:id="@+id/characterGender"
+                style="@style/DetailText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/DetailText"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/characterGenderHeader"
-        />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/characterGenderHeader" />
 
         <TextView
                 android:id="@+id/characterLocationHeader"
+                style="@style/DetailHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/location"
-                style="@style/DetailHeader"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/characterGender"
-        />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/characterGender" />
 
         <TextView
                 android:id="@+id/characterLocation"
+                style="@style/DetailText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/DetailText"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/characterLocationHeader"
-        />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/characterLocationHeader" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
