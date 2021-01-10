@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?android:colorBackground"
         tools:context=".fragment.CharacterDetailsFragment">
 
     <androidx.constraintlayout.widget.Guideline
@@ -49,7 +50,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/detail_header_text_size"
             android:text="@string/episodes"
-            android:textColor="@color/deep_blue"
+            android:textColor="?attr/colorOnSurface"
             android:gravity="center"
             android:fontFamily="sans-serif-black"
             android:textStyle="bold"
