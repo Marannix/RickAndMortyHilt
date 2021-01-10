@@ -23,5 +23,6 @@
         <item name="bottomNavigationItemTint">@color/off_white</item>
         <item name="bottomNavigationTextColor">@color/off_white</item>
 
+        <item name="colorControlNormal">@color/white</item>
     </style>
 </resources>

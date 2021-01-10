@@ -25,6 +25,9 @@
         <item name="bottomNavigationBackground">@color/white</item>
         <item name="bottomNavigationItemTint">?attr/colorPrimary</item>
         <item name="bottomNavigationTextColor">?attr/colorPrimary</item>
+
+        <item name="colorControlNormal">@color/white</item>
+
     </style>
 
 </resources>
