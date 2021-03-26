@@ -8,8 +8,6 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-
-
 class CharactersRepository @Inject constructor(
     private val charactersDao: CharactersDao,
     private val charactersApi: CharactersApi

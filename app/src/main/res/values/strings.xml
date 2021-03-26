@@ -16,5 +16,6 @@
     <string name="toolbar_overview_title">Overview</string>
     <string name="lottie_loading_progress">loading_progress.json</string>
     <string name="splash_screen_loading">splash_screen_loading.json</string>
+    <string name="splash_screen_loading_light">splash_screen_loading_light.json</string>
     <string name="dark_mode_label">Dark Mode</string>
 </resources>

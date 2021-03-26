@@ -27,11 +27,6 @@ class MainActivity : BaseActivity(), SettingsFragment.SettingsInterface {
            setupBottomNavigationBar()
         } // Else, need to wait for onRestoreInstanceState
 
-        toolbar.setOnClickListener {
-            finish()
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            startActivity(intent)
-        }
         setSupportActionBar(toolbar)
     }
 
@@ -67,10 +62,10 @@ class MainActivity : BaseActivity(), SettingsFragment.SettingsInterface {
 
         // Setup the bottom navigation view with a list of navigation graphs
         val controller = bottomNavigationView.setupWithNavController(
-            navGraphIds = navGraphIds,
-            fragmentManager = supportFragmentManager,
-            containerId = R.id.nav_host_fragment,
-            intent = intent
+            navGraphIds,
+            supportFragmentManager,
+            R.id.nav_host_fragment,
+             intent
         )
 
         // Whenever the selected controller changes, setup the action bar

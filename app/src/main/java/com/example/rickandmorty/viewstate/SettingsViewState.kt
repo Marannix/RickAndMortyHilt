@@ -6,7 +6,8 @@ import com.example.rickandmorty.usecase.DarkModeUseCase
 
 data class SettingsViewState(
     val accountSettings: AsyncResult<AccountSettings>? = null,
-    val changeDarkMode: DarkModeUseCase.DarkModeChangeState? = null) {
+    val changeDarkMode: DarkModeUseCase.DarkModeChangeState? = null,
+    val darkMode: AsyncResult<Boolean>? = null) {
 
     val isLoading: Boolean
         get() = accountSettings is AsyncResult.Loading || changeDarkMode is DarkModeUseCase.DarkModeChangeState.Loading
@@ -20,4 +21,10 @@ data class SettingsViewState(
         get() = if (changeDarkMode is DarkModeUseCase.DarkModeChangeState.Updated) {
             changeDarkMode.isDarkMode
         } else null
+
+
+    val isDarkMode
+        get() = if (darkMode is AsyncResult.Success && darkMode.data != null) {
+            darkMode.data
+        } else false
 }

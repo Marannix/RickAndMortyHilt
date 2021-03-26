@@ -15,6 +15,10 @@ private val settingsDao: SettingsDao) {
         return settingsDao.getSettings()
     }
 
+    fun isDarkMode() : Observable<Boolean> {
+        return Observable.just(persistenceManager.isNightModeToggled())
+    }
+
     fun setDarkMode(isDarkMode: Boolean) : Completable {
         return Completable.fromCallable {
             settingsDao.updateDarkMode(isDarkMode)

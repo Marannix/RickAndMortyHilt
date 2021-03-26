@@ -31,12 +31,16 @@ class MainApplication : Application(), HasActivityInjector {
         super.onCreate()
         initComponent().inject(this)
         if (sharedPreferences.isFirstLaunch()) {
+            //TODO: Remove darkmode from settings?
             settingsDao.setSettings(AccountSettings(id = 1, isDarkMode = false))
             sharedPreferences.setFirstLaunch(false)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 
-        if (settingsDao.getSettingsAtLaunch().isDarkMode) {
+        if (sharedPreferences.isNightModeToggled()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
 

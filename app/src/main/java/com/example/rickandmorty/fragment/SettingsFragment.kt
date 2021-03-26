@@ -51,9 +51,13 @@ class SettingsFragment : BaseFragment() {
         viewModel.states()
             .distinctUntilChanged()
             .subscribe { state ->
-                state.getAccountSettings?.let {
-                    darkModeSwitch.isChecked = it.isDarkMode
+
+                state.isDarkMode.let {
+                    darkModeSwitch.isChecked = it
                 }
+//                state.getAccountSettings?.let {
+//                    darkModeSwitch.isChecked = it.isDarkMode
+//                }
 
                 state.changeTheme?.let {
                     viewModel.changeTheme(it)

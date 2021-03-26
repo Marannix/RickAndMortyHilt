@@ -1,15 +1,18 @@
 package com.example.rickandmorty.viewmodel
 
 import com.example.rickandmorty.common.mapToAsyncResult
+import com.example.rickandmorty.usecase.DarkModeSettingUseCase
 import com.example.rickandmorty.usecase.DarkModeUseCase
 import com.example.rickandmorty.usecase.SettingsUseCase
 import com.example.rickandmorty.viewstate.SettingsViewState
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
     settingsUseCase: SettingsUseCase,
-    private val darkModeUseCase: DarkModeUseCase
+    private val darkModeUseCase: DarkModeUseCase,
+    private val darkModeSettingUseCase: DarkModeSettingUseCase
 ):
     RxViewModelStore<SettingsViewState, SettingsViewModel.SettingsViewEvent>(SettingsViewState()) {
 
@@ -17,8 +20,17 @@ class SettingsViewModel @Inject constructor(
         settingsUseCase.invoke()
             .mapToAsyncResult()
             .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe { accountSettings ->
                 applyState( Reducer { it.copy(accountSettings = accountSettings) } )
+            }.addDisposable()
+
+        darkModeSettingUseCase.invoke()
+            .mapToAsyncResult()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { darkMode ->
+                applyState( Reducer { it.copy(darkMode = darkMode) } )
             }.addDisposable()
     }
 
