@@ -3,9 +3,11 @@ package com.example.rickandmorty.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.example.rickandmorty.data.favourites.FavouriteModel
 import com.example.rickandmorty.usecase.FavouriteUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
+@HiltViewModel
 class FavouriteViewModel @Inject constructor(
     private val favouriteUseCase: FavouriteUseCase
 ) : BaseViewModel() {

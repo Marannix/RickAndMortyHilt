@@ -3,18 +3,22 @@ package com.example.rickandmorty.dagger.modules
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.rickandmorty.MainApplication
 import com.example.rickandmorty.database.LocalPersistenceManager
 import com.example.rickandmorty.database.LocalPersistenceManagerImpl
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
+@InstallIn(SingletonComponent::class)
 @Module
-class ApplicationModule {
+object ApplicationModule {
 
     @Provides
-    internal fun provideContext(application: Application): Context {
-        return application.baseContext
+    fun provideApplication(@ApplicationContext context: Context) : Context {
+        return context
     }
 
     @Provides

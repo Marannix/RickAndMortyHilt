@@ -6,20 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.EpisodeAdapter
+import com.example.rickandmorty.viewmodel.CharactersViewModel
 import com.example.rickandmorty.viewmodel.EpisodesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_episodes.*
 
+@AndroidEntryPoint
 class EpisodesFragment : BaseFragment() {
 
-    private val viewModel: EpisodesViewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory)
-            .get(EpisodesViewModel::class.java)
-    }
+    private val viewModel: EpisodesViewModel by viewModels()
+
     private val episodeAdapter = EpisodeAdapter()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

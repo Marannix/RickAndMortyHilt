@@ -5,10 +5,12 @@ import com.example.rickandmorty.usecase.DarkModeSettingUseCase
 import com.example.rickandmorty.usecase.DarkModeUseCase
 import com.example.rickandmorty.usecase.SettingsUseCase
 import com.example.rickandmorty.viewstate.SettingsViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
+@HiltViewModel
 class SettingsViewModel @Inject constructor(
     settingsUseCase: SettingsUseCase,
     private val darkModeUseCase: DarkModeUseCase,

@@ -8,10 +8,12 @@ import com.example.rickandmorty.data.episodes.EpisodesResult
 import com.example.rickandmorty.data.favourites.FavouriteModel
 import com.example.rickandmorty.repository.FavouriteRepository
 import com.example.rickandmorty.usecase.EpisodeUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 //todo rename to character detail
+@HiltViewModel
 class EpisodesViewModel @Inject constructor(
     private val episodeUseCase: EpisodeUseCase,
     private val favouriteRepository: FavouriteRepository

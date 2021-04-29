@@ -5,13 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import com.example.rickandmorty.R
 import com.example.rickandmorty.common.AutoCompositeDisposable
 import com.example.rickandmorty.common.addTo
+import com.example.rickandmorty.viewmodel.FavouriteViewModel
 import com.example.rickandmorty.viewmodel.SettingsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
 
+@AndroidEntryPoint
 class SettingsFragment : BaseFragment() {
 
     interface SettingsInterface {
@@ -21,10 +25,7 @@ class SettingsFragment : BaseFragment() {
     private val disposable: AutoCompositeDisposable by lazy { AutoCompositeDisposable(lifecycle) }
     private var listener: SettingsInterface? = null
 
-    private val viewModel: SettingsViewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory)
-            .get(SettingsViewModel::class.java)
-    }
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

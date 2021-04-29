@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
@@ -16,11 +17,14 @@ import com.example.rickandmorty.viewmodel.CharactersViewModel.CharacterViewEvent
 import com.example.rickandmorty.common.AutoCompositeDisposable
 import com.example.rickandmorty.common.addTo
 import com.example.rickandmorty.dialog.FullscreenLoadingDialog
+import com.example.rickandmorty.viewmodel.EpisodesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_characters.*
 
 private const val MOBILE_SIZE = 1
 private const val TABLET_SIZE = 2
 
+@AndroidEntryPoint
 class CharactersFragment : BaseFragment() {
 
     private val charactersAdapter = CharactersAdapter()
@@ -29,10 +33,7 @@ class CharactersFragment : BaseFragment() {
     private lateinit var loadingDialog: Dialog
     private val disposable: AutoCompositeDisposable by lazy { AutoCompositeDisposable(lifecycle) }
 
-    private val viewModel: CharactersViewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory)
-            .get(CharactersViewModel::class.java)
-    }
+    private val viewModel by viewModels<CharactersViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

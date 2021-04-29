@@ -13,8 +13,10 @@ import com.example.rickandmorty.R
 import com.example.rickandmorty.common.setupWithNavController
 import com.example.rickandmorty.fragment.SettingsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity(), SettingsFragment.SettingsInterface {
 
     private var currentNavController: LiveData<NavController>? = null

@@ -6,9 +6,11 @@ import android.os.Handler
 import android.util.Log
 import com.example.rickandmorty.R
 import com.example.rickandmorty.database.LocalPersistenceManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SplashScreenActivity : BaseActivity() {
 
     @Inject

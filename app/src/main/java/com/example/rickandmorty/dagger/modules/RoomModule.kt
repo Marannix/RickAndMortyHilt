@@ -9,8 +9,11 @@ import com.example.rickandmorty.data.settings.SettingsDao
 import com.example.rickandmorty.database.ApplicationDatabase
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
 @Module
 class RoomModule {
 

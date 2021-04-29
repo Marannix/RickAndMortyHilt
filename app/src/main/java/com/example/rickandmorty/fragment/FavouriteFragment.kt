@@ -6,21 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmorty.R
 import com.example.rickandmorty.adapter.FavouriteAdapter
+import com.example.rickandmorty.viewmodel.EpisodesViewModel
 import com.example.rickandmorty.viewmodel.FavouriteViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_favourite.*
 
+@AndroidEntryPoint
 class FavouriteFragment : BaseFragment() {
 
-    private val viewModel: FavouriteViewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory)
-            .get(FavouriteViewModel::class.java)
-    }
-
+    private val viewModel: FavouriteViewModel by viewModels()
     private val adapter by lazy { FavouriteAdapter() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
